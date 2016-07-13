@@ -1,5 +1,6 @@
 package com.accelerator.metro.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
@@ -61,8 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @OnClick(R.id.login_tv_register)
     public void tvRegister(View view) {
-        //没有账号？创建一个
-
+        startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
     }
 
 

@@ -23,7 +23,7 @@
     <dimen name="text_large_title">24sp</dimen>
 
     <!--大头像尺寸-->
-    <dimen name="img_large">64dp</dimen>
+    <dimen name="img_large">72dp</dimen>
     <!--小头像尺寸-->
     <dimen name="img_small">40dp</dimen>
     <dimen name="img_bottom_margin">8dp</dimen>

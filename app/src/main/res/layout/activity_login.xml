@@ -32,14 +32,15 @@
             android:paddingStart="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_vertical_margin">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/login_avatar"
+                android:layout_width="@dimen/img_large"
+                android:layout_height="@dimen/img_large"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                android:text="Welcome"
-                android:textColor="#333333"
-                android:textSize="30sp" />
+                android:src="@mipmap/ic_launcher"
+                app:civ_border_color="#000"
+                app:civ_border_width="2dp" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/login_account_inputLayout"
@@ -51,6 +52,8 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_person_white_24dp"
+                    android:drawableStart="@drawable/ic_person_white_24dp"
                     android:hint="@string/login_account"
                     android:textSize="@dimen/text_button" />
 
@@ -66,6 +69,8 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
+                    android:drawableStart="@drawable/ic_lock_outline_white_24dp"
                     android:hint="@string/login_password"
                     android:inputType="textPassword"
                     android:textSize="@dimen/text_button" />
@@ -138,8 +143,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/divider_view"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/divider_view"
         android:layout_marginTop="@dimen/activity_horizontal_margin"
         android:gravity="center"
         android:orientation="horizontal">

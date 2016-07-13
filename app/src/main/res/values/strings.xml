@@ -16,7 +16,6 @@
     <string name="login_not_empty_account">账号不能为空</string>
     <string name="login_not_empty_password">密码不能为空</string>
 
-    <string name="register">注册</string>
 
     <string name="bottombar_tab1">选站</string>
     <string name="bottombar_tab2">订单</string>
@@ -27,5 +26,12 @@
     <string name="order_tab_history">历史订单</string>
 
     <string name="menu_forgot_password">忘记密码？</string>
+
+    <string name="register">注册</string>
+    <string name="register_click_avatar">点击修改头像</string>
+    <string name="register_account">账号</string>
+    <string name="register_pwd1">密码</string>
+    <string name="register_pwd2">确认密码</string>
+    <string name="register_face">请添加三张面部图片</string>
 
 </resources>
