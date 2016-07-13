@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/menu_station"
+        android:title="@string/bottombar_tab1"
+        android:icon="@drawable/ic_map_white_24dp"/>
+    <item android:id="@+id/menu_order"
+        android:title="@string/bottombar_tab2"
+        android:icon="@drawable/ic_directions_subway_white_24dp"/>
+    <item android:id="@+id/menu_mine"
+        android:title="@string/bottombar_tab4"
+        android:icon="@drawable/ic_person_white_24dp"/>
+</menu>
