@@ -35,13 +35,13 @@
             android:textSize="@dimen/text_mini" />
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/register_edt_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/edit_text_vertical_margin"
             android:layout_marginTop="@dimen/edit_text_vertical_margin">
 
             <EditText
-                android:id="@+id/register_edt_account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_person_blue_500_24dp"
@@ -52,13 +52,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/register_edt_pwd1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/edit_text_vertical_margin"
             android:layout_marginTop="@dimen/edit_text_vertical_margin">
 
             <EditText
-                android:id="@+id/register_edt_pwd1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_lock_outline_blue_500_24dp"
@@ -69,13 +69,13 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/register_edt_pwd2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/edit_text_vertical_margin"
             android:layout_marginTop="@dimen/edit_text_vertical_margin">
 
             <EditText
-                android:id="@+id/register_edt_pwd2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/ic_lock_outline_blue_500_24dp"
