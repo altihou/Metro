@@ -35,9 +35,11 @@
     <string name="register_face">请添加三张面部图片</string>
     <string name="register_toast_fail">缺少权限,打开失败</string>
     <string name="register_open_fail">没有找到能打开的设备</string>
-
+    <string name="register_camera_null">当前设备没有相机</string>
 
     <string name="menu_register_context_album">从相册中选取</string>
     <string name="menu_register_context_camera">拍照</string>
+
+    <string name="front_camera_open_fail">相机打开失败</string>
 
 </resources>

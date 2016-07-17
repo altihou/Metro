@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.accelerator.metro.R;
+import com.accelerator.metro.utils.CameraUtil;
 import com.accelerator.metro.utils.FileUtil;
 import com.accelerator.metro.utils.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -39,6 +40,11 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int TAKE_ALBUM = 1;
     private static final int PHOTO_REQUEST_CUT = 2;
     private static final int ALBUM_REQUEST_CUT = 3;
+    public static final int FRONT_CAMERA_FACE1 = 4;
+    public static final int FRONT_CAMERA_FACE2 = 5;
+    public static final int FRONT_CAMERA_FACE3 = 6;
+
+    public static final String FACE_TYPE = "type";
 
     @Bind(R.id.register_img_avatar)
     CircleImageView ImgAvatar;
@@ -69,12 +75,6 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         toolbar.setTitle(R.string.register);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     @Override
@@ -82,6 +82,12 @@ public class RegisterActivity extends AppCompatActivity {
         super.onResume();
         registerForContextMenu(ImgAvatar);
         rxPermissions = RxPermissions.getInstance(this);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -94,7 +100,11 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_register_context_camera:
-                fromCamera();
+                if (CameraUtil.checkCameraHardware(this)) {
+                    fromCamera();
+                } else {
+                    ToastUtil.Short(R.string.register_camera_null);
+                }
                 return true;
             case R.id.menu_register_context_album:
                 formAlbum();
@@ -128,9 +138,9 @@ public class RegisterActivity extends AppCompatActivity {
                     .subscribe(new Action1<Boolean>() {
                         @Override
                         public void call(Boolean aBoolean) {
-                            if (aBoolean){
+                            if (aBoolean) {
                                 doCamera();
-                            }else {
+                            } else {
                                 ToastUtil.Short(R.string.register_toast_fail);
                             }
                         }
@@ -152,16 +162,18 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void doCamera() {
-        outputFileUri=Uri.fromFile(FileUtil.ImageUriFilePath());
+
+        outputFileUri = Uri.fromFile(FileUtil.ImageUriFilePath());
         Intent camera = new Intent();
         camera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        camera.putExtra(MediaStore.EXTRA_OUTPUT,outputFileUri);
+        camera.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
 
         if (camera.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(camera, TAKE_PHOTO);
         } else {
             ToastUtil.Short(R.string.register_open_fail);
         }
+
     }
 
     @Override
@@ -171,18 +183,20 @@ public class RegisterActivity extends AppCompatActivity {
 
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    setPhotoZoom(outputFileUri, PHOTO_REQUEST_CUT);
+                    if (outputFileUri != null) {
+                        setPhotoZoom(outputFileUri, PHOTO_REQUEST_CUT);
+                    }
                 }
                 break;
 
             case TAKE_ALBUM:
                 if (resultCode == RESULT_OK) {
-                    if (data.getData()!=null){
+                    if (data.getData() != null) {
                         setPhotoZoom(data.getData(), ALBUM_REQUEST_CUT);
-                    }else {
-                        Bitmap bitmap= (Bitmap) data.getExtras().get("data");
-                        Uri uri=Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                                bitmap,null,null));
+                    } else {
+                        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+                        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                                bitmap, null, null));
                         setPhotoZoom(uri, ALBUM_REQUEST_CUT);
                     }
                 }
@@ -200,6 +214,20 @@ public class RegisterActivity extends AppCompatActivity {
                     Bitmap a = (Bitmap) data.getExtras().get("data");
                     ImgAvatar.setImageBitmap(a);
                 }
+                break;
+            case FRONT_CAMERA_FACE1:
+                if (resultCode == RESULT_OK) {
+
+                    Bundle b = data.getExtras();
+                    Log.e(TAG, "FACE1 " + b.getString(FrontCameraActivity.IMG_URI));
+
+                }
+                break;
+            case FRONT_CAMERA_FACE2:
+
+                break;
+            case FRONT_CAMERA_FACE3:
+
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -240,17 +268,58 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.register_img_face1)
     public void onFace1Click(View view) {
-
+        fromFrontCamera(FRONT_CAMERA_FACE1);
     }
 
     @OnClick(R.id.register_img_face2)
     public void onFace2Click(View view) {
-
+        fromFrontCamera(FRONT_CAMERA_FACE2);
     }
 
     @OnClick(R.id.register_img_face3)
     public void onFace3Click(View view) {
+        fromFrontCamera(FRONT_CAMERA_FACE3);
+    }
 
+    public void fromFrontCamera(final int face) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            rxPermissions.request(Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe(new Action1<Boolean>() {
+                        @Override
+                        public void call(Boolean aBoolean) {
+                            if (aBoolean) {
+                                doFrontCamera(face);
+                            } else {
+                                ToastUtil.Short(R.string.register_toast_fail);
+                            }
+                        }
+                    });
+        } else {
+            doFrontCamera(face);
+        }
+
+
+    }
+
+    private void doFrontCamera(int face) {
+        Intent intent = new Intent(this, FrontCameraActivity.class);
+        switch (face) {
+            case FRONT_CAMERA_FACE1:
+                intent.putExtra(FACE_TYPE, FRONT_CAMERA_FACE1);
+                startActivityForResult(intent, FRONT_CAMERA_FACE1);
+                break;
+            case FRONT_CAMERA_FACE2:
+                intent.putExtra(FACE_TYPE, FRONT_CAMERA_FACE2);
+                startActivityForResult(intent, FRONT_CAMERA_FACE2);
+                break;
+            case FRONT_CAMERA_FACE3:
+                intent.putExtra(FACE_TYPE, FRONT_CAMERA_FACE3);
+                startActivityForResult(intent, FRONT_CAMERA_FACE3);
+                break;
+        }
     }
 
     @OnClick(R.id.register_btn_register)
