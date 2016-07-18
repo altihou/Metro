@@ -20,4 +20,6 @@
     <color name="googleColorYellow">#F2C03B</color>
     <color name="googleColorGreen">#21AC43</color>
 
+    <color name="colorFrontCamera">#2B2B2B</color>
+
 </resources>

@@ -39,8 +39,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
                 android:src="@mipmap/ic_launcher"
-                app:civ_border_color="#000"
-                app:civ_border_width="2dp" />
+                app:civ_border_color="#fff"
+                app:civ_border_width="1dp" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/login_account_inputLayout"
@@ -52,6 +52,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/edit_text_vertical_margin"
                     android:drawableLeft="@drawable/ic_person_white_24dp"
                     android:drawableStart="@drawable/ic_person_white_24dp"
                     android:hint="@string/login_account"
@@ -69,6 +70,7 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="@dimen/edit_text_vertical_margin"
                     android:drawableLeft="@drawable/ic_lock_outline_white_24dp"
                     android:drawableStart="@drawable/ic_lock_outline_white_24dp"
                     android:hint="@string/login_password"
@@ -107,7 +109,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/mid_margin">
+        android:layout_marginTop="@dimen/small_margin">
 
         <View
             android:id="@+id/line_left"

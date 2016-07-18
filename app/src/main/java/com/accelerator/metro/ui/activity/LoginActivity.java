@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.accelerator.metro.R;
 import com.accelerator.metro.bean.UserInfo;
-import com.accelerator.metro.bean.UserLogin;
 import com.accelerator.metro.contract.LoginContract;
 import com.accelerator.metro.presenter.LoginPresenter;
 
@@ -76,26 +75,23 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         String userName = account != null ? account.getText().toString().trim() : null;
         String userPassword = password != null ? password.getText().toString() : null;
 
-        if (checkNotNull(userName)) {
-            if (checkNotNull(userPassword)) {
-                UserLogin login = new UserLogin();
-                login.setUserName(userName);
-                login.setUserPassword(userPassword);
-                //与服务器通信
-                //  presenter.login(login);
-                btnLogin.setClickable(false);
-            } else {
-                Snackbar.make(view, R.string.login_not_empty_password, Snackbar.LENGTH_SHORT)
-                        .setAction(R.string.OK, null)
-                        .show();
-            }
-        } else {
+        if (!checkNotNull(userName)){
             Snackbar.make(view, R.string.login_not_empty_account, Snackbar.LENGTH_SHORT)
                     .setAction(R.string.OK, null)
                     .show();
+            return;
         }
 
-        //Toast.makeText(this,account.getText().toString()+password.getText().toString(),Toast.LENGTH_SHORT).show();
+        if (!checkNotNull(userPassword)){
+            Snackbar.make(view, R.string.login_not_empty_password, Snackbar.LENGTH_SHORT)
+                    .setAction(R.string.OK, null)
+                    .show();
+            return;
+        }
+
+        //presenter.login(userName,userPassword);
+
+        Toast.makeText(this,account.getText().toString()+password.getText().toString(),Toast.LENGTH_SHORT).show();
     }
 
     private boolean checkNotNull(String str) {

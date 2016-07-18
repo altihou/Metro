@@ -1,7 +1,6 @@
 package com.accelerator.metro.presenter;
 
 import com.accelerator.metro.bean.UserInfo;
-import com.accelerator.metro.bean.UserLogin;
 import com.accelerator.metro.contract.LoginContract;
 import com.accelerator.metro.model.LoginModel;
 import com.accelerator.metro.utils.RxManager;
@@ -24,14 +23,10 @@ public class LoginPresenter extends RxManager implements LoginContract.Presenter
         model=new LoginModel();
     }
 
-    /**
-     * 从服务器请求登录，返回用户信息并实现view的接口
-     * @param userLogin UserLogin
-     */
     @Override
-    public void login(UserLogin userLogin) {
+    public void login(String phone,String pwd) {
 
-        Subscription s = model.login(userLogin)
+        Subscription s = model.login(phone,pwd)
                 .subscribe(new Subscriber<UserInfo>() {
 
                     @Override

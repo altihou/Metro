@@ -3,23 +3,29 @@ package com.accelerator.metro.ui.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.accelerator.metro.R;
 import com.accelerator.metro.utils.CameraUtil;
 import com.accelerator.metro.utils.FileUtil;
+import com.accelerator.metro.utils.PictureUtil;
 import com.accelerator.metro.utils.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
@@ -60,10 +66,10 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView ImgFace2;
     @Bind(R.id.register_img_face3)
     ImageView ImgFace3;
-    @Bind(R.id.register_btn_register)
-    Button BtnRegister;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+    @Bind(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     private RxPermissions rxPermissions;
     private Uri outputFileUri;
@@ -88,6 +94,72 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_register, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.menu_register_commit:
+
+                EditText accountEdit = EdtAccount.getEditText();
+                EditText pwd1Edit = EdtPwd1.getEditText();
+                EditText pwd2Edit = EdtPwd2.getEditText();
+
+                String account = accountEdit != null ? accountEdit.getText().toString() : null;
+                String pwd1 = pwd1Edit != null ? pwd1Edit.getText().toString() : null;
+                String pwd2 = pwd2Edit != null ? pwd2Edit.getText().toString() : null;
+
+                if (!checkNotNull(account)) {
+                    Snackbar.make(coordinatorLayout, R.string.login_not_empty_account,
+                            Snackbar.LENGTH_SHORT)
+                            .show();
+                    break;
+                }
+
+                if (!checkNotNull(pwd1)){
+                    Snackbar.make(coordinatorLayout, R.string.login_not_empty_password,
+                            Snackbar.LENGTH_SHORT)
+                            .show();
+                    break;
+                }
+
+                if (!checkNotNull(pwd2)){
+                    Snackbar.make(coordinatorLayout, R.string.login_not_empty_password,
+                            Snackbar.LENGTH_SHORT)
+                            .show();
+                    break;
+                }
+
+                if (!checkEquals(pwd1,pwd2)){
+                    Snackbar.make(coordinatorLayout, R.string.register_pwd_not_equals,
+                            Snackbar.LENGTH_SHORT)
+                            .show();
+                    break;
+                }
+
+                ToastUtil.Short("TRUE");
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private boolean checkNotNull(String str) {
+        return !TextUtils.isEmpty(str);
+    }
+
+    private boolean checkEquals(String str1, String str2) {
+        return str1.equals(str2);
     }
 
     @Override
@@ -184,7 +256,16 @@ public class RegisterActivity extends AppCompatActivity {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     if (outputFileUri != null) {
-                        setPhotoZoom(outputFileUri, PHOTO_REQUEST_CUT);
+
+                        int degree = PictureUtil.readPictureDegree(outputFileUri.getPath());
+
+                        //旋转处理
+                        Bitmap oldBitmap = BitmapFactory.decodeFile(outputFileUri.getPath());
+                        Bitmap newBitmap = PictureUtil.rotaingImageView(degree, oldBitmap);
+
+                        Uri newUri = PictureUtil.saveImg2SDCard(newBitmap, FileUtil.ImageUriFilePath());
+
+                        setPhotoZoom(newUri, PHOTO_REQUEST_CUT);
                     }
                 }
                 break;
@@ -203,31 +284,38 @@ public class RegisterActivity extends AppCompatActivity {
                 break;
 
             case PHOTO_REQUEST_CUT:
-                if (data.getExtras() != null) {
-                    Bitmap c = (Bitmap) data.getExtras().get("data");
+                if (resultCode == RESULT_OK && data.getExtras() != null) {
+                    Bitmap c = data.getParcelableExtra("data");
                     ImgAvatar.setImageBitmap(c);
                 }
                 break;
 
             case ALBUM_REQUEST_CUT:
-                if (data.getExtras() != null) {
-                    Bitmap a = (Bitmap) data.getExtras().get("data");
+                if (resultCode == RESULT_OK && data.getExtras() != null) {
+                    Bitmap a = data.getParcelableExtra("data");
                     ImgAvatar.setImageBitmap(a);
                 }
                 break;
             case FRONT_CAMERA_FACE1:
                 if (resultCode == RESULT_OK) {
 
-                    Bundle b = data.getExtras();
-                    Log.e(TAG, "FACE1 " + b.getString(FrontCameraActivity.IMG_URI));
+                    Log.e(TAG, "FACE1 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
 
                 }
                 break;
             case FRONT_CAMERA_FACE2:
+                if (resultCode == RESULT_OK) {
 
+                    Log.e(TAG, "FACE2 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
+
+                }
                 break;
             case FRONT_CAMERA_FACE3:
+                if (resultCode == RESULT_OK) {
 
+                    Log.e(TAG, "FACE3 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
+
+                }
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -244,7 +332,7 @@ public class RegisterActivity extends AppCompatActivity {
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
 
-        // outputX,outputY 是剪裁图片的宽高
+        // outputX,outputY 是输出图片的宽高
         intent.putExtra("outputX", 300);
         intent.putExtra("outputY", 300);
         intent.putExtra("return-data", true);
@@ -320,11 +408,6 @@ public class RegisterActivity extends AppCompatActivity {
                 startActivityForResult(intent, FRONT_CAMERA_FACE3);
                 break;
         }
-    }
-
-    @OnClick(R.id.register_btn_register)
-    public void onRegisterClick(View view) {
-        Log.e(TAG, "btn_register");
     }
 
 }

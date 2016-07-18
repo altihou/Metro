@@ -4,7 +4,6 @@ import com.accelerator.metro.base.BaseModel;
 import com.accelerator.metro.base.BasePresenter;
 import com.accelerator.metro.base.BaseView;
 import com.accelerator.metro.bean.UserInfo;
-import com.accelerator.metro.bean.UserLogin;
 
 import rx.Observable;
 
@@ -16,13 +15,13 @@ import rx.Observable;
 public interface LoginContract {
 
     interface Model extends BaseModel {
-        Observable<UserInfo> login(UserLogin userLogin);
+        Observable<UserInfo> login(String phone,String pwd);
     }
 
     interface View extends BaseView<UserInfo> {}
 
     interface Presenter extends BasePresenter {
-        void login(UserLogin userLogin);
+        void login(String phone,String pwd);
     }
 
 }
