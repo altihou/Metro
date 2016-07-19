@@ -1,8 +1,9 @@
 package com.accelerator.metro.model;
 
+import com.accelerator.metro.Config;
 import com.accelerator.metro.api.ApiEngine;
 import com.accelerator.metro.api.ApiStore;
-import com.accelerator.metro.bean.UserInfo;
+import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.LoginContract;
 
 import rx.Observable;
@@ -15,11 +16,11 @@ import rx.schedulers.Schedulers;
 public class LoginModel implements LoginContract.Model {
 
     @Override
-    public Observable<UserInfo> login(String phone,String pwd) {
+    public Observable<User> login(String phone, String pwd) {
 
         ApiStore apiStore= ApiEngine.getInstance().apiStore;
 
-        return apiStore.login(phone, pwd)
+        return apiStore.login(Config.M,Config.ACTION_LOGIN,phone, pwd)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -9,17 +9,18 @@
     <string name="CANCEL">取消</string>
 
     <string name="login">登录</string>
+    <string name="login_start">正在登录,请稍等…</string>
     <string name="login_account">账号</string>
     <string name="login_password">密码</string>
     <string name="login_register">没有账号？创建一个</string>
     <string name="login_third_party">用其他方式登录</string>
     <string name="login_not_empty_account">账号不能为空</string>
     <string name="login_not_empty_password">密码不能为空</string>
+    <string name="login_not_phone">请输入手机号</string>
 
 
     <string name="bottombar_tab1">选站</string>
     <string name="bottombar_tab2">订单</string>
-    <string name="bottombar_tab3">周边</string>
     <string name="bottombar_tab4">我的</string>
 
     <string name="order_tab_normal">未出行订单</string>
@@ -28,6 +29,7 @@
     <string name="menu_forgot_password">忘记密码？</string>
 
     <string name="register">注册</string>
+    <string name="register_start">正在注册,请稍等…</string>
     <string name="register_click_avatar">点击修改头像</string>
     <string name="register_account">账号</string>
     <string name="register_pwd1">密码</string>

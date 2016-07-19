@@ -1,6 +1,6 @@
 package com.accelerator.metro.presenter;
 
-import com.accelerator.metro.bean.UserInfo;
+import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.LoginContract;
 import com.accelerator.metro.model.LoginModel;
 import com.accelerator.metro.utils.RxManager;
@@ -27,7 +27,7 @@ public class LoginPresenter extends RxManager implements LoginContract.Presenter
     public void login(String phone,String pwd) {
 
         Subscription s = model.login(phone,pwd)
-                .subscribe(new Subscriber<UserInfo>() {
+                .subscribe(new Subscriber<User>() {
 
                     @Override
                     public void onCompleted() {
@@ -40,8 +40,8 @@ public class LoginPresenter extends RxManager implements LoginContract.Presenter
                     }
 
                     @Override
-                    public void onNext(UserInfo userInfo) {
-                        view.onSucceed(userInfo);
+                    public void onNext(User user) {
+                        view.onSucceed(user);
                     }
                 });
 

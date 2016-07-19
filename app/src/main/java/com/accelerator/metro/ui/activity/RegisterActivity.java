@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -23,7 +22,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.accelerator.metro.R;
+import com.accelerator.metro.base.BaseDialogActivity;
+import com.accelerator.metro.bean.UserRegister;
+import com.accelerator.metro.contract.RegisterContract;
+import com.accelerator.metro.presenter.RegisterPresenter;
 import com.accelerator.metro.utils.CameraUtil;
+import com.accelerator.metro.utils.CipherUtil;
 import com.accelerator.metro.utils.FileUtil;
 import com.accelerator.metro.utils.PictureUtil;
 import com.accelerator.metro.utils.ToastUtil;
@@ -38,7 +42,7 @@ import rx.functions.Action1;
 /**
  * Created by Nicholas on 2016/7/13.
  */
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseDialogActivity implements RegisterContract.View {
 
     private static final String TAG = RegisterActivity.class.getName();
 
@@ -73,6 +77,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private RxPermissions rxPermissions;
     private Uri outputFileUri;
+    private String avatarPath;
+    private RegisterPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +87,13 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         toolbar.setTitle(R.string.register);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        presenter=new RegisterPresenter(this);
     }
 
     @Override
@@ -88,12 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onResume();
         registerForContextMenu(ImgAvatar);
         rxPermissions = RxPermissions.getInstance(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
     }
 
     @Override
@@ -145,7 +152,12 @@ public class RegisterActivity extends AppCompatActivity {
                     break;
                 }
 
-                ToastUtil.Short("TRUE");
+                setDialogMsg(R.string.register_start);
+                dialog.show();
+
+                String newPwd= CipherUtil.base64Encode(account,pwd1);
+
+                presenter.register(account,newPwd,avatarPath);
 
                 break;
 
@@ -163,7 +175,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu,View v,ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.menu_register_context, menu);
     }
@@ -262,10 +274,10 @@ public class RegisterActivity extends AppCompatActivity {
                         //旋转处理
                         Bitmap oldBitmap = BitmapFactory.decodeFile(outputFileUri.getPath());
                         Bitmap newBitmap = PictureUtil.rotaingImageView(degree, oldBitmap);
-
-                        Uri newUri = PictureUtil.saveImg2SDCard(newBitmap, FileUtil.ImageUriFilePath());
-
-                        setPhotoZoom(newUri, PHOTO_REQUEST_CUT);
+                        //Uri newUri = PictureUtil.saveImg2SDCard(newBitmap, FileUtil.ImageUriFilePath());
+                        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                                newBitmap, null, null));
+                        setPhotoZoom(uri, PHOTO_REQUEST_CUT);
                     }
                 }
                 break;
@@ -285,36 +297,44 @@ public class RegisterActivity extends AppCompatActivity {
 
             case PHOTO_REQUEST_CUT:
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
+
                     Bitmap c = data.getParcelableExtra("data");
+                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                            c, null, null));
+
+                    Log.e(TAG, "Uri PHOTO_REQUEST_CUT:"+uri.getPath());
+                    avatarPath=uri.getPath();
+
                     ImgAvatar.setImageBitmap(c);
                 }
                 break;
 
             case ALBUM_REQUEST_CUT:
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
+
                     Bitmap a = data.getParcelableExtra("data");
+                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                            a, null, null));
+
+                    Log.e(TAG, "Uri ALBUM_REQUEST_CUT:"+uri.getPath());
+                    avatarPath=uri.getPath();
+
                     ImgAvatar.setImageBitmap(a);
                 }
                 break;
             case FRONT_CAMERA_FACE1:
                 if (resultCode == RESULT_OK) {
-
                     Log.e(TAG, "FACE1 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
-
                 }
                 break;
             case FRONT_CAMERA_FACE2:
                 if (resultCode == RESULT_OK) {
-
                     Log.e(TAG, "FACE2 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
-
                 }
                 break;
             case FRONT_CAMERA_FACE3:
                 if (resultCode == RESULT_OK) {
-
                     Log.e(TAG, "FACE3 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
-
                 }
                 break;
         }
@@ -410,4 +430,19 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onSucceed(UserRegister values) {
+        Log.e(TAG,values.toString());
+    }
+
+    @Override
+    public void onFailure(String err) {
+        Log.d(TAG, err);
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onCompleted() {
+        dialog.dismiss();
+    }
 }

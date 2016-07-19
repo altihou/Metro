@@ -32,4 +32,6 @@
     <dimen name="img_small">40dp</dimen>
     <dimen name="img_bottom_margin">8dp</dimen>
 
+    <dimen name="dialog_padding">8dp</dimen>
+
 </resources>

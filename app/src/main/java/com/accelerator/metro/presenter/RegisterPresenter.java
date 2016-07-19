@@ -1,7 +1,6 @@
 package com.accelerator.metro.presenter;
 
-import com.accelerator.metro.bean.Message;
-import com.accelerator.metro.bean.UserInfo;
+import com.accelerator.metro.bean.UserRegister;
 import com.accelerator.metro.contract.RegisterContract;
 import com.accelerator.metro.model.RegisterModel;
 import com.accelerator.metro.utils.RxManager;
@@ -23,10 +22,10 @@ public class RegisterPresenter extends RxManager implements RegisterContract.Pre
     }
 
     @Override
-    public void register(UserInfo userInfo,String path) {
+    public void register(String phone,String pwd,String path) {
 
-        Subscription s = model.register(userInfo, path)
-                .subscribe(new Observer<Message>() {
+        Subscription s = model.register(phone, pwd,path)
+                .subscribe(new Observer<UserRegister>() {
                     @Override
                     public void onCompleted() {
                         view.onCompleted();
@@ -38,8 +37,8 @@ public class RegisterPresenter extends RxManager implements RegisterContract.Pre
                     }
 
                     @Override
-                    public void onNext(Message message) {
-                        view.onSucceed(message);
+                    public void onNext(UserRegister values) {
+                        view.onSucceed(values);
                     }
                 });
 

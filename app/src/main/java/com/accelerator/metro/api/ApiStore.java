@@ -1,14 +1,14 @@
 package com.accelerator.metro.api;
 
 import com.accelerator.metro.bean.Message;
-import com.accelerator.metro.bean.UserInfo;
+import com.accelerator.metro.bean.User;
+import com.accelerator.metro.bean.UserAvatar;
 
 import java.util.Map;
 
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -21,42 +21,50 @@ import rx.Observable;
  */
 public interface ApiStore {
 
-    String BASE_URL="http://192.168.1.144:9096/TicketSys/mobile.php/Index/m/";
+    String BASE_URL = "http://192.168.1.144:9096/TicketSys/mobile.php/";
 
     /**
      * 登录
+     *
      * @param phone 手机号
-     * @param pwd 密码
+     * @param pwd   密码
      * @return
      */
-    @GET("User/action/UserRegister/phone_no/{phone}/key/{pwd}")
-    Observable<UserInfo> login(@Path("phone") String phone
-            ,@Path("pwd") String pwd);
+    @FormUrlEncoded
+    @POST("Index")
+    Observable<User> login(@Field("m") String m
+            , @Field("action") String action
+            , @Field("phone") String phone
+            , @Field("pwd") String pwd);
+
+    @FormUrlEncoded
+    @POST("Index")
+    Observable<User> register(@Field("m") String m
+            , @Field("action") String action
+            , @Field("phone_no") String phone
+            , @Field("key") String key);
+
+    /**
+     * 上传头像
+     *
+     * @param userId UserId
+     * @param file   文件地址
+     * @return
+     */
+    @Multipart
+    @POST("UserModify/action/ModifyHeadPic/user_id/{user_id}")
+    Observable<UserAvatar> uploadAvatar(@Path("user_id") String userId
+            , @Part("file\"; filename=\"avatar.jpg") RequestBody file);
 
     /**
      * 上传头像和脸部图片
+     *
      * @param files
      * @return
      */
     @Multipart
     @POST("upload")
-    Observable<Message> uploadAvatarAndFace(@PartMap Map<String,RequestBody> files);
+    Observable<Message> uploadAvatarAndFace(@PartMap Map<String, RequestBody> files);
 
-    /**
-     * 注册
-     * @param userInfo UserInfo
-     * @return UserRegister
-     */
-    @POST("register")
-    Observable<Message> register(@Body UserInfo userInfo);
-
-    /**
-     * 上传头像
-     * @param file 头像路径
-     * @return UserAvatar
-     */
-    @Multipart
-    @POST("upload")
-    Observable<Message> uploadAvatar(@Part MultipartBody.Part file);
 
 }

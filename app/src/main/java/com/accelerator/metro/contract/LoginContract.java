@@ -3,7 +3,7 @@ package com.accelerator.metro.contract;
 import com.accelerator.metro.base.BaseModel;
 import com.accelerator.metro.base.BasePresenter;
 import com.accelerator.metro.base.BaseView;
-import com.accelerator.metro.bean.UserInfo;
+import com.accelerator.metro.bean.User;
 
 import rx.Observable;
 
@@ -15,10 +15,10 @@ import rx.Observable;
 public interface LoginContract {
 
     interface Model extends BaseModel {
-        Observable<UserInfo> login(String phone,String pwd);
+        Observable<User> login(String phone,String pwd);
     }
 
-    interface View extends BaseView<UserInfo> {}
+    interface View extends BaseView<User> {}
 
     interface Presenter extends BasePresenter {
         void login(String phone,String pwd);

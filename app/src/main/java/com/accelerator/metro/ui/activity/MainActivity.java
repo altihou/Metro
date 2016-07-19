@@ -1,5 +1,8 @@
 package com.accelerator.metro.ui.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.accelerator.metro.Config;
 import com.accelerator.metro.R;
 import com.accelerator.metro.ui.fragment.MineFragment;
 import com.accelerator.metro.ui.fragment.OrderFragment;
@@ -67,9 +71,20 @@ public class MainActivity extends AppCompatActivity {
                 //ReClick
             }
         });
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences spf=getSharedPreferences(Config.FIRST, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=spf.edit();
+        boolean isFirst=spf.getBoolean(Config.FIRST_TIME,true);
+        if (isFirst){
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            editor.putBoolean(Config.FIRST_TIME,false);
+            editor.apply();
+        }
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
