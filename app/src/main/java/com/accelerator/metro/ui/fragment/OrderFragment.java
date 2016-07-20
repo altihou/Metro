@@ -53,8 +53,8 @@ public class OrderFragment extends Fragment {
         OrderPagerAdapter adapter=new OrderPagerAdapter(getChildFragmentManager());
         List<Fragment> fragments=new ArrayList<>();
 
-        fragments.add(OrderChildFragment.newInstance());
-        fragments.add(OrderChildFragment.newInstance());
+        fragments.add(OrderFinishFragment.newInstance());
+        fragments.add(OrderUnFinishFragment.newInstance());
 
         adapter.addFragments(fragments);
         viewPager.setAdapter(adapter);

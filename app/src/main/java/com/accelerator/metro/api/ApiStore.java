@@ -34,8 +34,8 @@ public interface ApiStore {
     @POST("Index")
     Observable<User> login(@Field("m") String m
             , @Field("action") String action
-            , @Field("phone") String phone
-            , @Field("pwd") String pwd);
+            , @Field("phone_no") String phone
+            , @Field("key") String pwd);
 
     @FormUrlEncoded
     @POST("Index")

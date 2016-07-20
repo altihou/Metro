@@ -154,14 +154,6 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/register_btn_register"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/edit_text_vertical_margin"
-            android:layout_height="wrap_content"
-            android:text="@string/register"
-            android:background="@drawable/button_shape"/>
-
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

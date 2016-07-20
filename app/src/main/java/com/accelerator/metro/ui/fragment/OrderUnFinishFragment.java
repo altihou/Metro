@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 /**
  * Created by zoom on 2016/5/19.
  */
-public class OrderChildFragment extends Fragment {
+public class OrderUnFinishFragment extends Fragment {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -35,15 +35,15 @@ public class OrderChildFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public static OrderChildFragment newInstance(){
-        OrderChildFragment fragment=new OrderChildFragment();
+    public static OrderUnFinishFragment newInstance(){
+        OrderUnFinishFragment fragment=new OrderUnFinishFragment();
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_order_child, container, false);
+        View view = inflater.inflate(R.layout.fragment_order_unfinish, container, false);
         ButterKnife.bind(this, view);
         initRecyclerView();
         return view;
