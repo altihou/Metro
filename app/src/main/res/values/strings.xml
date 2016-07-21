@@ -28,6 +28,7 @@
     <string name="menu_forgot_password">忘记密码？</string>
 
     <string name="register">注册</string>
+    <string name="register_succeed">注册成功</string>
     <string name="register_start">正在注册,请稍等…</string>
     <string name="register_click_avatar">点击修改头像</string>
     <string name="register_account">账号</string>

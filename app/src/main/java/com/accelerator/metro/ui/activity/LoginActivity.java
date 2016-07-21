@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.accelerator.metro.Config;
+import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
 import com.accelerator.metro.base.BaseDialogActivity;
 import com.accelerator.metro.bean.User;
@@ -35,6 +36,9 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseDialogActivity implements LoginContract.View {
 
     private static final String TAG = "LoginActivity";
+    public static final String REGISTER_RESULT="result";
+    public static final int REGISTER_RESULT_CODE=1;
+    public static final int REQUEST_CODE=0;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -70,7 +74,7 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences spf=getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         String userName=spf.getString(Config.USER_NAME,"");
         EditText account = accountLayout.getEditText();
 
@@ -78,12 +82,28 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
             account.setText(userName);
             account.setSelection(userName.length());
         }
-
     }
 
     @OnClick(R.id.login_tv_register)
     public void tvRegister(View view) {
-        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+        Intent intent=new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivityForResult(intent,REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode){
+            case REQUEST_CODE:
+                if (resultCode==RESULT_OK){
+                    if (data.getIntExtra(REGISTER_RESULT,0)==REGISTER_RESULT_CODE){
+                     finish();
+                    }
+                }
+                break;
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @OnClick(R.id.login_btn)
@@ -95,7 +115,6 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
 
         userName = account != null ? account.getText().toString().trim() : null;
         String userPassword = password != null ? password.getText().toString() : null;
-
 
         if (!checkNotNull(userName)) {
             Snackbar.make(view, R.string.login_not_empty_account, Snackbar.LENGTH_SHORT)
@@ -152,11 +171,12 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
 
     @Override
     public void onSucceed(User values) {
-        Log.e(TAG, values.toString());
 
         User.ElseInfoBean info=values.getElse_info();
 
-        SharedPreferences spf=getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        Log.e(TAG, info.toString());
+
+        SharedPreferences spf=MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=spf.edit();
 
         editor.putString(Config.USER_NAME,userName);

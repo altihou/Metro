@@ -5,11 +5,17 @@ package com.accelerator.metro;
  */
 public class Config {
 
-    public static final String M="User";
-    public static final String ACTION_LOGIN="UserLogin";
-    public static final String ACTION_REGISTER="UserRegister";
+    //Server
+    public static final String LOGIN_M="User";
+    public static final String LOGIN_ACTION="UserLogin";
 
+    public static final String REGISTER_M="User";
+    public static final String REGISTER_ACTION="UserRegister";
 
+    public static final String MINE_M="User";
+    public static final String MINE_ACTION="UserInfo";
+
+    //SP
     public static final String FIRST="FIRST";
     public static final String FIRST_TIME="first_time";
 

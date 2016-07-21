@@ -38,6 +38,15 @@ public class User {
 
         private String session_id;
         private String user_id;
+        private String headpic;
+
+        public String getHeadpic() {
+            return headpic;
+        }
+
+        public void setHeadpic(String headpic) {
+            this.headpic = headpic;
+        }
 
         public String getSession_id() {
             return session_id;
@@ -54,13 +63,15 @@ public class User {
         public void setUser_id(String user_id) {
             this.user_id = user_id;
         }
+
+        @Override
+        public String toString() {
+            return "ElseInfoBean{" +
+                    "session_id='" + session_id + '\'' +
+                    ", user_id='" + user_id + '\'' +
+                    ", headpic='" + headpic + '\'' +
+                    '}';
+        }
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "is_ok=" + is_ok +
-                ", else_info=" + else_info +
-                '}';
-    }
 }

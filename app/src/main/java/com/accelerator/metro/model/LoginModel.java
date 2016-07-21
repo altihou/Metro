@@ -6,6 +6,8 @@ import com.accelerator.metro.api.ApiStore;
 import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.LoginContract;
 
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -20,7 +22,12 @@ public class LoginModel implements LoginContract.Model {
 
         ApiStore apiStore= ApiEngine.getInstance().apiStore;
 
-        return apiStore.login(Config.M,Config.ACTION_LOGIN,phone, pwd)
+        RequestBody m = RequestBody.create(MediaType.parse("text/plain"), Config.LOGIN_M);
+        RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Config.LOGIN_ACTION);
+        RequestBody phoneNum = RequestBody.create(MediaType.parse("text/plain"), phone);
+        RequestBody password = RequestBody.create(MediaType.parse("text/plain"), pwd);
+
+        return apiStore.login(m,action,phoneNum,password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

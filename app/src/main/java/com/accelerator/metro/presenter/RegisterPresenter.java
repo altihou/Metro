@@ -1,6 +1,8 @@
 package com.accelerator.metro.presenter;
 
-import com.accelerator.metro.bean.UserRegister;
+import android.util.Log;
+
+import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.RegisterContract;
 import com.accelerator.metro.model.RegisterModel;
 import com.accelerator.metro.utils.RxManager;
@@ -13,6 +15,8 @@ import rx.Subscription;
  */
 public class RegisterPresenter extends RxManager implements RegisterContract.Presnter {
 
+    private static final String TAG=RegisterPresenter.class.getName();
+
     private RegisterContract.Model model;
     private RegisterContract.View view;
 
@@ -22,10 +26,10 @@ public class RegisterPresenter extends RxManager implements RegisterContract.Pre
     }
 
     @Override
-    public void register(String phone,String pwd,String path) {
+    public void register(String phone,String pwd1,String pwd2, String path) {
 
-        Subscription s = model.register(phone, pwd,path)
-                .subscribe(new Observer<UserRegister>() {
+        Subscription s = model.register(phone, pwd1,pwd2 ,path)
+                .subscribe(new Observer<User>() {
                     @Override
                     public void onCompleted() {
                         view.onCompleted();
@@ -37,8 +41,14 @@ public class RegisterPresenter extends RxManager implements RegisterContract.Pre
                     }
 
                     @Override
-                    public void onNext(UserRegister values) {
-                        view.onSucceed(values);
+                    public void onNext(User user) {
+
+                        if (user.getIs_ok() != 1) {
+                            Log.e(TAG, "注册错误，错误码：" + user.getIs_ok());
+                            return;
+                        }
+
+                        view.onSucceed(user);
                     }
                 });
 

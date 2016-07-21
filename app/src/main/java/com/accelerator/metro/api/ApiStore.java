@@ -1,19 +1,12 @@
 package com.accelerator.metro.api;
 
-import com.accelerator.metro.bean.Message;
+import com.accelerator.metro.bean.MineInfo;
 import com.accelerator.metro.bean.User;
-import com.accelerator.metro.bean.UserAvatar;
-
-import java.util.Map;
 
 import okhttp3.RequestBody;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
-import retrofit2.http.PartMap;
-import retrofit2.http.Path;
 import rx.Observable;
 
 /**
@@ -22,49 +15,32 @@ import rx.Observable;
 public interface ApiStore {
 
     String BASE_URL = "http://192.168.1.144:9096/TicketSys/mobile.php/";
+    String BASE_URL_IMG = "http://192.168.1.144:9096/TicketSys/TicketSys/data/upload/image/user/";
 
-    /**
-     * 登录
-     *
-     * @param phone 手机号
-     * @param pwd   密码
-     * @return
-     */
-    @FormUrlEncoded
-    @POST("Index")
-    Observable<User> login(@Field("m") String m
-            , @Field("action") String action
-            , @Field("phone_no") String phone
-            , @Field("key") String pwd);
-
-    @FormUrlEncoded
-    @POST("Index")
-    Observable<User> register(@Field("m") String m
-            , @Field("action") String action
-            , @Field("phone_no") String phone
-            , @Field("key") String key);
-
-    /**
-     * 上传头像
-     *
-     * @param userId UserId
-     * @param file   文件地址
-     * @return
-     */
+    //登录
     @Multipart
-    @POST("UserModify/action/ModifyHeadPic/user_id/{user_id}")
-    Observable<UserAvatar> uploadAvatar(@Path("user_id") String userId
+    @POST("Index")
+    Observable<User> login(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("phone_no") RequestBody phone
+            , @Part("key") RequestBody pwd);
+
+    //注册
+    @Multipart
+    @POST("Index")
+    Observable<User> register(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("phone_no") RequestBody phone
+            , @Part("key1") RequestBody key1
+            , @Part("key2") RequestBody key2
             , @Part("file\"; filename=\"avatar.jpg") RequestBody file);
 
-    /**
-     * 上传头像和脸部图片
-     *
-     * @param files
-     * @return
-     */
+    //Mine
     @Multipart
-    @POST("upload")
-    Observable<Message> uploadAvatarAndFace(@PartMap Map<String, RequestBody> files);
-
+    @POST("Index")
+    Observable<MineInfo> mine(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId);
 
 }

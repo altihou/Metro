@@ -1,7 +1,9 @@
 package com.accelerator.metro.ui.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -21,9 +23,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.accelerator.metro.Config;
+import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
 import com.accelerator.metro.base.BaseDialogActivity;
-import com.accelerator.metro.bean.UserRegister;
+import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.RegisterContract;
 import com.accelerator.metro.presenter.RegisterPresenter;
 import com.accelerator.metro.utils.CameraUtil;
@@ -155,9 +159,17 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 setDialogMsg(R.string.register_start);
                 dialog.show();
 
-                String newPwd= CipherUtil.base64Encode(account,pwd1);
+                String newPwd1 = CipherUtil.base64Encode(account,pwd1);
+                String newPwd2 = CipherUtil.base64Encode(account,pwd2);
 
-                presenter.register(account,newPwd,avatarPath);
+                Log.e(TAG,"avatarPath0"+avatarPath);
+
+                if (TextUtils.isEmpty(avatarPath)){
+                    avatarPath="file:///android_asset/ic_launcher.png";
+                    Log.e(TAG,"avatarPath1"+avatarPath);
+                }
+
+                presenter.register(account,newPwd1,newPwd2,avatarPath);
 
                 break;
 
@@ -190,6 +202,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                     ToastUtil.Short(R.string.register_camera_null);
                 }
                 return true;
+
             case R.id.menu_register_context_album:
                 formAlbum();
                 return true;
@@ -257,7 +270,6 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
         } else {
             ToastUtil.Short(R.string.register_open_fail);
         }
-
     }
 
     @Override
@@ -268,13 +280,10 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     if (outputFileUri != null) {
-
-                        int degree = PictureUtil.readPictureDegree(outputFileUri.getPath());
-
                         //旋转处理
+                        int degree = PictureUtil.readPictureDegree(outputFileUri.getPath());
                         Bitmap oldBitmap = BitmapFactory.decodeFile(outputFileUri.getPath());
                         Bitmap newBitmap = PictureUtil.rotaingImageView(degree, oldBitmap);
-                        //Uri newUri = PictureUtil.saveImg2SDCard(newBitmap, FileUtil.ImageUriFilePath());
                         Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
                                 newBitmap, null, null));
                         setPhotoZoom(uri, PHOTO_REQUEST_CUT);
@@ -299,12 +308,11 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
 
                     Bitmap c = data.getParcelableExtra("data");
-                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                            c, null, null));
+                    Uri uri=PictureUtil.saveImg2SDCard(c,FileUtil.ImageUriFilePath());
 
                     Log.e(TAG, "Uri PHOTO_REQUEST_CUT:"+uri.getPath());
-                    avatarPath=uri.getPath();
 
+                    avatarPath=uri.getPath();
                     ImgAvatar.setImageBitmap(c);
                 }
                 break;
@@ -313,8 +321,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
 
                     Bitmap a = data.getParcelableExtra("data");
-                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                            a, null, null));
+                    Uri uri = PictureUtil.saveImg2SDCard(a,FileUtil.ImageUriFilePath());
 
                     Log.e(TAG, "Uri ALBUM_REQUEST_CUT:"+uri.getPath());
                     avatarPath=uri.getPath();
@@ -408,12 +415,12 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
         } else {
             doFrontCamera(face);
         }
-
-
     }
 
     private void doFrontCamera(int face) {
+
         Intent intent = new Intent(this, FrontCameraActivity.class);
+
         switch (face) {
             case FRONT_CAMERA_FACE1:
                 intent.putExtra(FACE_TYPE, FRONT_CAMERA_FACE1);
@@ -428,11 +435,29 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 startActivityForResult(intent, FRONT_CAMERA_FACE3);
                 break;
         }
+
     }
 
     @Override
-    public void onSucceed(UserRegister values) {
-        Log.e(TAG,values.toString());
+    public void onSucceed(User values) {
+        Log.e(TAG,values.getElse_info().toString());
+
+        SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=spf.edit();
+
+        editor.putString(Config.USER_ID,values.getElse_info().getUser_id());
+        editor.putString(Config.USER_SESSION,values.getElse_info().getSession_id());
+
+        editor.apply();
+
+        Intent intent=new Intent();
+        intent.putExtra(LoginActivity.REGISTER_RESULT,LoginActivity.REGISTER_RESULT_CODE);
+        setResult(RESULT_OK,intent);
+
+        ToastUtil.Short(R.string.register_succeed);
+
+        finish();
+
     }
 
     @Override

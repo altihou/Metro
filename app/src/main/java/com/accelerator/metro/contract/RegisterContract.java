@@ -3,7 +3,7 @@ package com.accelerator.metro.contract;
 import com.accelerator.metro.base.BaseModel;
 import com.accelerator.metro.base.BasePresenter;
 import com.accelerator.metro.base.BaseView;
-import com.accelerator.metro.bean.UserRegister;
+import com.accelerator.metro.bean.User;
 
 import rx.Observable;
 
@@ -13,13 +13,13 @@ import rx.Observable;
 public interface RegisterContract {
 
     interface Model extends BaseModel{
-        Observable<UserRegister> register(String phone, String pwd,String path);
+        Observable<User> register(String phone, String pwd1,String pwd2, String path);
     }
 
-    interface View extends BaseView<UserRegister>{}
+    interface View extends BaseView<User>{}
 
     interface Presnter extends BasePresenter{
-        void register(String phone, String pwd,String path);
+        void register(String phone, String pwd1,String pwd2, String path);
     }
 
 }

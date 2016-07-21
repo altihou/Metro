@@ -1,5 +1,7 @@
 package com.accelerator.metro.presenter;
 
+import android.util.Log;
+
 import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.LoginContract;
 import com.accelerator.metro.model.LoginModel;
@@ -14,6 +16,8 @@ import rx.Subscription;
  * Presenter实现类
  */
 public class LoginPresenter extends RxManager implements LoginContract.Presenter {
+
+    private static final String TAG=LoginPresenter.class.getName();
 
     private LoginContract.Model model;
     private LoginContract.View view;
@@ -41,6 +45,12 @@ public class LoginPresenter extends RxManager implements LoginContract.Presenter
 
                     @Override
                     public void onNext(User user) {
+
+                        if (user.getIs_ok()!=1){
+                            Log.e(TAG,"登录错误，错误码："+user.getIs_ok());
+                            return;
+                        }
+
                         view.onSucceed(user);
                     }
                 });
