@@ -28,6 +28,7 @@ import com.accelerator.metro.ui.activity.FeedbackActivity;
 import com.accelerator.metro.ui.activity.LoginActivity;
 import com.accelerator.metro.ui.activity.ModifyUserActivity;
 import com.accelerator.metro.ui.activity.RechargeActivity;
+import com.accelerator.metro.ui.activity.SettingsActivity;
 import com.accelerator.metro.utils.RxBus;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -142,7 +143,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @OnClick(R.id.mine_settings)
     public void onSettingsClick(View view) {
-        Log.e(TAG, "onSettingsClick");
+        startActivity(new Intent(getActivity(), SettingsActivity.class));
     }
 
     @OnClick(R.id.mine_feedback)

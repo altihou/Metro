@@ -32,8 +32,7 @@ public class OrderFragment extends Fragment {
     ViewPager viewPager;
 
     public static OrderFragment newInstance(){
-        OrderFragment fragment=new OrderFragment();
-        return fragment;
+        return new OrderFragment();
     }
 
     @Nullable

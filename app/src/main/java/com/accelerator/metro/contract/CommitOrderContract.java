@@ -3,27 +3,25 @@ package com.accelerator.metro.contract;
 import com.accelerator.metro.base.BaseModel;
 import com.accelerator.metro.base.BasePresenter;
 import com.accelerator.metro.base.BaseView;
-import com.accelerator.metro.bean.User;
+import com.accelerator.metro.bean.CommitOrder;
 
 import rx.Observable;
 
 /**
- * Created by Nicholas on 2016/5/17.
- *
- * MVP Contract
+ * Created by Nicholas on 2016/7/22.
  */
-public interface LoginContract {
+public interface CommitOrderContract {
 
     interface Model extends BaseModel {
-        Observable<User> login(String phone,String pwd);
+        Observable<CommitOrder> commitOrder(String start,String end);
     }
 
-    interface View extends BaseView<User> {
-        void accountNotExist();
+    interface View extends BaseView<CommitOrder> {
+        void reLogin();
     }
 
     interface Presenter extends BasePresenter {
-        void login(String phone,String pwd);
+        void commitOrder(String start,String end);
     }
 
 }

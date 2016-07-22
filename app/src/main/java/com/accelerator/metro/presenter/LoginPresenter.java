@@ -45,13 +45,17 @@ public class LoginPresenter extends RxManager implements LoginContract.Presenter
 
                     @Override
                     public void onNext(User user) {
-
-                        if (user.getIs_ok()!=1){
-                            Log.e(TAG,"登录错误，错误码："+user.getIs_ok());
-                            return;
+                        switch (user.getIs_ok()){
+                            case 1:
+                                view.onSucceed(user);
+                                break;
+                            case -2:
+                                view.accountNotExist();
+                                break;
+                            default:
+                                Log.e(TAG,"登录错误，错误码："+user.getIs_ok());
+                                break;
                         }
-
-                        view.onSucceed(user);
                     }
                 });
 

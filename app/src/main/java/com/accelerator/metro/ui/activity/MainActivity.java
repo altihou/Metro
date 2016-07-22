@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onMenuTabSelected(@IdRes int menuItemId) {
+
                 switch (menuItemId) {
                     case R.id.menu_station:
                         showFragment(STATION);

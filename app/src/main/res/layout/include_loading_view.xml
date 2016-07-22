@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/loading_view"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:md="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <com.accelerator.metro.widget.MDProgressBar
+        android:layout_width="@dimen/img_mine"
+        android:layout_height="@dimen/img_mine"
+        md:matProg_barColor="@color/colorPrimary"
+        md:matProg_progressIndeterminate="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/WAIT"/>
+
+</LinearLayout>

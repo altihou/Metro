@@ -64,6 +64,10 @@
         <activity
             android:name=".ui.activity.ModifyLoginPwdActivity"
             android:label="@string/modify_login_pwd"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.ModifyPayPwdActivity"
+            android:label="@string/modify_pay_pwd"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

@@ -1,0 +1,1056 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script> 
+<script type="text/javascript" language="javascript" >
+//原数据数组
+var t={1:{name:'后卫寨',x:120,y:200},
+       2:{name:'三桥',x:170,y:600},
+       3:{name:'皂河',x:220,y:600},
+       20:{name:'北客站',x:'570',y:'150'},
+       21:{name:'北苑',x:'570',y:'200'},};
+
+
+//var t1={1:{name:'后卫寨',x:120,y:200},};
+//临时获取数据的数组
+var temp=new Array();
+
+//document.write(t['1']['name']);
+
+function display(obj,ev){
+
+	var oEvent=ev||event;
+	var id = obj.getAttribute("id");
+	//建立相对于文档流的x,y轴
+	
+	var e = event || window.event;
+	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
+	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
+	//var x = e.pageX || e.clientX + scrollX;
+	var y = e.pageY || e.clientY + scrollY;
+	document.getElementById("box").style.left=oEvent.clientX+'px';  // 指定创建的DIV在文档中距离左侧的位置
+	//document.getElementById("box").style.top=x+'px';
+	document.getElementById("box").style.top=y+'px';  // 指定创建的DIV在文档中距离顶部的位置
+	document.getElementById("box").style.border='5px solid green'; // 设置边框#FF0000
+	document.getElementById("box").style.position='absolute'; // 为新创建的DIV指定绝对定位
+	document.getElementById("box").style.backgroundColor='white';
+	document.getElementById("box").style.width='150px'; // 指定宽度
+	document.getElementById("box").style.height='100px'; // 指定高度 
+   	
+	document.getElementById("box").innerHTML=t[id]['name']+"<br>"+"position("+t[id]['x']+","+t[id]['y']+")<br>";
+	document.getElementById("box").style.display="block";
+	
+}
+
+function disappear(){
+	document.getElementById("box").style.display="none";
+	document.getElementById("box").style.width="50px";  
+}
+
+function onPointClick(c){
+
+   var id=c.getAttribute('id')
+
+	temp[0]=t[id]['name'];
+
+
+	//temp[1]=t[id]['x'];
+	//temp[2]=t[id]['y'];
+
+	android.getPointData(temp[0],id);
+
+}
+
+</script>
+
+</head>
+<body >
+<br>
+<br>
+<br><br><br><br><br><br>
+<canvas  id="myCanvas" width="1100px" height="1200px" style="border:0px ;position:absolute; z-index:1; ">
+Your browser does not support the canvas element.
+</canvas>
+
+<a  id="1"  onclick="onPointClick(this)"   style="margin-top:590px;margin-left:115px; position:absolute; z-index:2;" >
+ &nbsp &nbsp 
+</a>
+<a  id="2"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:165px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="3"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:215px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="4" onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:265px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="5" onmouseover="display(this)"  onmouseout="disappear()"  style="margin-top:590px;margin-left:315px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="6"   onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:365px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="7"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:415px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="8" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:465px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="9"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:515px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="10" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:565px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="11"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:615px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="12" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:665px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="13"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:715px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="14" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:765px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="15"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:815px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="16" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:865px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="17"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:915px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="18" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:965px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="19"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:1015px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="20" onclick="onclick(this)" style="margin-top:146px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="21"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:196px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="22" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:250px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="23"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:300px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="24" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:350px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="25"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:400px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="26" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:450px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="27"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:500px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="28" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:550px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+
+<a  id="29" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:650px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="30"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:700px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="31" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:750px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="32"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:800px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="33" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:850px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="34"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:900px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="35" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:950px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="36"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:1000px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="37" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:1050px;margin-left:570px; position:absolute; z-index:2;">
+&nbsp &nbsp
+</a>
+<a  id="38"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:1100px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+<a  id="39"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:1150px;margin-left:570px; position:absolute; z-index:2;" >
+ &nbsp &nbsp
+</a>
+
+
+
+<div id="box" style="z-index:3;">
+
+</div>
+
+<script type="text/javascript">
+
+var width=10;
+var radius=8;
+var font_color="black";
+var map_color="#E5000D";
+var c=document.getElementById("myCanvas");
+//返回在画布上绘图的环境
+var cxt=c.getContext("2d");
+//设置渐变对象,起点坐标和终点坐标
+/**
+*地铁1号线
+*
+*/
+var grd=cxt.createLinearGradient(120,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(120,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(121,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("后卫寨",110,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(170,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(170,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(170,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("三桥",160,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(220,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(220,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(220,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle=font_color;
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("皂河",210,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(270,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(270,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(270,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("枣园",260,592);
+cxt.closePath();
+
+//开始
+var grd=cxt.createLinearGradient(320,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(320,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(320,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("汉城路",310,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(370,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(370,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(370,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("开远门",360,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(420,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(420,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(420,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("劳动路",410,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(470,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(470,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(470,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("玉祥门",460,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(520,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(520,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(520,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("洒金桥",510,592);
+cxt.closePath();
+//第十个
+var grd=cxt.createLinearGradient(570,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(570,600,50,width);
+//画点
+//cxt.beginPath();
+//cxt.arc(570,604,radius,0,360,false);
+//cxt.fillStyle="white";
+//cxt.fill();
+//cxt.lineWidth=1;
+//cxt.strokeStyle="red";
+//cxt.stroke();
+//cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("北大街",585,625);//560,592
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(620,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(620,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(620,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("五路口",610,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(670,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(670,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(670,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("朝阳门",660,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(720,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(720,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(720,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("康复路",710,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(770,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(770,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(770,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("通化门",760,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(820,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(820,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(820,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("万寿路",810,592);
+cxt.closePath();
+
+//又开始
+var grd=cxt.createLinearGradient(870,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(870,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(870,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("长乐坡",860,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(920,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(920,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(920,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("浐河",910,592);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(970,600,50,5);
+grd.addColorStop(0,"#00A2D7");
+grd.addColorStop(1,"#00A2D7");
+cxt.fillStyle=grd;
+cxt.fillRect(970,600,50,width);
+//画点
+cxt.beginPath();
+cxt.arc(970,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("半坡",960,592);
+cxt.closePath();
+
+
+//画点
+cxt.beginPath();
+cxt.arc(1020,604,radius,0,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("织坊城",1010,592);
+cxt.closePath();
+
+/**
+*
+*地铁2号线
+*/
+
+var grd=cxt.createLinearGradient(570,150,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,150,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,155,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("北客站",585,160);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,200,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,200,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,205,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("北苑",585,210);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,250,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,250,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,255,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("运动公园",585,260);
+cxt.closePath();
+//开始
+var grd=cxt.createLinearGradient(570,300,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,300,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,305,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("行政中心",585,310);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,350,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,350,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,355,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("凤城五路",585,360);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,400,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,400,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,405,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("市图书馆",585,410);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,450,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,450,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,455,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("大明宫西",585,460);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,500,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,500,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,505,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("龙首原",585,510);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,550,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,550,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,555,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("安远门",585,560);
+cxt.closePath();
+//第十个
+var grd=cxt.createLinearGradient(570,600,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,600,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,605,10,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="red";
+cxt.stroke();
+cxt.closePath();
+
+
+var grd=cxt.createLinearGradient(570,650,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,650,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,655,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("钟楼",585,660);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,700,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,700,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,705,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("永宁门",585,710);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,750,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,750,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,755,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("南稍门",585,760);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,800,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,800,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,805,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("体育场",585,810);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,850,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,850,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,855,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("小寨",585,860);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,900,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,900,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,905,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("维一街",585,910);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,950,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,950,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,955,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("会展中心",585,960);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,1000,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,1000,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,1005,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("三爻",585,1010);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,1050,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,1050,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,1055,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("凤栖原",585,1060);
+cxt.closePath();
+
+var grd=cxt.createLinearGradient(570,1100,5,50);
+grd.addColorStop(0,map_color);
+grd.addColorStop(1,map_color);
+cxt.fillStyle=grd;
+cxt.fillRect(570,1100,width,50);
+//画点
+cxt.beginPath();
+cxt.arc(575,1105,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("航天城",585,1110);
+cxt.closePath();
+
+
+//画点
+cxt.beginPath();
+cxt.arc(575,1155,radius,100,360,false);
+cxt.fillStyle="white";
+cxt.fill();
+cxt.lineWidth=1;
+cxt.strokeStyle="black";
+cxt.stroke();
+cxt.closePath();
+//写字
+cxt.beginPath();
+cxt.font = '13px Arial'; 
+cxt.fillStyle=font_color;
+cxt.fillText("韦曲南",585,1160);
+cxt.closePath();
+
+
+
+
+
+</script>
+
+</body>
+</html>

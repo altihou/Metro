@@ -25,6 +25,7 @@ import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.LoginContract;
 import com.accelerator.metro.presenter.LoginPresenter;
 import com.accelerator.metro.utils.CipherUtil;
+import com.accelerator.metro.utils.ToastUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -200,5 +201,10 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     @Override
     public void onCompleted() {
         dialog.dismiss();
+    }
+
+    @Override
+    public void accountNotExist() {
+        ToastUtil.Short(R.string.login_account_not_exist);
     }
 }

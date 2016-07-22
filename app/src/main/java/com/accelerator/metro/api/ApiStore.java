@@ -1,5 +1,6 @@
 package com.accelerator.metro.api;
 
+import com.accelerator.metro.bean.CommitOrder;
 import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.bean.MineInfo;
 import com.accelerator.metro.bean.ModifyUser;
@@ -20,7 +21,7 @@ public interface ApiStore {
     String BASE_URL = "http://192.168.1.144:9096/TicketSys/mobile.php/";
     String BASE_URL_IMG = "http://192.168.1.144:9096/TicketSys/TicketSys/data/upload/image/user/";
 
-    //登录
+    //Login
     @Multipart
     @POST("Index")
     Observable<User> login(@Part("m") RequestBody m
@@ -28,7 +29,7 @@ public interface ApiStore {
             , @Part("phone_no") RequestBody phone
             , @Part("key") RequestBody pwd);
 
-    //注册
+    //Register
     @Multipart
     @POST("Index")
     Observable<User> register(@Part("m") RequestBody m
@@ -46,7 +47,7 @@ public interface ApiStore {
             , @Part("user_id") RequestBody userId
             , @Part("session_id") RequestBody sessionId);
 
-    //modify
+    //Modify
     @Multipart
     @POST("Index")
     Observable<ModifyUser> modify(@Part("m") RequestBody m
@@ -66,7 +67,7 @@ public interface ApiStore {
             , @Part("session_id") RequestBody sessionId
             , @Part("money") RequestBody money);
 
-    //ResultCode
+    //Feedback
     @Multipart
     @POST("Index")
     Observable<ResultCode> feedback(@Part("m") RequestBody m
@@ -85,4 +86,34 @@ public interface ApiStore {
             , @Part("old_pwd") RequestBody oldPwd
             , @Part("new_pwd1") RequestBody newPwd1
             , @Part("new_pwd2") RequestBody newPwd2);
+
+    //Commit Order
+    @Multipart
+    @POST("Index")
+    Observable<CommitOrder> commitOrder(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("start_point") RequestBody start
+            , @Part("end_point") RequestBody end);
+
+    //Modify Pay Pwd
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> modifyPayPwd(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("old_pwd") RequestBody oldPwd
+            , @Part("new_pwd1") RequestBody newPwd1
+            , @Part("new_pwd2") RequestBody newPwd2);
+
+    //Check Pay Exist
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> checkPayPwd(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId);
+
 }
