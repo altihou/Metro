@@ -82,6 +82,7 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
             account.setText(userName);
             account.setSelection(userName.length());
         }
+
     }
 
     @OnClick(R.id.login_tv_register)
@@ -182,6 +183,7 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
         editor.putString(Config.USER_NAME,userName);
         editor.putString(Config.USER_ID,info.getUser_id());
         editor.putString(Config.USER_SESSION,info.getSession_id());
+        editor.putBoolean(Config.USER_REFRESH,true);
 
         editor.apply();
 

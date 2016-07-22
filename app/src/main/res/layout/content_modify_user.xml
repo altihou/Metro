@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.activity.ModifyUserActivity"
+    tools:showIn="@layout/activity_modify_user">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/modify_user_avatar"
+        android:layout_width="@dimen/img_large"
+        android:layout_height="@dimen/img_large"
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_color="#FFF"
+        app:civ_border_width="1dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/img_bottom_margin"
+        android:text="@string/modify_avatar"
+        android:textSize="@dimen/text_mini" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/modify_user_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/edit_text_vertical_margin"
+        android:layout_marginTop="@dimen/edit_text_vertical_margin">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_tag_faces_pink_500_24dp"
+            android:drawableStart="@drawable/ic_tag_faces_pink_500_24dp"
+            android:drawablePadding="@dimen/edit_text_vertical_margin"
+            android:hint="@string/modify_nickname"
+            android:textSize="@dimen/text_normal" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person_blue_500_24dp" />
+
+        <TextView
+            android:id="@+id/modify_user_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/modify_sex_sex"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_normal" />
+
+        <RadioGroup
+            android:id="@+id/modify_user_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/modify_user_rb_man"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                android:text="@string/modify_sex_man"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_button" />
+
+            <RadioButton
+                android:id="@+id/modify_user_rb_women"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                android:text="@string/modify_sex_women"
+                android:textSize="@dimen/text_button" />
+
+            <RadioButton
+                android:id="@+id/modify_user_rb_secret"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                android:text="@string/modify_sex_secret"
+                android:textSize="@dimen/text_button" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/modify_user_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/activity_vertical_mini_margin"
+        android:background="@drawable/button_shape"
+        android:text="@string/modify_save" />
+
+</LinearLayout>

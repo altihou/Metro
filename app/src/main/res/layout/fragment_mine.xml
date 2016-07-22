@@ -20,11 +20,6 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false">
 
-            <!--<ImageView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:background="@drawable/mine_side_bar"-->
-                <!--android:layout_height="match_parent" />-->
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -64,7 +59,7 @@
                     android:textColor="@color/colorIconText"
                     android:text="@string/mine_user_default_name"
                     tools:text="Nicholas"
-                    android:textSize="@dimen/text_small_title" />
+                    android:textSize="@dimen/text_middle_title" />
 
                 <TextView
                     android:id="@+id/mine_user_id"

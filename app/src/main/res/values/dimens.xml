@@ -21,6 +21,7 @@
     <dimen name="text_button">14sp</dimen>
     <!--小标题文字-->
     <dimen name="text_small_title">16sp</dimen>
+    <dimen name="text_middle_title">18sp</dimen>
 
     <dimen name="text_normal">16sp</dimen>
 
@@ -28,7 +29,7 @@
     <dimen name="text_appbar">20sp</dimen>
     <!--大标题文字-->
     <dimen name="text_large_title">24sp</dimen>
-    
+
     <dimen name="text_money">40sp</dimen>
 
     <dimen name="money_margin">16dp</dimen>
@@ -45,5 +46,7 @@
 
     <dimen name="card_view_padding_top_bottom">18dp</dimen>
     <dimen name="card_view_padding_left_right">8dp</dimen>
+
+    <dimen name="text_margin">16dp</dimen>
 
 </resources>

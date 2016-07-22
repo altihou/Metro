@@ -8,6 +8,7 @@
     
     <color name="colorLightPrimary">#C8E6C9</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGray">#CCCCCC</color>
 
     <color name="colorPrimaryText">#212121</color>
     <color name="colorIconText">#FFFFFF</color>

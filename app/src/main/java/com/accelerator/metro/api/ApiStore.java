@@ -1,6 +1,9 @@
 package com.accelerator.metro.api;
 
+import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.bean.MineInfo;
+import com.accelerator.metro.bean.ModifyUser;
+import com.accelerator.metro.bean.Recharge;
 import com.accelerator.metro.bean.User;
 
 import okhttp3.RequestBody;
@@ -43,4 +46,43 @@ public interface ApiStore {
             , @Part("user_id") RequestBody userId
             , @Part("session_id") RequestBody sessionId);
 
+    //modify
+    @Multipart
+    @POST("Index")
+    Observable<ModifyUser> modify(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("nickname") RequestBody nickname
+            , @Part("user_sex") RequestBody sex
+            , @Part("file\"; filename=\"avatar.jpg") RequestBody avatarFile);
+
+    //Recharge
+    @Multipart
+    @POST("Index")
+    Observable<Recharge> recharge(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("money") RequestBody money);
+
+    //ResultCode
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> feedback(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("content") RequestBody content);
+
+    //Modify Login Pwd
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> modifyLoginPwd(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("old_pwd") RequestBody oldPwd
+            , @Part("new_pwd1") RequestBody newPwd1
+            , @Part("new_pwd2") RequestBody newPwd2);
 }

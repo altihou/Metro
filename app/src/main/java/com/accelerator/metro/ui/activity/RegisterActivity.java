@@ -83,6 +83,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     private Uri outputFileUri;
     private String avatarPath;
     private RegisterPresenter presenter;
+    private String account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +125,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 EditText pwd1Edit = EdtPwd1.getEditText();
                 EditText pwd2Edit = EdtPwd2.getEditText();
 
-                String account = accountEdit != null ? accountEdit.getText().toString() : null;
+                account = accountEdit != null ? accountEdit.getText().toString() : null;
                 String pwd1 = pwd1Edit != null ? pwd1Edit.getText().toString() : null;
                 String pwd2 = pwd2Edit != null ? pwd2Edit.getText().toString() : null;
 
@@ -306,12 +307,8 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
 
             case PHOTO_REQUEST_CUT:
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
-
                     Bitmap c = data.getParcelableExtra("data");
                     Uri uri=PictureUtil.saveImg2SDCard(c,FileUtil.ImageUriFilePath());
-
-                    Log.e(TAG, "Uri PHOTO_REQUEST_CUT:"+uri.getPath());
-
                     avatarPath=uri.getPath();
                     ImgAvatar.setImageBitmap(c);
                 }
@@ -319,13 +316,9 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
 
             case ALBUM_REQUEST_CUT:
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
-
                     Bitmap a = data.getParcelableExtra("data");
                     Uri uri = PictureUtil.saveImg2SDCard(a,FileUtil.ImageUriFilePath());
-
-                    Log.e(TAG, "Uri ALBUM_REQUEST_CUT:"+uri.getPath());
                     avatarPath=uri.getPath();
-
                     ImgAvatar.setImageBitmap(a);
                 }
                 break;
@@ -445,8 +438,10 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
         SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=spf.edit();
 
+        editor.putString(Config.USER_NAME,account);
         editor.putString(Config.USER_ID,values.getElse_info().getUser_id());
         editor.putString(Config.USER_SESSION,values.getElse_info().getSession_id());
+        editor.putBoolean(Config.USER_REFRESH,true);
 
         editor.apply();
 

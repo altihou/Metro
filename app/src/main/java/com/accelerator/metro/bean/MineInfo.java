@@ -5,12 +5,19 @@ package com.accelerator.metro.bean;
  */
 public class MineInfo {
 
+
     /**
      * is_ok : 1
-     * else_info : {"user_headpic":"ff8jp1srhreak4","user_money":"ff8jp1srhreak4","nickname":"reak4","phone_no":"1srhreak4"}
+     * else_info : {"user_headpic":"3/3_14690241552661.jpg","user_money":"0","nickname":null,"phone_no":"13312345676"}
      */
 
     private int is_ok;
+    /**
+     * user_headpic : 3/3_14690241552661.jpg
+     * user_money : 0
+     * nickname : null
+     * phone_no : 13312345676
+     */
 
     private ElseInfoBean else_info;
 
@@ -74,7 +81,7 @@ public class MineInfo {
             return "ElseInfoBean{" +
                     "user_headpic='" + user_headpic + '\'' +
                     ", user_money='" + user_money + '\'' +
-                    ", nickname='" + nickname + '\'' +
+                    ", nickname=" + nickname +
                     ", phone_no='" + phone_no + '\'' +
                     '}';
         }

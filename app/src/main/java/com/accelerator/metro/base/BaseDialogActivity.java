@@ -34,7 +34,7 @@ public class BaseDialogActivity extends AppCompatActivity {
         tvMsg.setText(msg);
     }
 
-    protected void setDialogMsg(int msgId){
+    public void setDialogMsg(int msgId){
         tvMsg.setText(msgId);
     }
 

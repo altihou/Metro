@@ -15,14 +15,14 @@ import rx.Subscription;
  */
 public class MinePresenter extends RxManager implements MineContract.Presenter {
 
-    private static final String TAG=MinePresenter.class.getName();
+    private static final String TAG = MinePresenter.class.getName();
 
     private MineContract.Model model;
     private MineContract.View view;
 
     public MinePresenter(MineContract.View view) {
         this.view = view;
-        model=new MineModel();
+        model = new MineModel();
     }
 
     @Override
@@ -42,12 +42,18 @@ public class MinePresenter extends RxManager implements MineContract.Presenter {
             @Override
             public void onNext(MineInfo mineInfo) {
 
-                if (mineInfo.getIs_ok()!=1){
-                    Log.e(TAG,"获取错误，错误码："+mineInfo.getIs_ok());
-                    return;
+                int code=mineInfo.getIs_ok();
+                switch (code){
+                    case 1:
+                        view.onSucceed(mineInfo);
+                        break;
+                    case 411:
+                        view.reLogin();
+                        break;
+                    default:
+                        Log.e(TAG,"获取个人信息错误，错误码："+code);
+                        break;
                 }
-
-                view.onSucceed(mineInfo);
             }
         });
 
@@ -58,6 +64,6 @@ public class MinePresenter extends RxManager implements MineContract.Presenter {
     @Override
     public void unSubscription() {
         unSub();
-        view=null;
+        view = null;
     }
 }

@@ -38,15 +38,6 @@ public class User {
 
         private String session_id;
         private String user_id;
-        private String headpic;
-
-        public String getHeadpic() {
-            return headpic;
-        }
-
-        public void setHeadpic(String headpic) {
-            this.headpic = headpic;
-        }
 
         public String getSession_id() {
             return session_id;
@@ -69,7 +60,6 @@ public class User {
             return "ElseInfoBean{" +
                     "session_id='" + session_id + '\'' +
                     ", user_id='" + user_id + '\'' +
-                    ", headpic='" + headpic + '\'' +
                     '}';
         }
     }
