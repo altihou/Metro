@@ -47,6 +47,9 @@ public class ModifyPayPwdPresenter extends RxManager implements ModifyPayPwdCont
                             case 1:
                                 view.onSucceed(resultCode);
                                 break;
+                            case -1:
+                                view.oldPwdError();
+                                break;
                             case 411:
                                 view.reLogin();
                                 break;

@@ -32,10 +32,10 @@ public class JavaScriptListener {
     public void getPointData(final String content, final String id) {
 
         dialog.setTitle(content);
-        dialog.setMessage("此站为起点站还是终点站?");
+        dialog.setMessage(R.string.station_star_or_end);
         dialog.setCancelable(true);
 
-        dialog.setNeutralButton("起点", new DialogInterface.OnClickListener() {
+        dialog.setNeutralButton(R.string.station_get_start, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -45,7 +45,7 @@ public class JavaScriptListener {
             }
         });
 
-        dialog.setNegativeButton("终点", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.station_get_end, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

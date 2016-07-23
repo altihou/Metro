@@ -18,6 +18,7 @@ public interface CommitOrderContract {
 
     interface View extends BaseView<CommitOrder> {
         void reLogin();
+        void existNotPayOrder();
     }
 
     interface Presenter extends BasePresenter {

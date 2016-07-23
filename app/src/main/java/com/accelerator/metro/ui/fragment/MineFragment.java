@@ -129,6 +129,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     @OnClick(R.id.mine_user_money_info)
     public void onMoneyInfoClick(View view) {
         Log.e(TAG, "onMoneyInfoClick");
+        presenter.getMine();
     }
 
     @OnClick(R.id.mine_user_wallet)

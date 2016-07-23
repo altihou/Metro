@@ -75,35 +75,35 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
         String new2 = newEdit2 != null ? newEdit2.getText().toString() : null;
 
         if (checkNull(old)) {
-            Snackbar.make(coordinatorLayout,R.string.modify_login_input_old_pwd,Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, R.string.modify_login_input_old_pwd, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
         if (checkNull(old)) {
-            Snackbar.make(coordinatorLayout,R.string.modify_login_input_new1_pwd,Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, R.string.modify_login_input_new1_pwd, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
         if (checkNull(old)) {
-            Snackbar.make(coordinatorLayout,R.string.modify_login_input_new2_pwd,Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, R.string.modify_login_input_new2_pwd, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
-        if (!checkEquals(new1,new2)){
-            Snackbar.make(coordinatorLayout,R.string.modify_login_pwd_not_equals,Snackbar.LENGTH_SHORT).show();
+        if (!checkEquals(new1, new2)) {
+            Snackbar.make(coordinatorLayout, R.string.modify_login_pwd_not_equals, Snackbar.LENGTH_SHORT).show();
             return;
         }
 
-        SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
 
-        String userName=spf.getString(Config.USER_NAME,"");
+        String userName = spf.getString(Config.USER_NAME, "");
 
         setDialogMsg(R.string.WAIT);
         dialog.show();
 
-        presenter.modifyLoginPwd(CipherUtil.base64Encode(userName,old)
-                ,CipherUtil.base64Encode(userName,new1)
-                ,CipherUtil.base64Encode(userName,new2));
+        presenter.modifyLoginPwd(CipherUtil.base64Encode(userName, old)
+                , CipherUtil.base64Encode(userName, new1)
+                , CipherUtil.base64Encode(userName, new2));
 
     }
 
@@ -119,7 +119,17 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
     @Override
     public void reLogin() {
         startActivity(new Intent(this, LoginActivity.class));
-        dialog.dismiss();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
+
+    @Override
+    public void oldPwdError() {
+        Snackbar.make(coordinatorLayout, R.string.modify_login_old_pwd_error, Snackbar.LENGTH_SHORT).show();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -130,11 +140,15 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
     @Override
     public void onFailure(String err) {
         Log.e(TAG, err);
-        dialog.dismiss();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @Override
     public void onCompleted() {
-        dialog.dismiss();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 }

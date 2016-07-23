@@ -166,7 +166,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 Log.e(TAG,"avatarPath0"+avatarPath);
 
                 if (TextUtils.isEmpty(avatarPath)){
-                    avatarPath="file:///android_asset/ic_launcher.png";
+                  //  avatarPath="file:///android_asset/ic_launcher.png";
                     Log.e(TAG,"avatarPath1"+avatarPath);
                 }
 

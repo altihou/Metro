@@ -5,16 +5,15 @@ package com.accelerator.metro.bean;
  */
 public class CommitOrder {
 
-
     /**
      * is_ok : 1
-     * else_info : {"money":"05mhi9p46914ff8jp1srhreak4","order_sn":"Vkcxak9WQlJQVDA9"}
+     * else_info : {"money":2,"order_sn":"TS1469241291"}
      */
 
     private int is_ok;
     /**
-     * money : 05mhi9p46914ff8jp1srhreak4
-     * order_sn : Vkcxak9WQlJQVDA9
+     * money : 2
+     * order_sn : TS1469241291
      */
 
     private ElseInfoBean else_info;
@@ -36,14 +35,16 @@ public class CommitOrder {
     }
 
     public static class ElseInfoBean {
-        private String money;
-        private String order_sn;
 
-        public String getMoney() {
+        private int money;
+        private String order_sn;
+        private String time;
+
+        public int getMoney() {
             return money;
         }
 
-        public void setMoney(String money) {
+        public void setMoney(int money) {
             this.money = money;
         }
 
@@ -55,11 +56,20 @@ public class CommitOrder {
             this.order_sn = order_sn;
         }
 
+        public String getTime() {
+            return time;
+        }
+
+        public void setTime(String time) {
+            this.time = time;
+        }
+
         @Override
         public String toString() {
             return "ElseInfoBean{" +
-                    "money='" + money + '\'' +
+                    "money=" + money +
                     ", order_sn='" + order_sn + '\'' +
+                    ", time='" + time + '\'' +
                     '}';
         }
     }

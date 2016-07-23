@@ -19,6 +19,7 @@ public interface ModifyPayPwdContract {
 
     interface View extends BaseView<ResultCode> {
         void reLogin();
+        void oldPwdError();
         void checkSucceed(ResultCode code);
         void checkFailure(String err);
         void checkCompleted();

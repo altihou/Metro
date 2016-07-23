@@ -47,6 +47,9 @@ public class CommitOrderPresenter extends RxManager implements CommitOrderContra
                             case 1:
                                 view.onSucceed(commitOrder);
                                 break;
+                            case -1:
+                                view.existNotPayOrder();
+                                break;
                             case 411:
                                 view.reLogin();
                                 break;

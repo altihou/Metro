@@ -68,6 +68,14 @@
         <activity
             android:name=".ui.activity.ModifyPayPwdActivity"
             android:label="@string/modify_pay_pwd"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.PayOrderActivity"
+            android:label="@string/pay_order"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.activity.Password2PayActivity"
+            android:label="@string/password2_pay"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 

@@ -18,4 +18,10 @@ public class DateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmsssss", Locale.CHINA);
         return sdf.format(new Date());
     }
+
+    public static String getNowTime2Show() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
+        return sdf.format(new Date());
+    }
+
 }

@@ -86,8 +86,13 @@
     <string name="settings_modify_pay_pwd">修改支付密码</string>
 
     <string name="station_commit_order">提交订单</string>
+    <string name="station_commit_failure">提交失败</string>
+    <string name="station_commit_attention">您当前存在未支付的订单，请支付后再购票</string>
     <string name="station_start">请选择起点站</string>
     <string name="station_end">请选择终点站</string>
+    <string name="station_get_start">起点</string>
+    <string name="station_get_end">终点</string>
+    <string name="station_star_or_end">将此站设置为起点站还是终点站?</string>
 
     <string name="about">关于</string>
 
@@ -191,12 +196,31 @@
     <string name="modify_login_input_new2_pwd">请输入确认密码</string>
     <string name="modify_login_commit">提交</string>
     <string name="modify_login_pwd_not_equals">两次密码不一致</string>
+    <string name="modify_login_old_pwd_error">旧密码错误</string>
 
     <string name="modify_pay_pwd">修改支付密码</string>
+    <string name="modify_pay_add">添加支付密码</string>
+    <string name="modify_pay_old_pwd_error">旧密码错误</string>
     <string name="modify_pay_error">修改错误,请重试</string>
     <string name="modify_pay_succeed">修改成功</string>
     <string name="modify_pay_not_empty">请填写完整</string>
     <string name="modify_pay_not_equals">两次密码不一致</string>
+
+
+    <string name="pay_order">支付订单</string>
+    <string name="pay_order_date">日期:</string>
+    <string name="pay_order_price">票价:</string>
+    <string name="pay_order_pay_now">立即支付</string>
+    <string name="pay_order_cancel">取消订单</string>
+
+    <string name="password2_pay">支付密码</string>
+    <string name="password2_pay_succeed">支付成功</string>
+    <string name="password2_pay_failure">支付失败</string>
+    <string name="password2_pay_not_sufficient_funds">账号余额不足,请充值</string>
+    <string name="password2_pay_pwd_error">支付密码错误</string>
+    <string name="password2_pay_order_error">订单错误</string>
+    <string name="password2_pay_input">请输入支付密码:</string>
+
 
 
 </resources>

@@ -1,16 +1,20 @@
 package com.accelerator.metro.api;
 
 import com.accelerator.metro.bean.CommitOrder;
+import com.accelerator.metro.bean.Order;
 import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.bean.MineInfo;
 import com.accelerator.metro.bean.ModifyUser;
 import com.accelerator.metro.bean.Recharge;
 import com.accelerator.metro.bean.User;
 
+import java.util.Map;
+
 import okhttp3.RequestBody;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import rx.Observable;
 
 /**
@@ -115,5 +119,21 @@ public interface ApiStore {
             , @Part("action") RequestBody action
             , @Part("user_id") RequestBody userId
             , @Part("session_id") RequestBody sessionId);
+
+    //Pay For Order
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> payOrder(@PartMap Map<String,RequestBody> map);
+
+    //Get Order
+    @Multipart
+    @POST("Index")
+    Observable<Order> getOrder(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("p") RequestBody p
+            , @Part("type") RequestBody type);
+
 
 }

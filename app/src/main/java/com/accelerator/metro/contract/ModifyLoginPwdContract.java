@@ -18,6 +18,7 @@ public interface ModifyLoginPwdContract {
 
     interface View extends BaseView<ResultCode> {
         void reLogin();
+        void oldPwdError();
     }
 
     interface Presenter extends BasePresenter {

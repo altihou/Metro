@@ -33,8 +33,11 @@ public class Config {
     public static final String COMMIT_ORDER_ACTION="before_payment";
 
     public static final String MODIFY_PAY_M="UserModifyPWD";
-    public static final String MODIFY_PAY_ACTION="modify_paykey";
+    public static final String MODIFY_PAY_ACTION="pay_modify_pwd";
     public static final String MODIFY_PAY_CHECK_ACTION="IsExistPayKey";
+
+    public static final String PAY_ORDER_M="Pay";
+    public static final String PAY_ORDER_ACTION="ok_payment";
 
     //SP
     public static final String FIRST="FIRST";
