@@ -43,7 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @OnClick(R.id.settings_modify_pay_pwd)
     public void onModifyPayPwdClick(View view){
-
+        startActivity(new Intent(this,ModifyPayPwdActivity.class));
     }
 
 }

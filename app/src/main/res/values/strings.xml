@@ -85,6 +85,9 @@
     <string name="settings_modify_login_pwd">修改登录密码</string>
     <string name="settings_modify_pay_pwd">修改支付密码</string>
 
+    <string name="station_commit_order">提交订单</string>
+    <string name="station_start">请选择起点站</string>
+    <string name="station_end">请选择终点站</string>
 
     <string name="about">关于</string>
 
@@ -190,6 +193,10 @@
     <string name="modify_login_pwd_not_equals">两次密码不一致</string>
 
     <string name="modify_pay_pwd">修改支付密码</string>
+    <string name="modify_pay_error">修改错误,请重试</string>
+    <string name="modify_pay_succeed">修改成功</string>
+    <string name="modify_pay_not_empty">请填写完整</string>
+    <string name="modify_pay_not_equals">两次密码不一致</string>
 
 
 </resources>

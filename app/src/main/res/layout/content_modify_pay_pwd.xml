@@ -14,74 +14,8 @@
 
     <include layout="@layout/include_loading_view" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <include layout="@layout/include_modify_pay_pwd"/>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/modify_pay_old_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/edit_text_vertical_margin"
-            android:layout_marginTop="@dimen/edit_text_vertical_margin">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_lock_outline_red_500_18dp"
-                android:drawablePadding="@dimen/edit_text_vertical_margin"
-                android:drawableStart="@drawable/ic_lock_outline_red_500_18dp"
-                android:hint="@string/modify_login_old_pwd"
-                android:textSize="@dimen/text_normal" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/modify_pay_new_pwd1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/edit_text_vertical_margin"
-            android:layout_marginTop="@dimen/edit_text_vertical_margin">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_lock_outline_black_18dp"
-                android:drawablePadding="@dimen/edit_text_vertical_margin"
-                android:drawableStart="@drawable/ic_lock_outline_black_18dp"
-                android:hint="@string/modify_login_new1_pwd"
-                android:textSize="@dimen/text_normal" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/modify_pay_new_pwd2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/edit_text_vertical_margin"
-            android:layout_marginTop="@dimen/edit_text_vertical_margin">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_lock_outline_black_18dp"
-                android:drawablePadding="@dimen/edit_text_vertical_margin"
-                android:drawableStart="@drawable/ic_lock_outline_black_18dp"
-                android:hint="@string/modify_login_new2_pwd"
-                android:textSize="@dimen/text_normal" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/modify_pay_commit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginTop="@dimen/activity_vertical_mini_margin"
-            android:background="@drawable/button_shape"
-            android:text="@string/modify_login_commit" />
-
-    </LinearLayout>
+    <include layout="@layout/include_modify_pay_add"/>
 
 </RelativeLayout>

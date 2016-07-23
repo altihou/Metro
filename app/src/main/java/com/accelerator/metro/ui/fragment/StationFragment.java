@@ -100,7 +100,7 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
                             end = false;
                             start = false;
                         } else {
-                            ToastUtil.Short("请选择终点站");
+                            ToastUtil.Short(R.string.station_end);
                         }
 
                         break;
@@ -118,7 +118,7 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
                             end = false;
                             start = false;
                         } else {
-                            ToastUtil.Short("请选择起点站");
+                            ToastUtil.Short(R.string.station_start);
                         }
 
                         break;
@@ -133,11 +133,11 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     private void commitOrder(String start, String end, final String sId, final String eId){
 
         AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity())
-                .setTitle("提交订单")
+                .setTitle(R.string.station_commit_order)
                 .setMessage("当前选择的站点为 "+start+" - "+end+" 你确定要提交订单吗?")
                 .setCancelable(false)
-                .setNegativeButton("取消",null)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.CANCEL,null)
+                .setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         presenter.commitOrder(sId,eId);
