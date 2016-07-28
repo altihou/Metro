@@ -81,7 +81,7 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     private Uri outputFileUri;
     private String avatarPath;
     private ModifyPresenter presenter;
-    private EditText nickRdit;
+    private EditText nickEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,18 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 int checkId = radioGroup.getCheckedRadioButtonId();
                 RadioButton rb = (RadioButton) findViewById(checkId);
-                sexValue = rb.getText().toString();
+                String sex = rb.getText().toString();
+                switch (sex){
+                    case "男":
+                        sexValue="1";
+                        break;
+                    case "女":
+                        sexValue="2";
+                        break;
+                    case "保密":
+                        sexValue="0";
+                        break;
+                }
             }
         });
 
@@ -128,23 +139,23 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
                 .centerCrop()
                 .into(modifyUserAvatar);
 
-        nickRdit = modifyUserNickname.getEditText();
+        nickEdit = modifyUserNickname.getEditText();
 
-        if (nickRdit != null) {
-            nickRdit.setText(nickname);
-            nickRdit.setSelection(nickname.length());
+        if (nickEdit != null) {
+            nickEdit.setText(nickname);
+            nickEdit.setSelection(nickname.length());
         }
 
         if (!TextUtils.isEmpty(sex)) {
-            if (sex.equals("男"))
+            if (sex.equals("1"))
                 rbMan.setChecked(true);
-            if (sex.equals("女"))
+            if (sex.equals("2"))
                 rbWomen.setChecked(true);
-            if (sex.equals("保密"))
+            if (sex.equals("0"))
                 rbSecret.setChecked(true);
-        }else {
-            rbMan.setChecked(true);
-            sexValue="男";
+        } else {
+            rbSecret.setChecked(true);
+            sexValue="0";
         }
 
     }
@@ -321,17 +332,24 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     public void onSaveClick(View view) {
 
         setDialogMsg(R.string.WAIT);
-        dialog.show();
+        setDialogCancelable(false);
+        setDialogShow();
 
-        String nickName=nickRdit.getText().toString();
+        String nickName=nickEdit.getText().toString();
+
+        if (TextUtils.isEmpty(avatarPath)){
+            avatarPath="";
+        }
+
         presenter.modify(nickName,sexValue,avatarPath);
 
     }
 
     @Override
     public void reLogin() {
+        setDialogDismiss();
+        ToastUtil.Short(R.string.login_relogin);
         startActivity(new Intent(this, LoginActivity.class));
-        dialog.dismiss();
     }
 
     @Override
@@ -357,12 +375,12 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     @Override
     public void onFailure(String err) {
         Log.e(TAG,err);
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override
     public void onCompleted() {
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override

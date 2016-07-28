@@ -21,28 +21,42 @@ public class BaseDialogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        builder=new AlertDialog.Builder(this);
-        dialog=builder.create();
+        builder = new AlertDialog.Builder(this);
+        dialog = builder.create();
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_base, null);
-        tvMsg= (TextView) view.findViewById(R.id.dialog_msg);
+        tvMsg = (TextView) view.findViewById(R.id.dialog_msg);
         dialog.setView(view);
-        dialog.setCancelable(false);
     }
 
-    protected void setDialogMsg(String msg){
+    protected void setDialogCancelable(boolean flag) {
+        dialog.setCancelable(flag);
+    }
+
+    protected void setDialogMsg(String msg) {
         tvMsg.setText(msg);
     }
 
-    protected void setDialogMsg(int msgId){
+    protected void setDialogMsg(int msgId) {
         tvMsg.setText(msgId);
+    }
+
+    protected void setDialogShow() {
+        if (!dialog.isShowing()) {
+            dialog.show();
+        }
+    }
+
+    protected void setDialogDismiss() {
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @Override
     protected void onDestroy() {
-        dialog.dismiss();
-        builder=null;
-        dialog=null;
         super.onDestroy();
+        setDialogDismiss();
+        builder = null;
+        dialog = null;
     }
 }

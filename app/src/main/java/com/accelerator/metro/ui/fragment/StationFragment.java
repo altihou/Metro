@@ -17,15 +17,29 @@ import android.webkit.WebView;
 import com.accelerator.metro.JavaScriptListener;
 import com.accelerator.metro.R;
 import com.accelerator.metro.bean.CommitOrder;
+import com.accelerator.metro.bean.DialogBus;
 import com.accelerator.metro.contract.CommitOrderContract;
 import com.accelerator.metro.presenter.CommitOrderPresenter;
 import com.accelerator.metro.ui.activity.LoginActivity;
+import com.accelerator.metro.ui.activity.MainActivity;
 import com.accelerator.metro.ui.activity.PayOrderActivity;
+import com.accelerator.metro.utils.RxBus;
 import com.accelerator.metro.utils.ToastUtil;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by zoom on 2016/5/4.
@@ -53,6 +67,7 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     private String startId;
     private String endStation;
     private String endId;
+    private String price;
 
     private CommitOrderPresenter presenter;
 
@@ -71,10 +86,9 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
 
     private void initViews() {
 
-        presenter=new CommitOrderPresenter(this);
+        presenter = new CommitOrderPresenter(this);
 
         WebSettings settings = webView.getSettings();
-
         settings.setJavaScriptEnabled(true);
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
@@ -94,64 +108,63 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
                 switch (type) {
 
                     case 1:
-
                         start = true;
                         startStation = name;
                         startId = id;
-
                         if (end && !endStation.equals(startStation)) {
-
                             Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
-                            commitOrder(startStation,endStation,startId,endId);
+                            commitOrder(startStation, endStation, startId, endId);
                             end = false;
                             start = false;
                         } else {
                             ToastUtil.Short(R.string.station_end);
                         }
-
                         break;
-
                     case 2:
-
                         end = true;
                         endStation = name;
                         endId = id;
-
                         if (start && !startStation.equals(endStation)) {
-
                             Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
-                            commitOrder(startStation,endStation,startId,endId);
+                            commitOrder(startStation, endStation, startId, endId);
                             end = false;
                             start = false;
                         } else {
                             ToastUtil.Short(R.string.station_start);
                         }
-
                         break;
                 }
-
-
             }
         });
-
     }
 
-    private void commitOrder(String start, String end, final String sId, final String eId){
+    private void commitOrder(String start, String end, final String sId, final String eId) {
 
-        AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.station_commit_order)
-                .setMessage("当前选择的站点为 "+start+" - "+end+" 你确定要提交订单吗?")
+                .setMessage("当前选择的站点为 " + start + " - " + end + " 你确定要提交订单吗?")
                 .setCancelable(false)
-                .setNegativeButton(R.string.CANCEL,null)
+                .setNegativeButton(R.string.CANCEL, null)
                 .setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        presenter.commitOrder(sId,eId);
+                        getPrice(startId, endId)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Action1<String>() {
+                                    @Override
+                                    public void call(String s) {
+                                        Log.e(TAG, "price :" + s);
+
+                                        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_SHOW);
+
+                                        price = s;
+                                        presenter.commitOrder(sId, eId, s);
+                                    }
+                                });
                     }
                 });
-
-            dialog.show();
-
+        dialog.show();
     }
 
     @OnClick(R.id.fab)
@@ -168,39 +181,68 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
 
     @Override
     public void reLogin() {
+        ToastUtil.Short(R.string.login_relogin);
         startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 
     @Override
     public void existNotPayOrder() {
-        AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle(R.string.station_commit_failure);
         dialog.setMessage(R.string.station_commit_attention);
-        dialog.setPositiveButton(R.string.SURE,null);
+        dialog.setPositiveButton(R.string.SURE, null);
         dialog.setCancelable(false);
         dialog.show();
     }
 
     @Override
     public void onSucceed(CommitOrder values) {
-        CommitOrder.ElseInfoBean info=values.getElse_info();
-        Intent intent=new Intent(getActivity(), PayOrderActivity.class);
-        intent.putExtra(ORDER_NUM,info.getOrder_sn());
-        intent.putExtra(ORDER_PRICE,info.getMoney());
-        intent.putExtra(ORDER_TIME,info.getTime());
-        intent.putExtra(ORDER_START,startStation);
-        intent.putExtra(ORDER_END,endStation);
+
+        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_HIDE);
+        CommitOrder.ElseInfoBean info = values.getElse_info();
+
+        Intent intent = new Intent(getActivity(), PayOrderActivity.class);
+        intent.putExtra(ORDER_PRICE, price);
+        intent.putExtra(ORDER_NUM, info.getOrder_sn());
+        intent.putExtra(ORDER_TIME, info.getTime());
+        intent.putExtra(ORDER_START, startStation);
+        intent.putExtra(ORDER_END, endStation);
         startActivity(intent);
     }
 
     @Override
     public void onFailure(String err) {
-        Log.e(TAG,err);
+        Log.e(TAG, err);
+        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_HIDE);
     }
 
     @Override
     public void onCompleted() {
-
-
+        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_HIDE);
     }
+
+    private Observable<String> getPrice(String start, String end) {
+
+        final String Url = "http://www.xametro.gov.cn//ManagementSystem/index.do?action=seePriceAction&startpriceid=" + start + "&endpriceid=" + end;
+
+        return Observable.create(new Observable.OnSubscribe<String>() {
+
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                try {
+
+                    Document document = Jsoup.connect(Url).get();
+                    Elements elements = document != null ? document.getElementsByClass("articlebox") : null;
+                    String price = elements != null ? elements.get(0).select("span.red").text() : null;
+
+                    subscriber.onNext(price);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+    }
+
 }

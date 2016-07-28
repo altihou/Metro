@@ -59,7 +59,6 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
                 finish();
             }
         });
-
         presenter = new ModifyLoginPwdPresenter(this);
     }
 
@@ -96,15 +95,15 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
 
         SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
 
-        String userName = spf.getString(Config.USER_NAME, "");
+        String userName = spf.getString(Config.USER_PHONE, "");
 
         setDialogMsg(R.string.WAIT);
-        dialog.show();
+        setDialogCancelable(false);
+        setDialogShow();
 
         presenter.modifyLoginPwd(CipherUtil.base64Encode(userName, old)
                 , CipherUtil.base64Encode(userName, new1)
                 , CipherUtil.base64Encode(userName, new2));
-
     }
 
 
@@ -118,18 +117,15 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
 
     @Override
     public void reLogin() {
+        setDialogDismiss();
+        ToastUtil.Short(R.string.login_relogin);
         startActivity(new Intent(this, LoginActivity.class));
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
     }
 
     @Override
     public void oldPwdError() {
+        setDialogDismiss();
         Snackbar.make(coordinatorLayout, R.string.modify_login_old_pwd_error, Snackbar.LENGTH_SHORT).show();
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
     }
 
     @Override
@@ -140,15 +136,11 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
     @Override
     public void onFailure(String err) {
         Log.e(TAG, err);
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
+        setDialogDismiss();
     }
 
     @Override
     public void onCompleted() {
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
+        setDialogDismiss();
     }
 }

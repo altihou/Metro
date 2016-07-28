@@ -5,7 +5,7 @@ import android.os.Environment;
 import java.io.File;
 
 /**
- * Created by zoom on 2016/4/23.
+ * Created by Nicholas on 2016/4/23.
  */
 public class SDCardUtil {
 
@@ -17,7 +17,7 @@ public class SDCardUtil {
     /**
      * 判断SDCard是否可用
      *
-     * @return
+     * @return 是否存在SD卡
      */
     public static boolean isSDCardEnable() {
         return Environment.getExternalStorageState().equals(

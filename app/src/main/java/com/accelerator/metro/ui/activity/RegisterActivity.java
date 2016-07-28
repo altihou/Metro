@@ -157,17 +157,15 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                     break;
                 }
 
-                setDialogMsg(R.string.register_start);
-                dialog.show();
+                setDialogMsg(R.string.WAIT);
+                setDialogCancelable(false);
+                setDialogShow();
 
                 String newPwd1 = CipherUtil.base64Encode(account,pwd1);
                 String newPwd2 = CipherUtil.base64Encode(account,pwd2);
 
-                Log.e(TAG,"avatarPath0"+avatarPath);
-
                 if (TextUtils.isEmpty(avatarPath)){
-                  //  avatarPath="file:///android_asset/ic_launcher.png";
-                    Log.e(TAG,"avatarPath1"+avatarPath);
+                    avatarPath="";
                 }
 
                 presenter.register(account,newPwd1,newPwd2,avatarPath);
@@ -438,7 +436,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
         SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=spf.edit();
 
-        editor.putString(Config.USER_NAME,account);
+        editor.putString(Config.USER_PHONE,account);
         editor.putString(Config.USER_ID,values.getElse_info().getUser_id());
         editor.putString(Config.USER_SESSION,values.getElse_info().getSession_id());
         editor.putBoolean(Config.USER_REFRESH,true);
@@ -458,11 +456,11 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     @Override
     public void onFailure(String err) {
         Log.d(TAG, err);
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override
     public void onCompleted() {
-        dialog.dismiss();
+        setDialogDismiss();
     }
 }

@@ -25,7 +25,6 @@ public class OrderModel implements OrderContract.Model {
     @Override
     public Observable<Order> getOrder(String p, String type) {
 
-
         ApiStore api = ApiEngine.getInstance().apiStore;
 
         SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
@@ -33,8 +32,8 @@ public class OrderModel implements OrderContract.Model {
         String id = spf.getString(Config.USER_ID, "");
         String session = spf.getString(Config.USER_SESSION, "");
 
-        RequestBody m = RequestBody.create(MediaType.parse("text/plain"), Config.MINE_M);
-        RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Config.MINE_ACTION);
+        RequestBody m = RequestBody.create(MediaType.parse("text/plain"), Config.ORDER_M);
+        RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Config.ORDER_ACTION);
         RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), id);
         RequestBody userSession = RequestBody.create(MediaType.parse("text/plain"), session);
         RequestBody page = RequestBody.create(MediaType.parse("text/plain"), p);

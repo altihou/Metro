@@ -43,6 +43,15 @@ public interface ApiStore {
             , @Part("key2") RequestBody key2
             , @Part("file\"; filename=\"avatar.jpg") RequestBody file);
 
+    //Register No Avatar
+    @Multipart
+    @POST("Index")
+    Observable<User> registerNoAvatar(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("phone_no") RequestBody phone
+            , @Part("key1") RequestBody key1
+            , @Part("key2") RequestBody key2);
+
     //Mine
     @Multipart
     @POST("Index")
@@ -61,6 +70,16 @@ public interface ApiStore {
             , @Part("nickname") RequestBody nickname
             , @Part("user_sex") RequestBody sex
             , @Part("file\"; filename=\"avatar.jpg") RequestBody avatarFile);
+
+    //Modify No Avatar
+    @Multipart
+    @POST("Index")
+    Observable<ModifyUser> modifyNoAvatar(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("nickname") RequestBody nickname
+            , @Part("user_sex") RequestBody sex);
 
     //Recharge
     @Multipart
@@ -99,7 +118,8 @@ public interface ApiStore {
             , @Part("user_id") RequestBody userId
             , @Part("session_id") RequestBody sessionId
             , @Part("start_point") RequestBody start
-            , @Part("end_point") RequestBody end);
+            , @Part("end_point") RequestBody end
+            , @Part("money") RequestBody money);
 
     //Modify Pay Pwd
     @Multipart
@@ -123,9 +143,16 @@ public interface ApiStore {
     //Pay For Order
     @Multipart
     @POST("Index")
-    Observable<ResultCode> payOrder(@PartMap Map<String,RequestBody> map);
+    Observable<ResultCode> payOrder(@PartMap Map<String, RequestBody> map);
 
     //Get Order
+    //2表示未出行订单
+    //3已出行订单与退票
+    //1未完成订单
+    //4已完成订单
+    //-1所有订单
+    //5退票
+    //6充值
     @Multipart
     @POST("Index")
     Observable<Order> getOrder(@Part("m") RequestBody m
@@ -134,6 +161,5 @@ public interface ApiStore {
             , @Part("session_id") RequestBody sessionId
             , @Part("p") RequestBody p
             , @Part("type") RequestBody type);
-
 
 }

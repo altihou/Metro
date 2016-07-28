@@ -7,21 +7,19 @@ import java.util.List;
  */
 public class Order {
 
-
-    /**
-     * is_ok : 1
-     * else_info : [{"order_sn":"2","order_type":"2","order_money":"13","time":"1970-01-01 08:00:22","start_point":"","end_point":"","user_id":"1"}]
-     */
-
     private int is_ok;
+    private String user_id;
+    private String session_id;
+
     /**
-     * order_sn : 2
-     * order_type : 2
-     * order_money : 13
-     * time : 1970-01-01 08:00:22
-     * start_point :
-     * end_point :
-     * user_id : 1
+     * order_sn : TS1469612200
+     * order_type : 0
+     * is_complete : 1
+     * order_money : 2.00
+     * time : 1469612200
+     * start_point : 万寿路
+     * end_point : 北大街
+     * user_id : 2
      */
 
     private List<ElseInfoBean> else_info;
@@ -32,6 +30,22 @@ public class Order {
 
     public void setIs_ok(int is_ok) {
         this.is_ok = is_ok;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
     }
 
     public List<ElseInfoBean> getElse_info() {
@@ -45,9 +59,10 @@ public class Order {
     public static class ElseInfoBean {
 
         private String order_sn;
-        private String order_type;
+        private int order_type;
+        private int is_complete;
         private String order_money;
-        private String time;
+        private int time;
         private String start_point;
         private String end_point;
         private String user_id;
@@ -60,12 +75,20 @@ public class Order {
             this.order_sn = order_sn;
         }
 
-        public String getOrder_type() {
+        public int getOrder_type() {
             return order_type;
         }
 
-        public void setOrder_type(String order_type) {
+        public void setOrder_type(int order_type) {
             this.order_type = order_type;
+        }
+
+        public int getIs_complete() {
+            return is_complete;
+        }
+
+        public void setIs_complete(int is_complete) {
+            this.is_complete = is_complete;
         }
 
         public String getOrder_money() {
@@ -76,11 +99,11 @@ public class Order {
             this.order_money = order_money;
         }
 
-        public String getTime() {
+        public int getTime() {
             return time;
         }
 
-        public void setTime(String time) {
+        public void setTime(int time) {
             this.time = time;
         }
 
@@ -112,9 +135,10 @@ public class Order {
         public String toString() {
             return "ElseInfoBean{" +
                     "order_sn='" + order_sn + '\'' +
-                    ", order_type='" + order_type + '\'' +
+                    ", order_type=" + order_type +
+                    ", is_complete=" + is_complete +
                     ", order_money='" + order_money + '\'' +
-                    ", time='" + time + '\'' +
+                    ", time=" + time +
                     ", start_point='" + start_point + '\'' +
                     ", end_point='" + end_point + '\'' +
                     ", user_id='" + user_id + '\'' +

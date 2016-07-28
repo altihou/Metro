@@ -5,65 +5,56 @@
 <script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script> 
 <script type="text/javascript" language="javascript" >
 //原数据数组
-var t={1:{name:'后卫寨',x:120,y:200},
-       2:{name:'三桥',x:170,y:600},
-       3:{name:'皂河',x:220,y:600},
-       20:{name:'北客站',x:'570',y:'150'},
-       21:{name:'北苑',x:'570',y:'200'},};
+var t={
+		5:{name:'北客站'},
+		6:{name:'北苑'},
+		7:{name:'运动公园'},
+		8:{name:'行政中心'},
+		9:{name:'凤城五路'},
+		10:{name:'市图书馆'},
+		11:{name:'大明宫西'},
+		12:{name:'龙首原'},
+		13:{name:'安远门'},
+		14:{name:'北大街'},
+		15:{name:'钟楼'},
+		16:{name:'南稍门'},
+		17:{name:'小寨'},
+		18:{name:'纬一街'},
+		19:{name:'会展中心'},
+		20:{name:'永宁门'},
+		21:{name:'体育场'},
+		22:{name:"后卫寨"},
+		23:{name:"三桥"},
+		24:{name:"皂河"},
+		25:{name:"枣园"},
+		26:{name:"汉城路"},
+		27:{name:"开远门"},
+		28:{name:"劳动路"},
+		29:{name:"玉祥路"},
+		30:{name:"洒金桥"},
+		31:{name:"五路口"},
+		32:{name:"朝阳门"},
+		33:{name:"康复路"},
+		34:{name:"通化门"},
+		35:{name:"万寿路"},
+		36:{name:"长乐坡"},
+		37:{name:"浐河"},
+		38:{name:"半坡"},
+		39:{name:"纺织城"},
+		40:{name:"三爻"},
+		41:{name:"凤栖原"},
+		42:{name:"航天城"},
+		43:{name:"韦曲南"},
+	};
 
-
-//var t1={1:{name:'后卫寨',x:120,y:200},};
 //临时获取数据的数组
 var temp=new Array();
-
-//document.write(t['1']['name']);
-
-function display(obj,ev){
-
-	var oEvent=ev||event;
-	var id = obj.getAttribute("id");
-	//建立相对于文档流的x,y轴
-	
-	var e = event || window.event;
-	var scrollX = document.documentElement.scrollLeft || document.body.scrollLeft;
-	var scrollY = document.documentElement.scrollTop || document.body.scrollTop;
-	//var x = e.pageX || e.clientX + scrollX;
-	var y = e.pageY || e.clientY + scrollY;
-	document.getElementById("box").style.left=oEvent.clientX+'px';  // 指定创建的DIV在文档中距离左侧的位置
-	//document.getElementById("box").style.top=x+'px';
-	document.getElementById("box").style.top=y+'px';  // 指定创建的DIV在文档中距离顶部的位置
-	document.getElementById("box").style.border='5px solid green'; // 设置边框#FF0000
-	document.getElementById("box").style.position='absolute'; // 为新创建的DIV指定绝对定位
-	document.getElementById("box").style.backgroundColor='white';
-	document.getElementById("box").style.width='150px'; // 指定宽度
-	document.getElementById("box").style.height='100px'; // 指定高度 
-   	
-	document.getElementById("box").innerHTML=t[id]['name']+"<br>"+"position("+t[id]['x']+","+t[id]['y']+")<br>";
-	document.getElementById("box").style.display="block";
-	
-}
-
-function disappear(){
-	document.getElementById("box").style.display="none";
-	document.getElementById("box").style.width="50px";  
-}
-
 function onPointClick(c){
-
-   var id=c.getAttribute('id')
-
+    var id=c.getAttribute('id')
 	temp[0]=t[id]['name'];
-
-
-	//temp[1]=t[id]['x'];
-	//temp[2]=t[id]['y'];
-
 	android.getPointData(temp[0],id);
-
 }
-
 </script>
-
 </head>
 <body >
 <br>
@@ -73,129 +64,131 @@ function onPointClick(c){
 Your browser does not support the canvas element.
 </canvas>
 
-<a  id="1"  onclick="onPointClick(this)"   style="margin-top:590px;margin-left:115px; position:absolute; z-index:2;" >
+<a  id="22"  onclick="onPointClick(this)"   style="margin-top:590px;margin-left:115px; position:absolute; z-index:2;" >
  &nbsp &nbsp 
 </a>
-<a  id="2"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:165px; position:absolute; z-index:2;">
+<a  id="23"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:165px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="3"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:215px; position:absolute; z-index:2;" >
+<a  id="24"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:215px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="4" onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:265px; position:absolute; z-index:2;">
+<a id="25"  id="" onclick="onPointClick(this)"  style="margin-top:590px;margin-left:265px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="5" onmouseover="display(this)"  onmouseout="disappear()"  style="margin-top:590px;margin-left:315px; position:absolute; z-index:2;" >
+<a  id="26" onclick="onPointClick(this)"   style="margin-top:590px;margin-left:315px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="6"   onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:365px; position:absolute; z-index:2;">
+<a  id="27"   onclick="onPointClick(this)"  style="margin-top:590px;margin-left:365px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="7"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:415px; position:absolute; z-index:2;" >
+<a  id="28"  onclick="onPointClick(this)"  style="margin-top:590px;margin-left:415px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="8" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:465px; position:absolute; z-index:2;">
+<a  id="29" onclick="onPointClick(this)" style="margin-top:590px;margin-left:465px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="9"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:515px; position:absolute; z-index:2;" >
+<a  id="30" onclick="onPointClick(this)" style="margin-top:590px;margin-left:515px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="10" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:565px; position:absolute; z-index:2;">
+<a  id="14" onclick="onPointClick(this)" style="margin-top:590px;margin-left:565px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="11"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:615px; position:absolute; z-index:2;" >
+<a  id="31"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:615px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="12" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:665px; position:absolute; z-index:2;">
+<a  id="32" onclick="onPointClick(this)" style="margin-top:590px;margin-left:665px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="13"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:715px; position:absolute; z-index:2;" >
+<a  id="33"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:715px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="14" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:765px; position:absolute; z-index:2;">
+<a  id="34" onclick="onPointClick(this)" style="margin-top:590px;margin-left:765px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="15"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:815px; position:absolute; z-index:2;" >
+<a  id="35" onclick="onPointClick(this)" style="margin-top:590px;margin-left:815px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="16" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:865px; position:absolute; z-index:2;">
+<a  id="36" onclick="onPointClick(this)" style="margin-top:590px;margin-left:865px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="17"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:915px; position:absolute; z-index:2;" >
+<a  id="37"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:915px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="18" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:590px;margin-left:965px; position:absolute; z-index:2;">
+<a  id="38" onclick="onPointClick(this)" style="margin-top:590px;margin-left:965px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="19"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:590px;margin-left:1015px; position:absolute; z-index:2;" >
+<a  id="39"  onclick="onPointClick(this)" style="margin-top:590px;margin-left:1015px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="20" onclick="onclick(this)" style="margin-top:146px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="5" onclick="onPointClick(this)" style="margin-top:146px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="21"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:196px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="6"  onclick="onPointClick(this)" style="margin-top:196px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="22" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:250px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="7" onclick="onPointClick(this)" style="margin-top:250px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="23"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:300px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="8"  onclick="onPointClick(this)" style="margin-top:300px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="24" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:350px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="9" onclick="onPointClick(this)" style="margin-top:350px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="25"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:400px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="10"  onclick="onPointClick(this)" style="margin-top:400px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="26" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:450px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="11" onclick="onPointClick(this)" style="margin-top:450px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="27"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:500px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="12"  onclick="onPointClick(this)" style="margin-top:500px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="28" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:550px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="13" onclick="onPointClick(this)" style="margin-top:550px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
 
-<a  id="29" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:650px;margin-left:570px; position:absolute; z-index:2;">
+
+
+<a  id="15" onclick="onPointClick(this)" style="margin-top:650px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="30"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:700px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="20"  onclick="onPointClick(this)" style="margin-top:700px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="31" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:750px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="16" onclick="onPointClick(this)" style="margin-top:750px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="32"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:800px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="21"  onclick="onPointClick(this)" style="margin-top:800px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="33" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:850px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="17" onclick="onPointClick(this)" style="margin-top:850px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="34"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:900px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="18"  onclick="onPointClick(this)" style="margin-top:900px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="35" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:950px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="19" onclick="onPointClick(this)" style="margin-top:950px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="36"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:1000px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="40"  onclick="onPointClick(this)" style="margin-top:1000px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="37" onmouseover="display(this)" onmouseout="disappear()" style="margin-top:1050px;margin-left:570px; position:absolute; z-index:2;">
+<a  id="41" onclick="onPointClick(this)" style="margin-top:1050px;margin-left:570px; position:absolute; z-index:2;">
 &nbsp &nbsp
 </a>
-<a  id="38"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:1100px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="42"  onclick="onPointClick(this)" style="margin-top:1100px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
-<a  id="39"  onmouseover="display(this)"  onmouseout="disappear()" style="margin-top:1150px;margin-left:570px; position:absolute; z-index:2;" >
+<a  id="43"  onclick="onPointClick(this)" style="margin-top:1150px;margin-left:570px; position:absolute; z-index:2;" >
  &nbsp &nbsp
 </a>
+
 
 
 
 <div id="box" style="z-index:3;">
-
 </div>
 
 <script type="text/javascript">
@@ -1045,10 +1038,6 @@ cxt.font = '13px Arial';
 cxt.fillStyle=font_color;
 cxt.fillText("韦曲南",585,1160);
 cxt.closePath();
-
-
-
-
 
 </script>
 

@@ -70,12 +70,11 @@ public class Password2PayActivity extends BaseDialogActivity implements PayOrder
         String password=edtPwd.getText().toString().trim();
 
         SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        String phone=spf.getString(Config.USER_NAME,"");
+        String phone=spf.getString(Config.USER_PHONE,"");
 
         setDialogMsg(R.string.WAIT);
-        if (!dialog.isShowing()){
-            dialog.show();
-        }
+        setDialogCancelable(false);
+        setDialogShow();
 
         presenter.payOrder(orderNum, CipherUtil.base64Encode(phone,password));
 
@@ -83,26 +82,33 @@ public class Password2PayActivity extends BaseDialogActivity implements PayOrder
 
     @Override
     public void reLogin() {
+        setDialogDismiss();
+        ToastUtil.Short(R.string.login_relogin);
         startActivity(new Intent(this, LoginActivity.class));
     }
 
     @Override
     public void setPayPwd() {
+        setDialogDismiss();
+        ToastUtil.Short(R.string.password2_pay_set_pay_pwd);
         startActivity(new Intent(this,ModifyPayPwdActivity.class));
     }
 
     @Override
     public void orderError() {
+        setDialogDismiss();
         ToastUtil.Short(R.string.password2_pay_order_error);
     }
 
     @Override
     public void payPwdError() {
+        setDialogDismiss();
         ToastUtil.Short(R.string.password2_pay_pwd_error);
     }
 
     @Override
     public void notSufficientFunds() {
+        setDialogDismiss();
         ToastUtil.Short(R.string.password2_pay_not_sufficient_funds);
     }
 
@@ -121,15 +127,11 @@ public class Password2PayActivity extends BaseDialogActivity implements PayOrder
     public void onFailure(String err) {
         Log.e(TAG,err);
         ToastUtil.Short(R.string.password2_pay_failure);
-        if (dialog.isShowing()){
-            dialog.dismiss();
-        }
+        setDialogDismiss();
     }
 
     @Override
     public void onCompleted() {
-        if (dialog.isShowing()){
-            dialog.dismiss();
-        }
+        setDialogDismiss();
     }
 }

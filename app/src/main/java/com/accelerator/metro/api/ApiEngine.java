@@ -13,16 +13,13 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * Created by zoom on 2016/5/8.
+ * Created by Nicholas on 2016/5/8.
  */
 public class ApiEngine {
 
     private volatile static ApiEngine apiEngine;
     public ApiStore apiStore;
 
-    /**
-     * 防止构造
-     */
     private ApiEngine(){
 
         //拦截器
@@ -51,10 +48,6 @@ public class ApiEngine {
         apiStore=retrofit.create(ApiStore.class);
     }
 
-    /**
-     * 单例
-     * @return ApiEngine
-     */
     public static ApiEngine getInstance(){
         if (apiEngine==null){
             synchronized (ApiEngine.class){

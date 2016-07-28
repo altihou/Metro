@@ -26,9 +26,9 @@ public class CommitOrderPresenter extends RxManager implements CommitOrderContra
     }
 
     @Override
-    public void commitOrder(String start, String end) {
+    public void commitOrder(String start, String end,String money) {
 
-        Subscription s = model.commitOrder(start, end)
+        Subscription s = model.commitOrder(start, end,money)
                 .subscribe(new Observer<CommitOrder>() {
                     @Override
                     public void onCompleted() {

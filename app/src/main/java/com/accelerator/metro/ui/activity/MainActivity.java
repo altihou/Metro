@@ -7,24 +7,32 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.accelerator.metro.Config;
 import com.accelerator.metro.R;
+import com.accelerator.metro.base.BaseDialogActivity;
+import com.accelerator.metro.bean.DialogBus;
 import com.accelerator.metro.ui.fragment.MineFragment;
 import com.accelerator.metro.ui.fragment.OrderFragment;
 import com.accelerator.metro.ui.fragment.StationFragment;
+import com.accelerator.metro.utils.RxBus;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import butterknife.ButterKnife;
+import rx.functions.Action1;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseDialogActivity {
+
+    private static final String TAG=MainActivity.class.getName();
 
     private static final int STATION = 0;
     private static final int ORDER = 1;
     private static final int MINE = 2;
+    public static final String DIALOG_BUS_SHOW ="show";
+    public static final String DIALOG_BUS_HIDE ="hide";
 
     private long exitTime = 0;
 
@@ -72,17 +80,35 @@ public class MainActivity extends AppCompatActivity {
                 //ReClick
             }
         });
+
+        RxBus.getDefault().toObserverable(DialogBus.class)
+                .subscribe(new Action1<DialogBus>() {
+                    @Override
+                    public void call(DialogBus dialogBus) {
+                        Log.e(TAG,"DialogBus Show!");
+                        switch (dialogBus.Bus){
+                            case DIALOG_BUS_SHOW:
+                                setDialogCancelable(false);
+                                setDialogMsg(R.string.WAIT);
+                                setDialogShow();
+                                break;
+                            case DIALOG_BUS_HIDE:
+                                setDialogDismiss();
+                                break;
+                        }
+                    }
+                });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        SharedPreferences spf=getSharedPreferences(Config.FIRST, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=spf.edit();
-        boolean isFirst=spf.getBoolean(Config.FIRST_TIME,true);
-        if (isFirst){
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-            editor.putBoolean(Config.FIRST_TIME,false);
+        SharedPreferences spf = getSharedPreferences(Config.FIRST, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+        boolean isFirst = spf.getBoolean(Config.FIRST_TIME, true);
+        if (isFirst) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            editor.putBoolean(Config.FIRST_TIME, false);
             editor.apply();
         }
     }
@@ -111,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 显示Fragment
+     *
      * @param index 序号
      */
     private void showFragment(int index) {
@@ -151,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 隐藏Fragment
+     *
      * @param ft FragmentTransaction
      */
     private void hideFragments(FragmentTransaction ft) {

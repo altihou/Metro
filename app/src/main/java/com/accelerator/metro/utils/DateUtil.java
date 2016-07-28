@@ -24,4 +24,9 @@ public class DateUtil {
         return sdf.format(new Date());
     }
 
+    public static String getOrderDate(int time){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        return sdf.format(new Date(time*1000L));
+    }
+
 }

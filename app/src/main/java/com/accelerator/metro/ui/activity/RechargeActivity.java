@@ -70,7 +70,8 @@ public class RechargeActivity extends BaseDialogActivity implements RechargeCont
         }
 
         setDialogMsg(R.string.WAIT);
-        dialog.show();
+        setDialogCancelable(false);
+        setDialogShow();
 
         presenter.recharge(money);
 
@@ -78,8 +79,9 @@ public class RechargeActivity extends BaseDialogActivity implements RechargeCont
 
     @Override
     public void reLogin() {
+        setDialogDismiss();
+        ToastUtil.Short(R.string.login_relogin);
         startActivity(new Intent(this, LoginActivity.class));
-        dialog.dismiss();
     }
 
     @Override
@@ -102,12 +104,12 @@ public class RechargeActivity extends BaseDialogActivity implements RechargeCont
     @Override
     public void onFailure(String err) {
         Log.e(TAG, err);
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override
     public void onCompleted() {
-        dialog.dismiss();
+        setDialogDismiss();
         Snackbar.make(coordinatorLayout, R.string.recharge_failure, Snackbar.LENGTH_SHORT).show();
     }
 

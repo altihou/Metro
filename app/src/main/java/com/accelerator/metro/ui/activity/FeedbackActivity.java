@@ -65,15 +65,17 @@ public class FeedbackActivity extends BaseDialogActivity implements FeedbackCont
         }
 
         setDialogMsg(R.string.WAIT);
-        dialog.show();
+        setDialogCancelable(false);
+        setDialogShow();
 
         presenter.feedback(content);
     }
 
     @Override
     public void reLogin() {
+        ToastUtil.Short(R.string.login_relogin);
         startActivity(new Intent(this, LoginActivity.class));
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override
@@ -85,13 +87,13 @@ public class FeedbackActivity extends BaseDialogActivity implements FeedbackCont
     @Override
     public void onFailure(String err) {
         Log.e(TAG,err);
-        dialog.dismiss();
+        setDialogDismiss();
         Snackbar.make(coordinatorLayout, R.string.feedback_failure, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCompleted() {
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override

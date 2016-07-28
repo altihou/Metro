@@ -16,12 +16,12 @@ import butterknife.ButterKnife;
 /**
  * Created by zoom on 2016/5/29.
  */
-public class OrderAdapter
-        extends RecyclerView.Adapter<OrderAdapter.OrderNormalViewHolder> {
+public class UnFinishOrderAdapter
+        extends RecyclerView.Adapter<UnFinishOrderAdapter.OrderNormalViewHolder> {
 
     private List<String> lists;
 
-    public OrderAdapter() {
+    public UnFinishOrderAdapter() {
     }
 
     public void setData(List<String> lists) {

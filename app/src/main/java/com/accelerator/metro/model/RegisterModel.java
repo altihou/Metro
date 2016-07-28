@@ -24,18 +24,26 @@ public class RegisterModel implements RegisterContract.Model {
 
         ApiStore apiStore = ApiEngine.getInstance().apiStore;
 
-        File file = new File(path);
-
-        RequestBody imgFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         RequestBody m = RequestBody.create(MediaType.parse("text/plain"), Config.REGISTER_M);
         RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Config.REGISTER_ACTION);
         RequestBody phoneNum = RequestBody.create(MediaType.parse("text/plain"), phone);
         RequestBody password1 = RequestBody.create(MediaType.parse("text/plain"), pwd1);
         RequestBody password2 = RequestBody.create(MediaType.parse("text/plain"), pwd2);
 
-        return apiStore.register(m, action, phoneNum, password1,password2, imgFile)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        if ("".equals(path)) {
+            return apiStore.registerNoAvatar(m, action, phoneNum, password1, password2)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        } else {
+
+            File file = new File(path);
+            RequestBody imgFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+            return apiStore.register(m, action, phoneNum, password1, password2, imgFile)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
     }
 
 }

@@ -47,6 +47,9 @@ public class OrderPresenter extends RxManager implements OrderContract.Presenter
                             case 1:
                                 view.onSucceed(order);
                                 break;
+                            case 0:
+                                view.noOrder();
+                                break;
                             default:
                                 Log.e(TAG,"获取订单错误，错误码："+code);
                                 break;

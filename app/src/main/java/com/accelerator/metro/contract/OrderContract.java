@@ -18,6 +18,7 @@ public interface OrderContract {
 
     interface View extends BaseView<Order> {
         void reLogin();
+        void noOrder();
     }
 
     interface Presenter extends BasePresenter {

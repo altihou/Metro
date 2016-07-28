@@ -43,6 +43,8 @@ public class ExpenseCalendar {
         private String time;
         private String money_type;
         private String id;
+        private String session_id;
+        private String user_id;
 
         public String getMoney_num() {
             return money_num;
@@ -74,6 +76,22 @@ public class ExpenseCalendar {
 
         public void setId(String id) {
             this.id = id;
+        }
+
+        public String getSession_id() {
+            return session_id;
+        }
+
+        public void setSession_id(String session_id) {
+            this.session_id = session_id;
+        }
+
+        public String getUser_id() {
+            return user_id;
+        }
+
+        public void setUser_id(String user_id) {
+            this.user_id = user_id;
         }
     }
 }

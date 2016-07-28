@@ -102,7 +102,9 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
         RxBus.getDefault().toObserverable(String.class).subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
-                onRefresh();
+                if (s.equals(ModifyUserActivity.REFRESH)) {
+                    onRefresh();
+                }
                 //setViews(getUserFromSP());
             }
         });
@@ -122,7 +124,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @OnClick(R.id.mine_fab)
     public void onFabClick(View view) {
-        Intent intent=new Intent(getActivity(), ModifyUserActivity.class);
+        Intent intent = new Intent(getActivity(), ModifyUserActivity.class);
         startActivity(intent);
     }
 
@@ -185,33 +187,33 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
         tvUserMoney.setText(info.getUser_money());
     }
 
-    private void saveUser2SP(MineInfo mineInfo){
+    private void saveUser2SP(MineInfo mineInfo) {
 
         MineInfo.ElseInfoBean info = mineInfo.getElse_info();
 
-        SharedPreferences spf= MetroApp.getContext()
+        SharedPreferences spf = MetroApp.getContext()
                 .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=spf.edit();
+        SharedPreferences.Editor editor = spf.edit();
 
-        editor.putString(Config.USER_AVATAR,info.getUser_headpic());
-        editor.putString(Config.USER_MONEY,info.getUser_money());
-        editor.putString(Config.USER_NICKNAME,info.getNickname());
+        editor.putString(Config.USER_AVATAR, info.getUser_headpic());
+        editor.putString(Config.USER_MONEY, info.getUser_money());
+        editor.putString(Config.USER_NICKNAME, info.getNickname());
 
-        editor.putBoolean(Config.USER_REFRESH,false);
+        editor.putBoolean(Config.USER_REFRESH, false);
 
         editor.apply();
     }
 
-    private MineInfo.ElseInfoBean getUserFromSP(){
+    private MineInfo.ElseInfoBean getUserFromSP() {
 
         MineInfo.ElseInfoBean info = new MineInfo.ElseInfoBean();
 
-        SharedPreferences spf= MetroApp.getContext()
+        SharedPreferences spf = MetroApp.getContext()
                 .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        info.setNickname(spf.getString(Config.USER_NICKNAME,""));
-        info.setUser_headpic(spf.getString(Config.USER_AVATAR,""));
-        info.setPhone_no(spf.getString(Config.USER_NAME,""));
-        info.setUser_money(spf.getString(Config.USER_MONEY,""));
+        info.setNickname(spf.getString(Config.USER_NICKNAME, ""));
+        info.setUser_headpic(spf.getString(Config.USER_AVATAR, ""));
+        info.setPhone_no(spf.getString(Config.USER_PHONE, ""));
+        info.setUser_money(spf.getString(Config.USER_MONEY, ""));
 
         return info;
     }
@@ -235,13 +237,13 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     @Override
     public void onRefresh() {
 
-        SharedPreferences spf= MetroApp.getContext()
+        SharedPreferences spf = MetroApp.getContext()
                 .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
 
-        if (spf.getBoolean(Config.USER_REFRESH,false)){
+        if (spf.getBoolean(Config.USER_REFRESH, false)) {
             swipeRefreshLayout.setRefreshing(true);
             presenter.getMine();
-        }else {
+        } else {
             setViews(getUserFromSP());
             swipeRefreshLayout.setRefreshing(false);
         }

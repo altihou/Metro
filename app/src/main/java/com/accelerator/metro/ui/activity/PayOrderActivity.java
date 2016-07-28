@@ -18,8 +18,8 @@ import butterknife.OnClick;
 
 public class PayOrderActivity extends AppCompatActivity {
 
-    public static final int PAY_REQUEST_CODE=0;
-    public static final String PAY_ORDER_NUM="pay_order_code";
+    public static final int PAY_REQUEST_CODE = 0;
+    public static final String PAY_ORDER_NUM = "pay_order_code";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -53,35 +53,34 @@ public class PayOrderActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent=getIntent();
+        Intent intent = getIntent();
 
-        if (intent!=null){
+        if (intent != null) {
 
-            orderNum=intent.getStringExtra(StationFragment.ORDER_NUM);
-            int orderPrice=intent.getIntExtra(StationFragment.ORDER_PRICE,-1);
-            String time=intent.getStringExtra(StationFragment.ORDER_TIME);
-            String start=intent.getStringExtra(StationFragment.ORDER_START);
-            String end=intent.getStringExtra(StationFragment.ORDER_END);
+            orderNum = intent.getStringExtra(StationFragment.ORDER_NUM);
+            String orderPrice = intent.getStringExtra(StationFragment.ORDER_PRICE);
+            String time = intent.getStringExtra(StationFragment.ORDER_TIME);
+            String start = intent.getStringExtra(StationFragment.ORDER_START);
+            String end = intent.getStringExtra(StationFragment.ORDER_END);
 
             tvOrderDate.setText(time);
-            tvOrderPrice.setText(orderPrice+"元");
+            tvOrderPrice.setText(orderPrice + "元");
             tvStationStart.setText(start);
             tvStationEnd.setText(end);
-
         }
     }
 
     @OnClick(R.id.order_btn_pay_now)
-    public void onPayNowClick(View view){
-        Intent intent=new Intent(this,Password2PayActivity.class);
-        intent.putExtra(PAY_ORDER_NUM,orderNum);
-        startActivityForResult(intent,PAY_REQUEST_CODE);
+    public void onPayNowClick(View view) {
+        Intent intent = new Intent(this, Password2PayActivity.class);
+        intent.putExtra(PAY_ORDER_NUM, orderNum);
+        startActivityForResult(intent, PAY_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==PAY_REQUEST_CODE){
-            if (resultCode==RESULT_OK){
+        if (requestCode == PAY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
                 finish();
             }
         }
@@ -89,8 +88,8 @@ public class PayOrderActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.order_btn_cancel_order)
-    public void onCanaelClick(View view){
-
+    public void onCanaelClick(View view) {
+        // TODO: 2016/7/27 取消订单
     }
 
 }

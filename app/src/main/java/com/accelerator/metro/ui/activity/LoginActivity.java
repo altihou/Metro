@@ -76,7 +76,7 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
         super.onResume();
 
         SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        String userName=spf.getString(Config.USER_NAME,"");
+        String userName=spf.getString(Config.USER_PHONE,"");
         EditText account = accountLayout.getEditText();
 
         if (account != null) {
@@ -94,7 +94,6 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         switch (requestCode){
             case REQUEST_CODE:
                 if (resultCode==RESULT_OK){
@@ -104,7 +103,6 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
                 }
                 break;
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -140,7 +138,8 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
         }
 
         setDialogMsg(R.string.login_start);
-        dialog.show();
+        setDialogCancelable(false);
+        setDialogShow();
 
         String newPwd=CipherUtil.base64Encode(userName,userPassword);
 
@@ -181,7 +180,7 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
         SharedPreferences spf=MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=spf.edit();
 
-        editor.putString(Config.USER_NAME,userName);
+        editor.putString(Config.USER_PHONE,userName);
         editor.putString(Config.USER_ID,info.getUser_id());
         editor.putString(Config.USER_SESSION,info.getSession_id());
         editor.putBoolean(Config.USER_REFRESH,true);
@@ -195,16 +194,17 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     @Override
     public void onFailure(String err) {
         Log.e(TAG, err);
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override
     public void onCompleted() {
-        dialog.dismiss();
+        setDialogDismiss();
     }
 
     @Override
     public void accountNotExist() {
+        setDialogDismiss();
         ToastUtil.Short(R.string.login_account_not_exist);
     }
 }

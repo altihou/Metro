@@ -20,20 +20,19 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by Nicholas on 2016/7/21.
+ *
  */
 public class ModifyModel implements ModifyContract.Model {
 
     @Override
     public Observable<ModifyUser> modify(String nickname, String sex, String avatarPath) {
 
-        ApiStore api= ApiEngine.getInstance().apiStore;
+        ApiStore api = ApiEngine.getInstance().apiStore;
 
         SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         String id = spf.getString(Config.USER_ID, "");
         String session = spf.getString(Config.USER_SESSION, "");
 
-        File file = new File(avatarPath);
-        RequestBody imgFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         RequestBody m = RequestBody.create(MediaType.parse("text/plain"), Config.MODIFY_M);
         RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Config.MODIFY_ACTION);
         RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), id);
@@ -41,9 +40,19 @@ public class ModifyModel implements ModifyContract.Model {
         RequestBody nick = RequestBody.create(MediaType.parse("text/plain"), nickname);
         RequestBody sexUser = RequestBody.create(MediaType.parse("text/plain"), sex);
 
-        return api.modify(m,action,userId,sessionId,nick,sexUser,imgFile)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        if ("".equals(avatarPath)) {
+            return api.modifyNoAvatar(m, action, userId, sessionId, nick, sexUser)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        } else {
+            File file = new File(avatarPath);
+            RequestBody imgFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            return api.modify(m, action, userId, sessionId, nick, sexUser, imgFile)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+
+
     }
 
 }

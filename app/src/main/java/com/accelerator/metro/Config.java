@@ -16,7 +16,7 @@ public class Config {
     public static final String MINE_ACTION="UserInfo";
 
 
-    public static final String MODIFY_M="UserModify";
+    public static final String MODIFY_M="User";
     public static final String MODIFY_ACTION="ModifyBaseInfo";
 
     public static final String RECHARGE_M="Pay";
@@ -26,18 +26,21 @@ public class Config {
     public static final String FEEDBACK_ACTION="get_user_feedback";
 
 
-    public static final String MODIFY_LOGIN_M="UserModifyPWD";
+    public static final String MODIFY_LOGIN_M="User";
     public static final String MODIFY_LOGIN_ACTION="login_modify_pwd";
 
     public static final String COMMIT_ORDER_M="Pay";
     public static final String COMMIT_ORDER_ACTION="before_payment";
 
-    public static final String MODIFY_PAY_M="UserModifyPWD";
+    public static final String MODIFY_PAY_M="User";
     public static final String MODIFY_PAY_ACTION="pay_modify_pwd";
     public static final String MODIFY_PAY_CHECK_ACTION="IsExistPayKey";
 
     public static final String PAY_ORDER_M="Pay";
     public static final String PAY_ORDER_ACTION="ok_payment";
+
+    public static final String ORDER_M="UserOrder";
+    public static final String ORDER_ACTION="order_info";
 
     //SP
     public static final String FIRST="FIRST";
@@ -45,7 +48,7 @@ public class Config {
 
     public static final String USER="USER";
     public static final String USER_REFRESH="refresh";
-    public static final String USER_NAME="user_name";
+    public static final String USER_PHONE="user_phone";
     public static final String USER_SESSION="user_session";
     public static final String USER_ID="user_id";
     public static final String USER_AVATAR="user_avatar";

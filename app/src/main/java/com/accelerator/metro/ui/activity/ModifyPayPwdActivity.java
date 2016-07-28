@@ -85,19 +85,15 @@ public class ModifyPayPwdActivity extends BaseDialogActivity implements ModifyPa
         }
 
         if (!isVisibility(loadingView)) {
-
             loadingView.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     @Override
     public void reLogin() {
+        setDialogDismiss();
+        ToastUtil.Short(R.string.login_relogin);
         startActivity(new Intent(this, LoginActivity.class));
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
     }
 
     @Override
@@ -126,10 +122,11 @@ public class ModifyPayPwdActivity extends BaseDialogActivity implements ModifyPa
 
         SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
 
-        String phone = spf.getString(Config.USER_NAME, "");
+        String phone = spf.getString(Config.USER_PHONE, "");
 
         setDialogMsg(R.string.WAIT);
-        dialog.show();
+        setDialogCancelable(false);
+        setDialogShow();
 
         payPwdPresenter.modifyPayPwd("", CipherUtil.base64Encode(phone, newPwd1)
                 , CipherUtil.base64Encode(phone, newPwd2));
@@ -159,10 +156,11 @@ public class ModifyPayPwdActivity extends BaseDialogActivity implements ModifyPa
 
         SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
 
-        String phone = spf.getString(Config.USER_NAME, "");
+        String phone = spf.getString(Config.USER_PHONE, "");
 
         setDialogMsg(R.string.WAIT);
-        dialog.show();
+        setDialogCancelable(false);
+        setDialogShow();
 
         payPwdPresenter.modifyPayPwd(CipherUtil.base64Encode(phone, oldPwd)
                 , CipherUtil.base64Encode(phone, newPwd1)
@@ -232,7 +230,7 @@ public class ModifyPayPwdActivity extends BaseDialogActivity implements ModifyPa
         if (isVisibility(loadingView)) {
             loadingView.setVisibility(View.GONE);
         }
-        ToastUtil.Short("失败");
+        ToastUtil.Short(R.string.FAILURE);
     }
 
     @Override
@@ -251,17 +249,13 @@ public class ModifyPayPwdActivity extends BaseDialogActivity implements ModifyPa
     @Override
     public void onFailure(String err) {
         Log.e(TAG, err);
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
+        setDialogDismiss();
         Snackbar.make(coordinatorLayout, R.string.modify_pay_error, Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
     public void onCompleted() {
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
+        setDialogDismiss();
     }
 
 
