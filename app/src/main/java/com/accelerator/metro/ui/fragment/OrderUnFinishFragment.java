@@ -1,10 +1,12 @@
 package com.accelerator.metro.ui.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import com.accelerator.metro.R;
 import com.accelerator.metro.bean.Order;
+import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.contract.OrderContract;
 import com.accelerator.metro.presenter.OrderPresenter;
 import com.accelerator.metro.ui.activity.LoginActivity;
@@ -121,6 +124,17 @@ public class OrderUnFinishFragment extends Fragment
     @OnClick(R.id.un_finish_order_btn_cancel)
     public void onCancelClick(View view) {
 
+        AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity());
+        dialog.setTitle(R.string.un_finish_order_cancel_order);
+        dialog.setMessage(R.string.un_finish_order_cancel_order_ok);
+        dialog.setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                presenter.cancelOrder(orderNum);
+            }
+        });
+        dialog.setNegativeButton(R.string.CANCEL,null);
+        dialog.show();
     }
 
     @Override
@@ -149,6 +163,27 @@ public class OrderUnFinishFragment extends Fragment
         if (!isVisibility(emptyView)) {
             emptyView.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void cancelCompleted() {
+        ToastUtil.Short(R.string.un_finish_order_cancel_succeed);
+    }
+
+    @Override
+    public void cancelFailure(String err) {
+        Log.e(TAG,err);
+        ToastUtil.Short(R.string.un_finish_order_cancel_failure);
+    }
+
+    @Override
+    public void cancelError() {
+        ToastUtil.Short(R.string.un_finish_order_cancel_failure);
+    }
+
+    @Override
+    public void cancelSucceed(ResultCode resultCode) {
+
     }
 
     @Override

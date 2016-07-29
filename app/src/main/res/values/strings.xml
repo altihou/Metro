@@ -228,6 +228,10 @@
     <string name="un_finish_order_state_not_pay">未支付</string>
     <string name="un_finish_order_now_pay">支付</string>
     <string name="un_finish_order_cancel">取消</string>
+    <string name="un_finish_order_cancel_succeed">订单取消成功</string>
+    <string name="un_finish_order_cancel_failure">订单取消失败</string>
+    <string name="un_finish_order_cancel_order">取消订单</string>
+    <string name="un_finish_order_cancel_order_ok">您确定要取消此订单吗？</string>
     <string name="un_finish_order_empty">当前没有未支付订单</string>
 
 

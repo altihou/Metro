@@ -10,6 +10,9 @@ import android.webkit.JavascriptInterface;
  */
 public class JavaScriptListener {
 
+    public static final int TYPE_CODE_START=0;
+    public static final int TYPE_CODE_END=1;
+
     private Context context;
     private AlertDialog.Builder dialog;
 
@@ -40,7 +43,7 @@ public class JavaScriptListener {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (listener != null) {
-                    listener.onClick(content, id, 1);
+                    listener.onClick(content, id, TYPE_CODE_START);
                 }
             }
         });
@@ -50,7 +53,7 @@ public class JavaScriptListener {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (listener != null) {
-                    listener.onClick(content, id, 2);
+                    listener.onClick(content, id, TYPE_CODE_END);
                 }
             }
         });

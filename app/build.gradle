@@ -45,4 +45,6 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     //Jsoup
     compile 'org.jsoup:jsoup:1.9.2'
+    //Zxing
+    compile 'com.google.zxing:core:3.2.1'
 }

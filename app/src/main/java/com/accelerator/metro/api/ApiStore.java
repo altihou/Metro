@@ -162,4 +162,12 @@ public interface ApiStore {
             , @Part("p") RequestBody p
             , @Part("type") RequestBody type);
 
+    //Cancel Order
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> cancelOrder(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("order_sn") RequestBody orderNum);
 }

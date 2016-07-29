@@ -3,6 +3,7 @@ package com.accelerator.metro.presenter;
 import android.util.Log;
 
 import com.accelerator.metro.bean.Order;
+import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.contract.OrderContract;
 import com.accelerator.metro.model.OrderModel;
 import com.accelerator.metro.utils.RxManager;
@@ -52,6 +53,41 @@ public class OrderPresenter extends RxManager implements OrderContract.Presenter
                                 break;
                             default:
                                 Log.e(TAG,"获取订单错误，错误码："+code);
+                                break;
+                        }
+                    }
+                });
+        addSub(s);
+    }
+
+    @Override
+    public void cancelOrder(String orderNum) {
+
+        Subscription s = model.cancelOrder(orderNum)
+                .subscribe(new Observer<ResultCode>() {
+                    @Override
+                    public void onCompleted() {
+                        view.cancelCompleted();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.cancelFailure(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(ResultCode resultCode) {
+
+                        int code=resultCode.getIs_ok();
+                        switch (code){
+                            case 1:
+                            view.cancelSucceed(resultCode);
+                                break;
+                            case -1:
+                                view.cancelError();
+                                break;
+                            default:
+                                Log.e(TAG,"取消订单失败，错误码："+code);
                                 break;
                         }
                     }

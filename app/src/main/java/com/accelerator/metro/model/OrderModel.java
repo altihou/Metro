@@ -8,6 +8,7 @@ import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.api.ApiEngine;
 import com.accelerator.metro.api.ApiStore;
 import com.accelerator.metro.bean.Order;
+import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.contract.OrderContract;
 
 import okhttp3.MediaType;
@@ -40,6 +41,27 @@ public class OrderModel implements OrderContract.Model {
         RequestBody t = RequestBody.create(MediaType.parse("text/plain"), type);
 
         return api.getOrder(m,action,userId,userSession,page,t)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<ResultCode> cancelOrder(String orderNum) {
+
+        ApiStore api = ApiEngine.getInstance().apiStore;
+
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+
+        String id = spf.getString(Config.USER_ID, "");
+        String session = spf.getString(Config.USER_SESSION, "");
+
+        RequestBody m = RequestBody.create(MediaType.parse("text/plain"), Config.ORDER_CANCEL_M);
+        RequestBody action = RequestBody.create(MediaType.parse("text/plain"), Config.ORDER_CANCEL_ACTION);
+        RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), id);
+        RequestBody userSession = RequestBody.create(MediaType.parse("text/plain"), session);
+        RequestBody num = RequestBody.create(MediaType.parse("text/plain"), orderNum);
+
+        return api.cancelOrder(m,action,userId,userSession,num)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

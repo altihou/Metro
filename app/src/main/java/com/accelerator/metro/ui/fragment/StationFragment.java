@@ -104,10 +104,8 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
         object.setPointClickListener(new JavaScriptListener.onPointClickListener() {
             @Override
             public void onClick(String name, String id, int type) {
-
                 switch (type) {
-
-                    case 1:
+                    case JavaScriptListener.TYPE_CODE_START:
                         start = true;
                         startStation = name;
                         startId = id;
@@ -120,7 +118,7 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
                             ToastUtil.Short(R.string.station_end);
                         }
                         break;
-                    case 2:
+                    case JavaScriptListener.TYPE_CODE_END:
                         end = true;
                         endStation = name;
                         endId = id;
@@ -230,13 +228,10 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
             @Override
             public void call(Subscriber<? super String> subscriber) {
                 try {
-
                     Document document = Jsoup.connect(Url).get();
                     Elements elements = document != null ? document.getElementsByClass("articlebox") : null;
                     String price = elements != null ? elements.get(0).select("span.red").text() : null;
-
                     subscriber.onNext(price);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
