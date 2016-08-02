@@ -116,13 +116,13 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @OnClick(R.id.mine_fab)
     public void onFabClick(View view) {
-        startActivityForResult(new Intent(getActivity(), ModifyUserActivity.class),REQUEST_CODE_EDIT);
+        startActivityForResult(new Intent(getActivity(),
+                ModifyUserActivity.class),REQUEST_CODE_EDIT);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode) {
             case REQUEST_CODE_EDIT:
             case REQUEST_CODE_RECHARGE:
@@ -131,7 +131,6 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
                 }
                 break;
         }
-
     }
 
     @OnClick(R.id.mine_user_money_info)
@@ -142,7 +141,8 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @OnClick(R.id.mine_user_wallet)
     public void onWalletClick(View view) {
-        startActivityForResult(new Intent(getActivity(), RechargeActivity.class),REQUEST_CODE_RECHARGE);
+        startActivityForResult(new Intent(getActivity(),
+                RechargeActivity.class),REQUEST_CODE_RECHARGE);
     }
 
     @OnClick(R.id.mine_user_expense_calendar)

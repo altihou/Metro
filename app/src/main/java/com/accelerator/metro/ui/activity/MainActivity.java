@@ -41,7 +41,6 @@ public class MainActivity extends BaseDialogActivity {
     private MineFragment mineFragment;
 
     private FragmentManager manager;
-    private IntentFilter dialogFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +79,10 @@ public class MainActivity extends BaseDialogActivity {
             }
         });
 
-        dialogFilter=new IntentFilter();
+        IntentFilter dialogFilter = new IntentFilter();
         dialogFilter.addAction(ACTION_NAME_SHOW);
         dialogFilter.addAction(ACTION_NAME_HIDE);
-        registerReceiver(broadcastReceiver,dialogFilter);
+        registerReceiver(broadcastReceiver, dialogFilter);
 
     }
 
@@ -115,7 +114,6 @@ public class MainActivity extends BaseDialogActivity {
             editor.putBoolean(Config.FIRST_TIME, false);
             editor.apply();
         }
-
     }
 
     @Override
@@ -132,7 +130,6 @@ public class MainActivity extends BaseDialogActivity {
 
     @Override
     public void onBackPressed() {
-
         //再按一次退出程序
         long currentTime = System.currentTimeMillis();
 
@@ -141,9 +138,7 @@ public class MainActivity extends BaseDialogActivity {
             exitTime = currentTime;
             return;
         }
-
         finish();
-
     }
 
     /**

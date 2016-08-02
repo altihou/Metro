@@ -29,7 +29,6 @@ import butterknife.OnClick;
 public class RechargeActivity extends BaseDialogActivity implements RechargeContract.View {
 
     private static final String TAG = RechargeActivity.class.getName();
-    public static final String REFRESH = "recharge_refresh";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
