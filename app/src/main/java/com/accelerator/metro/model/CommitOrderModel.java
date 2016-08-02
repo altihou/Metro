@@ -38,7 +38,6 @@ public class CommitOrderModel implements CommitOrderContract.Model {
         RequestBody endStation = RequestBody.create(MediaType.parse("text/plain"), end);
         RequestBody price = RequestBody.create(MediaType.parse("text/plain"), money);
 
-
         return api.commitOrder(m,action,userId,sessionId,startStation,endStation,price)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

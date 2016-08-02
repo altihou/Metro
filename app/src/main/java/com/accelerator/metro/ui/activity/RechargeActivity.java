@@ -20,7 +20,6 @@ import com.accelerator.metro.base.BaseDialogActivity;
 import com.accelerator.metro.bean.Recharge;
 import com.accelerator.metro.contract.RechargeContract;
 import com.accelerator.metro.presenter.RechargePresenter;
-import com.accelerator.metro.utils.RxBus;
 import com.accelerator.metro.utils.ToastUtil;
 
 import butterknife.Bind;
@@ -91,11 +90,15 @@ public class RechargeActivity extends BaseDialogActivity implements RechargeCont
                 .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = spf.edit();
 
+        editor.putString(Config.USER_ID, values.getUser_id());
+        editor.putString(Config.USER_SESSION, values.getSession_id());
         editor.putString(Config.USER_MONEY, values.getElse_info().getMoney());
         editor.putBoolean(Config.USER_REFRESH, true);
 
         editor.apply();
-        RxBus.getDefault().post(REFRESH);
+
+        setResult(RESULT_OK);
+
         ToastUtil.Short(R.string.recharge_succeed);
 
         finish();

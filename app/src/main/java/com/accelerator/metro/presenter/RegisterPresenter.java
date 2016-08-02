@@ -42,13 +42,21 @@ public class RegisterPresenter extends RxManager implements RegisterContract.Pre
 
                     @Override
                     public void onNext(User user) {
-
-                        if (user.getIs_ok() != 1) {
-                            Log.e(TAG, "注册错误，错误码：" + user.getIs_ok());
-                            return;
+                        int code=user.getIs_ok();
+                        switch (code){
+                            case 1:
+                                view.onSucceed(user);
+                                break;
+                            case -2:
+                                view.accountExist();
+                                break;
+                            case -5:
+                                view.pwdNotEquals();
+                                break;
+                            default:
+                                Log.e(TAG, "注册错误，错误码：" + user.getIs_ok());
+                                break;
                         }
-
-                        view.onSucceed(user);
                     }
                 });
 

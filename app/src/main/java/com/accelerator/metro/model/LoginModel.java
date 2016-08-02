@@ -31,4 +31,5 @@ public class LoginModel implements LoginContract.Model {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
 }

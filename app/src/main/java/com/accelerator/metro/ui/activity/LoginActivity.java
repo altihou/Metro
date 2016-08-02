@@ -20,12 +20,14 @@ import android.widget.Toast;
 import com.accelerator.metro.Config;
 import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
+import com.accelerator.metro.api.ApiStore;
 import com.accelerator.metro.base.BaseDialogActivity;
 import com.accelerator.metro.bean.User;
 import com.accelerator.metro.contract.LoginContract;
 import com.accelerator.metro.presenter.LoginPresenter;
 import com.accelerator.metro.utils.CipherUtil;
 import com.accelerator.metro.utils.ToastUtil;
+import com.bumptech.glide.Glide;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,13 +35,14 @@ import java.util.regex.Pattern;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LoginActivity extends BaseDialogActivity implements LoginContract.View {
 
     private static final String TAG = "LoginActivity";
-    public static final String REGISTER_RESULT="result";
-    public static final int REGISTER_RESULT_CODE=1;
-    public static final int REQUEST_CODE=0;
+    public static final String REGISTER_RESULT = "result";
+    public static final int REGISTER_RESULT_CODE = 1;
+    public static final int REQUEST_CODE = 0;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -51,6 +54,8 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     Button btnLogin;
     @Bind(R.id.login_tv_register)
     TextView tvRegister;
+    @Bind(R.id.login_avatar)
+    CircleImageView loginAvatar;
 
     private LoginPresenter presenter;
     private String userName;
@@ -75,8 +80,9 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     protected void onResume() {
         super.onResume();
 
-        SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        String userName=spf.getString(Config.USER_PHONE,"");
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        String userName = spf.getString(Config.USER_PHONE, "");
+        String avatarUrl = spf.getString(Config.USER_AVATAR, "");
         EditText account = accountLayout.getEditText();
 
         if (account != null) {
@@ -84,21 +90,28 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
             account.setSelection(userName.length());
         }
 
+        if (!TextUtils.isEmpty(avatarUrl)) {
+            Glide.with(this)
+                    .load(ApiStore.BASE_URL_IMG + avatarUrl)
+                    .centerCrop()
+                    .into(loginAvatar);
+        }
+
     }
 
     @OnClick(R.id.login_tv_register)
     public void tvRegister(View view) {
-        Intent intent=new Intent(LoginActivity.this, RegisterActivity.class);
-        startActivityForResult(intent,REQUEST_CODE);
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivityForResult(intent, REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_CODE:
-                if (resultCode==RESULT_OK){
-                    if (data.getIntExtra(REGISTER_RESULT,0)==REGISTER_RESULT_CODE){
-                     finish();
+                if (resultCode == RESULT_OK) {
+                    if (data.getIntExtra(REGISTER_RESULT, 0) == REGISTER_RESULT_CODE) {
+                        finish();
                     }
                 }
                 break;
@@ -141,7 +154,7 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
         setDialogCancelable(false);
         setDialogShow();
 
-        String newPwd=CipherUtil.base64Encode(userName,userPassword);
+        String newPwd = CipherUtil.base64Encode(userName, userPassword);
 
         presenter.login(userName, newPwd);
 
@@ -171,19 +184,17 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     }
 
     @Override
-    public void onSucceed(User values) {
-
-        User.ElseInfoBean info=values.getElse_info();
+    public void onSucceed(User info) {
 
         Log.e(TAG, info.toString());
 
-        SharedPreferences spf=MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=spf.edit();
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
 
-        editor.putString(Config.USER_PHONE,userName);
-        editor.putString(Config.USER_ID,info.getUser_id());
-        editor.putString(Config.USER_SESSION,info.getSession_id());
-        editor.putBoolean(Config.USER_REFRESH,true);
+        editor.putString(Config.USER_PHONE, userName);
+        editor.putString(Config.USER_ID, info.getUser_id());
+        editor.putString(Config.USER_SESSION, info.getSession_id());
+        editor.putBoolean(Config.USER_REFRESH, true);
 
         editor.apply();
 
@@ -206,5 +217,10 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     public void accountNotExist() {
         setDialogDismiss();
         ToastUtil.Short(R.string.login_account_not_exist);
+    }
+
+    @Override
+    public void pwdError() {
+        ToastUtil.Short(R.string.login_password_error);
     }
 }

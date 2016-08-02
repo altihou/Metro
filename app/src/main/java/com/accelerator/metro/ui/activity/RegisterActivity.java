@@ -98,7 +98,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 finish();
             }
         });
-        presenter=new RegisterPresenter(this);
+        presenter = new RegisterPresenter(this);
     }
 
     @Override
@@ -136,21 +136,21 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                     break;
                 }
 
-                if (!checkNotNull(pwd1)){
+                if (!checkNotNull(pwd1)) {
                     Snackbar.make(coordinatorLayout, R.string.login_not_empty_password,
                             Snackbar.LENGTH_SHORT)
                             .show();
                     break;
                 }
 
-                if (!checkNotNull(pwd2)){
+                if (!checkNotNull(pwd2)) {
                     Snackbar.make(coordinatorLayout, R.string.login_not_empty_password,
                             Snackbar.LENGTH_SHORT)
                             .show();
                     break;
                 }
 
-                if (!checkEquals(pwd1,pwd2)){
+                if (!checkEquals(pwd1, pwd2)) {
                     Snackbar.make(coordinatorLayout, R.string.register_pwd_not_equals,
                             Snackbar.LENGTH_SHORT)
                             .show();
@@ -161,14 +161,14 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                 setDialogCancelable(false);
                 setDialogShow();
 
-                String newPwd1 = CipherUtil.base64Encode(account,pwd1);
-                String newPwd2 = CipherUtil.base64Encode(account,pwd2);
+                String newPwd1 = CipherUtil.base64Encode(account, pwd1);
+                String newPwd2 = CipherUtil.base64Encode(account, pwd2);
 
-                if (TextUtils.isEmpty(avatarPath)){
-                    avatarPath="";
+                if (TextUtils.isEmpty(avatarPath)) {
+                    avatarPath = "";
                 }
 
-                presenter.register(account,newPwd1,newPwd2,avatarPath);
+                presenter.register(account, newPwd1, newPwd2, avatarPath);
 
                 break;
 
@@ -186,7 +186,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu,View v,ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         getMenuInflater().inflate(R.menu.menu_register_context, menu);
     }
@@ -306,8 +306,8 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
             case PHOTO_REQUEST_CUT:
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
                     Bitmap c = data.getParcelableExtra("data");
-                    Uri uri=PictureUtil.saveImg2SDCard(c,FileUtil.ImageUriFilePath());
-                    avatarPath=uri.getPath();
+                    Uri uri = PictureUtil.saveImg2SDCard(c, FileUtil.ImageUriFilePath());
+                    avatarPath = uri.getPath();
                     ImgAvatar.setImageBitmap(c);
                 }
                 break;
@@ -315,8 +315,9 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
             case ALBUM_REQUEST_CUT:
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
                     Bitmap a = data.getParcelableExtra("data");
-                    Uri uri = PictureUtil.saveImg2SDCard(a,FileUtil.ImageUriFilePath());
-                    avatarPath=uri.getPath();
+                    Uri uri = PictureUtil.saveImg2SDCard(a, FileUtil.ImageUriFilePath());
+                    Log.e(TAG, "Uri:" + uri.getPath());
+                    avatarPath = uri.getPath();
                     ImgAvatar.setImageBitmap(a);
                 }
                 break;
@@ -431,21 +432,22 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
 
     @Override
     public void onSucceed(User values) {
-        Log.e(TAG,values.getElse_info().toString());
 
-        SharedPreferences spf= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=spf.edit();
+        Log.e(TAG, values.toString());
 
-        editor.putString(Config.USER_PHONE,account);
-        editor.putString(Config.USER_ID,values.getElse_info().getUser_id());
-        editor.putString(Config.USER_SESSION,values.getElse_info().getSession_id());
-        editor.putBoolean(Config.USER_REFRESH,true);
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+
+        editor.putString(Config.USER_PHONE, account);
+        editor.putString(Config.USER_ID, values.getUser_id());
+        editor.putString(Config.USER_SESSION, values.getSession_id());
+        editor.putBoolean(Config.USER_REFRESH, true);
 
         editor.apply();
 
-        Intent intent=new Intent();
-        intent.putExtra(LoginActivity.REGISTER_RESULT,LoginActivity.REGISTER_RESULT_CODE);
-        setResult(RESULT_OK,intent);
+        Intent intent = new Intent();
+        intent.putExtra(LoginActivity.REGISTER_RESULT, LoginActivity.REGISTER_RESULT_CODE);
+        setResult(RESULT_OK, intent);
 
         ToastUtil.Short(R.string.register_succeed);
 
@@ -462,5 +464,15 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     @Override
     public void onCompleted() {
         setDialogDismiss();
+    }
+
+    @Override
+    public void accountExist() {
+        ToastUtil.Short(R.string.register_account_exist);
+    }
+
+    @Override
+    public void pwdNotEquals() {
+        ToastUtil.Short(R.string.register_pwd_not_equals);
     }
 }

@@ -129,7 +129,16 @@ public class ModifyLoginPwdActivity extends BaseDialogActivity implements Modify
     }
 
     @Override
-    public void onSucceed(ResultCode values) {
+    public void onSucceed(ResultCode info) {
+
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+
+        editor.putString(Config.USER_ID, info.getUser_id());
+        editor.putString(Config.USER_SESSION, info.getSession_id());
+
+        editor.apply();
+
         ToastUtil.Short(R.string.modify_login_pwd_succeed);
     }
 

@@ -77,7 +77,6 @@ public class OrderPresenter extends RxManager implements OrderContract.Presenter
 
                     @Override
                     public void onNext(ResultCode resultCode) {
-
                         int code=resultCode.getIs_ok();
                         switch (code){
                             case 1:

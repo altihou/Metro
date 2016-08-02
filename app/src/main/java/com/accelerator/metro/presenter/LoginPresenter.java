@@ -52,6 +52,10 @@ public class LoginPresenter extends RxManager implements LoginContract.Presenter
                             case -2:
                                 view.accountNotExist();
                                 break;
+                            case -1:
+                            case -3:
+                                view.pwdError();
+                                break;
                             default:
                                 Log.e(TAG,"登录错误，错误码："+user.getIs_ok());
                                 break;

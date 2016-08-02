@@ -1,28 +1,26 @@
 package com.accelerator.metro.ui.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.accelerator.metro.Config;
 import com.accelerator.metro.R;
 import com.accelerator.metro.base.BaseDialogActivity;
-import com.accelerator.metro.bean.DialogBus;
 import com.accelerator.metro.ui.fragment.MineFragment;
 import com.accelerator.metro.ui.fragment.OrderFragment;
 import com.accelerator.metro.ui.fragment.StationFragment;
-import com.accelerator.metro.utils.RxBus;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 
 import butterknife.ButterKnife;
-import rx.functions.Action1;
 
 public class MainActivity extends BaseDialogActivity {
 
@@ -31,8 +29,8 @@ public class MainActivity extends BaseDialogActivity {
     private static final int STATION = 0;
     private static final int ORDER = 1;
     private static final int MINE = 2;
-    public static final String DIALOG_BUS_SHOW ="show";
-    public static final String DIALOG_BUS_HIDE ="hide";
+    public static final String ACTION_NAME_SHOW ="action_show";
+    public static final String ACTION_NAME_HIDE ="action_hide";
 
     private long exitTime = 0;
 
@@ -43,6 +41,7 @@ public class MainActivity extends BaseDialogActivity {
     private MineFragment mineFragment;
 
     private FragmentManager manager;
+    private IntentFilter dialogFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,24 +80,29 @@ public class MainActivity extends BaseDialogActivity {
             }
         });
 
-        RxBus.getDefault().toObserverable(DialogBus.class)
-                .subscribe(new Action1<DialogBus>() {
-                    @Override
-                    public void call(DialogBus dialogBus) {
-                        Log.e(TAG,"DialogBus Show!");
-                        switch (dialogBus.Bus){
-                            case DIALOG_BUS_SHOW:
-                                setDialogCancelable(false);
-                                setDialogMsg(R.string.WAIT);
-                                setDialogShow();
-                                break;
-                            case DIALOG_BUS_HIDE:
-                                setDialogDismiss();
-                                break;
-                        }
-                    }
-                });
+        dialogFilter=new IntentFilter();
+        dialogFilter.addAction(ACTION_NAME_SHOW);
+        dialogFilter.addAction(ACTION_NAME_HIDE);
+        registerReceiver(broadcastReceiver,dialogFilter);
+
     }
+
+    private BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action=intent.getAction();
+            switch (action){
+                case ACTION_NAME_SHOW:
+                    setDialogMsg(R.string.WAIT);
+                    setDialogCancelable(false);
+                    setDialogShow();
+                    break;
+                case ACTION_NAME_HIDE:
+                    setDialogDismiss();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onResume() {
@@ -111,6 +115,13 @@ public class MainActivity extends BaseDialogActivity {
             editor.putBoolean(Config.FIRST_TIME, false);
             editor.apply();
         }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 
     @Override

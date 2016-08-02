@@ -33,7 +33,6 @@ import com.accelerator.metro.presenter.ModifyPresenter;
 import com.accelerator.metro.utils.CameraUtil;
 import com.accelerator.metro.utils.FileUtil;
 import com.accelerator.metro.utils.PictureUtil;
-import com.accelerator.metro.utils.RxBus;
 import com.accelerator.metro.utils.ToastUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -56,8 +55,7 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
 
     private static final int TAKE_PHOTO = 0;
     private static final int TAKE_ALBUM = 1;
-    private static final int PHOTO_REQUEST_CUT = 2;
-    private static final int ALBUM_REQUEST_CUT = 3;
+    private static final int REQUEST_CUT = 2;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -78,7 +76,7 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
 
     private String sexValue;
     private RxPermissions rxPermissions;
-    private Uri outputFileUri;
+    private Uri imageUri;
     private String avatarPath;
     private ModifyPresenter presenter;
     private EditText nickEdit;
@@ -96,8 +94,8 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     private void initViews() {
 
         registerForContextMenu(modifyUserAvatar);
-        rxPermissions=RxPermissions.getInstance(this);
-        presenter=new ModifyPresenter(this);
+        rxPermissions = RxPermissions.getInstance(this);
+        presenter = new ModifyPresenter(this);
 
         modifyUserRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -105,15 +103,15 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
                 int checkId = radioGroup.getCheckedRadioButtonId();
                 RadioButton rb = (RadioButton) findViewById(checkId);
                 String sex = rb.getText().toString();
-                switch (sex){
+                switch (sex) {
                     case "男":
-                        sexValue="1";
+                        sexValue = "1";
                         break;
                     case "女":
-                        sexValue="2";
+                        sexValue = "2";
                         break;
                     case "保密":
-                        sexValue="0";
+                        sexValue = "0";
                         break;
                 }
             }
@@ -155,21 +153,21 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
                 rbSecret.setChecked(true);
         } else {
             rbSecret.setChecked(true);
-            sexValue="0";
+            sexValue = "0";
         }
 
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getMenuInflater().inflate(R.menu.menu_register_context,menu);
+        getMenuInflater().inflate(R.menu.menu_register_context, menu);
         super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_register_context_camera:
                 if (CameraUtil.checkCameraHardware(this)) {
                     fromCamera();
@@ -204,9 +202,11 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     }
 
     private void doAlbum() {
+
         Intent album = new Intent();
         album.setAction(Intent.ACTION_PICK);
         album.setType("image/*");
+
         if (album.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(album, TAKE_ALBUM);
         } else {
@@ -234,10 +234,12 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     }
 
     private void doCamera() {
-        outputFileUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
+        imageUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
         Intent camera = new Intent();
         camera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-        camera.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+        camera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 
         if (camera.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(camera, TAKE_PHOTO);
@@ -249,53 +251,44 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        switch (requestCode){
+        switch (requestCode) {
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    if (outputFileUri != null) {
-                        //旋转处理
-                        int degree = PictureUtil.readPictureDegree(outputFileUri.getPath());
-                        Bitmap oldBitmap = BitmapFactory.decodeFile(outputFileUri.getPath());
-                        Bitmap newBitmap = PictureUtil.rotaingImageView(degree, oldBitmap);
-                        Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                                newBitmap, null, null));
-                        setPhotoZoom(uri, PHOTO_REQUEST_CUT);
-                    }
+                    int degree = PictureUtil.readPictureDegree(imageUri.getPath());
+                    Bitmap oldBitmap = BitmapFactory.decodeFile(imageUri.getPath());
+                    Bitmap newBitmap = PictureUtil.rotaingImageView(degree, oldBitmap);
+                    Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                            newBitmap, null, null));
+                    Log.e(TAG, "TAKE_PHOTO:" + uri.getPath());
+                    setPhotoZoom(uri);
                 }
                 break;
             case TAKE_ALBUM:
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null) {
-                        setPhotoZoom(data.getData(), ALBUM_REQUEST_CUT);
+                        setPhotoZoom(data.getData());
                     } else {
                         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                         Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
                                 bitmap, null, null));
-                        setPhotoZoom(uri, ALBUM_REQUEST_CUT);
+                        setPhotoZoom(uri);
                     }
                 }
                 break;
-            case PHOTO_REQUEST_CUT:
+            case REQUEST_CUT:
                 if (resultCode == RESULT_OK && data.getExtras() != null) {
                     Bitmap c = data.getParcelableExtra("data");
-                    Uri uri=PictureUtil.saveImg2SDCard(c,FileUtil.ImageUriFilePath());
-                    avatarPath=uri.getPath();
+                    Uri uri = PictureUtil.saveImg2SDCard(c, FileUtil.ImageUriFilePath());
+                    avatarPath = uri.getPath();
                     modifyUserAvatar.setImageBitmap(c);
                 }
                 break;
-            case ALBUM_REQUEST_CUT:
-                if (resultCode == RESULT_OK && data.getExtras() != null) {
-                    Bitmap a = data.getParcelableExtra("data");
-                    Uri uri = PictureUtil.saveImg2SDCard(a,FileUtil.ImageUriFilePath());
-                    avatarPath=uri.getPath();
-                    modifyUserAvatar.setImageBitmap(a);
-                }
-                break;
         }
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void setPhotoZoom(Uri uri, int type) {
+    private void setPhotoZoom(Uri uri) {
 
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
@@ -312,15 +305,7 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
         intent.putExtra("return-data", true);
         intent.putExtra("noFaceDetection", true);
 
-        switch (type) {
-            case PHOTO_REQUEST_CUT:
-                startActivityForResult(intent, PHOTO_REQUEST_CUT);
-                break;
-            case ALBUM_REQUEST_CUT:
-                startActivityForResult(intent, ALBUM_REQUEST_CUT);
-                break;
-        }
-
+        startActivityForResult(intent, REQUEST_CUT);
     }
 
     @OnClick(R.id.modify_user_avatar)
@@ -335,13 +320,13 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
         setDialogCancelable(false);
         setDialogShow();
 
-        String nickName=nickEdit.getText().toString();
+        String nickName = nickEdit.getText().toString();
 
-        if (TextUtils.isEmpty(avatarPath)){
-            avatarPath="";
+        if (TextUtils.isEmpty(avatarPath)) {
+            avatarPath = "";
         }
 
-        presenter.modify(nickName,sexValue,avatarPath);
+        presenter.modify(nickName, sexValue, avatarPath);
 
     }
 
@@ -355,18 +340,22 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     @Override
     public void onSucceed(ModifyUser values) {
 
-        SharedPreferences spf= MetroApp.getContext()
-                .getSharedPreferences(Config.USER,Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=spf.edit();
+        ModifyUser.ElseInfoBean info = values.getElse_info();
 
-        editor.putString(Config.USER_NICKNAME,values.getElse_info().getNickname());
-        editor.putString(Config.USER_SEX,values.getElse_info().getUser_sex());
-        editor.putString(Config.USER_AVATAR,values.getElse_info().getUser_headpic());
-        editor.putBoolean(Config.USER_REFRESH,true);
+        SharedPreferences spf = MetroApp.getContext()
+                .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+
+        editor.putString(Config.USER_ID, values.getUser_id());
+        editor.putString(Config.USER_SESSION, values.getSession_id());
+        editor.putString(Config.USER_NICKNAME, info.getNickname());
+        editor.putString(Config.USER_SEX, info.getUser_sex());
+        editor.putString(Config.USER_AVATAR, info.getUser_headpic());
+        editor.putBoolean(Config.USER_REFRESH, true);
 
         editor.apply();
 
-        RxBus.getDefault().post(REFRESH);
+        setResult(RESULT_OK);
 
         finish();
 
@@ -374,7 +363,7 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
 
     @Override
     public void onFailure(String err) {
-        Log.e(TAG,err);
+        Log.e(TAG, err);
         setDialogDismiss();
     }
 

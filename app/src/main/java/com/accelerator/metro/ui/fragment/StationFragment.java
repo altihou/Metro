@@ -1,7 +1,9 @@
 package com.accelerator.metro.ui.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,16 +16,16 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.accelerator.metro.Config;
 import com.accelerator.metro.JavaScriptListener;
+import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
 import com.accelerator.metro.bean.CommitOrder;
-import com.accelerator.metro.bean.DialogBus;
 import com.accelerator.metro.contract.CommitOrderContract;
 import com.accelerator.metro.presenter.CommitOrderPresenter;
 import com.accelerator.metro.ui.activity.LoginActivity;
 import com.accelerator.metro.ui.activity.MainActivity;
 import com.accelerator.metro.ui.activity.PayOrderActivity;
-import com.accelerator.metro.utils.RxBus;
 import com.accelerator.metro.utils.ToastUtil;
 
 import org.jsoup.Jsoup;
@@ -140,22 +142,23 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.station_commit_order)
-                .setMessage("当前选择的站点为 " + start + " - " + end + " 你确定要提交订单吗?")
+                .setMessage("当前选择的站点为 " + start + " —— " + end + " 你确定要提交订单吗?")
                 .setCancelable(false)
                 .setNegativeButton(R.string.CANCEL, null)
                 .setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
+                        getActivity().sendBroadcast(intent);
+
                         getPrice(startId, endId)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Action1<String>() {
                                     @Override
                                     public void call(String s) {
-                                        Log.e(TAG, "price :" + s);
-
-                                        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_SHOW);
-
+                                        Log.e(TAG, "价格 :" + s);
                                         price = s;
                                         presenter.commitOrder(sId, eId, s);
                                     }
@@ -196,8 +199,15 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     @Override
     public void onSucceed(CommitOrder values) {
 
-        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_HIDE);
         CommitOrder.ElseInfoBean info = values.getElse_info();
+
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+
+        editor.putString(Config.USER_ID, values.getUser_id());
+        editor.putString(Config.USER_SESSION, values.getSession_id());
+
+        editor.apply();
 
         Intent intent = new Intent(getActivity(), PayOrderActivity.class);
         intent.putExtra(ORDER_PRICE, price);
@@ -211,12 +221,14 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     @Override
     public void onFailure(String err) {
         Log.e(TAG, err);
-        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_HIDE);
+        Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
+        getActivity().sendBroadcast(intent);
     }
 
     @Override
     public void onCompleted() {
-        RxBus.getDefault().post(new DialogBus().Bus = MainActivity.DIALOG_BUS_HIDE);
+        Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
+        getActivity().sendBroadcast(intent);
     }
 
     private Observable<String> getPrice(String start, String end) {

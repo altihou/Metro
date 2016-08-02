@@ -11,17 +11,6 @@ public class Order {
     private String user_id;
     private String session_id;
 
-    /**
-     * order_sn : TS1469612200
-     * order_type : 0
-     * is_complete : 1
-     * order_money : 2.00
-     * time : 1469612200
-     * start_point : 万寿路
-     * end_point : 北大街
-     * user_id : 2
-     */
-
     private List<ElseInfoBean> else_info;
 
     public int getIs_ok() {

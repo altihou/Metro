@@ -14,20 +14,6 @@ public class FileUtil {
         throw new UnsupportedOperationException("Do not need instantiate!");
     }
 
-    public static File createImageFile() {
-        // Create an image file name
-        String timeStamp = DateUtil.getNowTime2Save();
-        String imageFileName = "METRO_" + timeStamp + "_";
-        try {
-            File imageFile = File.createTempFile(imageFileName,  /* prefix */
-                    ".jpg",         /* suffix */
-                    Environment.getExternalStorageDirectory()      /* directory */);
-            return imageFile;
-        } catch (IOException e) {
-            return null;
-        }
-    }
-
     public static File ImageUriFilePath(){
 
         String dir;
@@ -47,4 +33,21 @@ public class FileUtil {
 
         return new File(folder, "JPG_" + DateUtil.getNowTime2Save() + ".JPG");
     }
+
+    public static File avatarUriPath(){
+
+        File file = new File(Environment.getExternalStorageDirectory(), "avatar.jpg");
+
+        try {
+            if (file.exists()) {
+                file.delete();
+            }
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return file;
+    }
+
 }

@@ -20,6 +20,7 @@ public interface LoginContract {
 
     interface View extends BaseView<User> {
         void accountNotExist();
+        void pwdError();
     }
 
     interface Presenter extends BasePresenter {

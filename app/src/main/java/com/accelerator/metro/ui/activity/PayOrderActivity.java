@@ -1,22 +1,36 @@
 package com.accelerator.metro.ui.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.accelerator.metro.Config;
+import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
+import com.accelerator.metro.base.BaseDialogActivity;
+import com.accelerator.metro.bean.Order;
+import com.accelerator.metro.bean.ResultCode;
+import com.accelerator.metro.contract.OrderContract;
+import com.accelerator.metro.presenter.OrderPresenter;
 import com.accelerator.metro.ui.fragment.StationFragment;
+import com.accelerator.metro.utils.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PayOrderActivity extends AppCompatActivity {
+public class PayOrderActivity extends BaseDialogActivity implements OrderContract.View {
+
+    private static final String TAG=PayOrderActivity.class.getName();
 
     public static final int PAY_REQUEST_CODE = 0;
     public static final String PAY_ORDER_NUM = "pay_order_code";
@@ -39,6 +53,7 @@ public class PayOrderActivity extends AppCompatActivity {
     CoordinatorLayout coordinatorLayout;
 
     private String orderNum;
+    private OrderPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +83,8 @@ public class PayOrderActivity extends AppCompatActivity {
             tvStationStart.setText(start);
             tvStationEnd.setText(end);
         }
+
+        presenter=new OrderPresenter(this);
     }
 
     @OnClick(R.id.order_btn_pay_now)
@@ -89,7 +106,66 @@ public class PayOrderActivity extends AppCompatActivity {
 
     @OnClick(R.id.order_btn_cancel_order)
     public void onCanaelClick(View view) {
-        // TODO: 2016/7/27 取消订单
+        AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+        dialog.setTitle(R.string.un_finish_order_cancel_order);
+        dialog.setMessage(R.string.un_finish_order_cancel_order_ok);
+        dialog.setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                setDialogCancelable(false);
+                setDialogMsg(R.string.WAIT);
+                setDialogShow();
+                presenter.cancelOrder(orderNum);
+            }
+        });
+        dialog.setNegativeButton(R.string.CANCEL,null);
+        dialog.show();
     }
 
+
+    @Override
+    public void noOrder() {}
+
+    @Override
+    public void cancelCompleted() {
+        setDialogDismiss();
+    }
+
+    @Override
+    public void cancelFailure(String err) {
+        Log.e(TAG,err);
+        ToastUtil.Short(R.string.un_finish_order_cancel_failure);
+        setDialogDismiss();
+    }
+
+    @Override
+    public void cancelError() {
+        ToastUtil.Short(R.string.un_finish_order_cancel_failure);
+        setDialogDismiss();
+    }
+
+    @Override
+    public void cancelSucceed(ResultCode resultCode) {
+
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+
+        editor.putString(Config.USER_ID, resultCode.getUser_id());
+        editor.putString(Config.USER_SESSION, resultCode.getSession_id());
+
+        editor.apply();
+
+        ToastUtil.Short(R.string.un_finish_order_cancel_succeed);
+
+        finish();
+    }
+
+    @Override
+    public void onSucceed(Order values) {}
+
+    @Override
+    public void onFailure(String err) {}
+
+    @Override
+    public void onCompleted() {}
 }

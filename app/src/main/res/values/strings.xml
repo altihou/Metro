@@ -16,6 +16,7 @@
     <string name="login_account">账号</string>
     <string name="login_account_not_exist">账号不存在,请注册</string>
     <string name="login_password">密码</string>
+    <string name="login_password_error">密码错误</string>
     <string name="login_register">没有账号？创建一个</string>
     <string name="login_third_party">用其他方式登录</string>
     <string name="login_not_empty_account">账号不能为空</string>
@@ -36,6 +37,7 @@
     <string name="register_start">正在注册,请稍等…</string>
     <string name="register_click_avatar">添加头像</string>
     <string name="register_account">账号</string>
+    <string name="register_account_exist">账号已经存在</string>
     <string name="register_pwd1">密码</string>
     <string name="register_pwd2">确认密码</string>
     <string name="register_face">请添加三张脸部图片</string>

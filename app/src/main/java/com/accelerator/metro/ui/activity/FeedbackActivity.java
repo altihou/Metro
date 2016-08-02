@@ -1,6 +1,8 @@
 package com.accelerator.metro.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -11,6 +13,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.accelerator.metro.Config;
+import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
 import com.accelerator.metro.base.BaseDialogActivity;
 import com.accelerator.metro.bean.ResultCode;
@@ -79,7 +83,16 @@ public class FeedbackActivity extends BaseDialogActivity implements FeedbackCont
     }
 
     @Override
-    public void onSucceed(ResultCode values) {
+    public void onSucceed(ResultCode info) {
+
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+
+        editor.putString(Config.USER_ID, info.getUser_id());
+        editor.putString(Config.USER_SESSION, info.getSession_id());
+
+        editor.apply();
+
         ToastUtil.Short(R.string.feedback_succeed);
         finish();
     }

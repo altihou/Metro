@@ -19,7 +19,6 @@ public interface OrderContract {
     }
 
     interface View extends BaseView<Order> {
-        void reLogin();
         void noOrder();
         void cancelCompleted();
         void cancelFailure(String err);

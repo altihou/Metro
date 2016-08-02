@@ -1,7 +1,9 @@
 package com.accelerator.metro.ui.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +18,14 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.accelerator.metro.Config;
+import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
 import com.accelerator.metro.bean.Order;
 import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.contract.OrderContract;
 import com.accelerator.metro.presenter.OrderPresenter;
-import com.accelerator.metro.ui.activity.LoginActivity;
+import com.accelerator.metro.ui.activity.MainActivity;
 import com.accelerator.metro.ui.activity.PayOrderActivity;
 import com.accelerator.metro.utils.DateUtil;
 import com.accelerator.metro.utils.ToastUtil;
@@ -124,16 +128,20 @@ public class OrderUnFinishFragment extends Fragment
     @OnClick(R.id.un_finish_order_btn_cancel)
     public void onCancelClick(View view) {
 
-        AlertDialog.Builder dialog=new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle(R.string.un_finish_order_cancel_order);
         dialog.setMessage(R.string.un_finish_order_cancel_order_ok);
         dialog.setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
+                Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
+                getActivity().sendBroadcast(intent);
+
                 presenter.cancelOrder(orderNum);
             }
         });
-        dialog.setNegativeButton(R.string.CANCEL,null);
+        dialog.setNegativeButton(R.string.CANCEL, null);
         dialog.show();
     }
 
@@ -149,13 +157,6 @@ public class OrderUnFinishFragment extends Fragment
     }
 
     @Override
-    public void reLogin() {
-        swipeRefreshLayout.setRefreshing(false);
-        ToastUtil.Short(R.string.login_relogin);
-        startActivity(new Intent(getActivity(), LoginActivity.class));
-    }
-
-    @Override
     public void noOrder() {
         if (isVisibility(cardView)) {
             cardView.setVisibility(View.GONE);
@@ -167,23 +168,38 @@ public class OrderUnFinishFragment extends Fragment
 
     @Override
     public void cancelCompleted() {
+        Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
+        getActivity().sendBroadcast(intent);
         ToastUtil.Short(R.string.un_finish_order_cancel_succeed);
     }
 
     @Override
     public void cancelFailure(String err) {
-        Log.e(TAG,err);
+        Log.e(TAG, err);
+        Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
+        getActivity().sendBroadcast(intent);
         ToastUtil.Short(R.string.un_finish_order_cancel_failure);
     }
 
     @Override
     public void cancelError() {
+        Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
+        getActivity().sendBroadcast(intent);
         ToastUtil.Short(R.string.un_finish_order_cancel_failure);
     }
 
     @Override
     public void cancelSucceed(ResultCode resultCode) {
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
 
+        editor.putString(Config.USER_ID, resultCode.getUser_id());
+        editor.putString(Config.USER_SESSION, resultCode.getSession_id());
+
+        editor.apply();
+
+        swipeRefreshLayout.setRefreshing(true);
+        onRefresh();
     }
 
     @Override
@@ -209,6 +225,14 @@ public class OrderUnFinishFragment extends Fragment
         tvPrice.setText(price);
         tvStationStart.setText(startStation);
         tvStationEnd.setText(endStation);
+
+        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = spf.edit();
+
+        editor.putString(Config.USER_ID, values.getUser_id());
+        editor.putString(Config.USER_SESSION, values.getSession_id());
+
+        editor.apply();
     }
 
     @Override
@@ -218,7 +242,7 @@ public class OrderUnFinishFragment extends Fragment
     }
 
     @Override
-    public void onCompleted() {
+    public void onCompleted()  {
         swipeRefreshLayout.setRefreshing(false);
     }
 }

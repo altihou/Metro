@@ -16,7 +16,10 @@ public interface RegisterContract {
         Observable<User> register(String phone, String pwd1,String pwd2, String path);
     }
 
-    interface View extends BaseView<User>{}
+    interface View extends BaseView<User>{
+        void accountExist();
+        void pwdNotEquals();
+    }
 
     interface Presnter extends BasePresenter{
         void register(String phone, String pwd1,String pwd2, String path);

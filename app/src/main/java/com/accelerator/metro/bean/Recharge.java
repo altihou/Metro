@@ -5,15 +5,9 @@ package com.accelerator.metro.bean;
  */
 public class Recharge {
 
-    /**
-     * is_ok : 1
-     * else_info : {"money":"05mhi9p46914ff8jp1srhreak4"}
-     */
-
     private int is_ok;
-    /**
-     * money : 05mhi9p46914ff8jp1srhreak4
-     */
+    private String session_id;
+    private String user_id;
 
     private ElseInfoBean else_info;
 
@@ -23,6 +17,22 @@ public class Recharge {
 
     public void setIs_ok(int is_ok) {
         this.is_ok = is_ok;
+    }
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
     public ElseInfoBean getElse_info() {
@@ -36,8 +46,6 @@ public class Recharge {
     public static class ElseInfoBean {
 
         private String money;
-        private String session_id;
-        private String user_id;
 
         public String getMoney() {
             return money;
@@ -47,29 +55,5 @@ public class Recharge {
             this.money = money;
         }
 
-        public String getSession_id() {
-            return session_id;
-        }
-
-        public void setSession_id(String session_id) {
-            this.session_id = session_id;
-        }
-
-        public String getUser_id() {
-            return user_id;
-        }
-
-        public void setUser_id(String user_id) {
-            this.user_id = user_id;
-        }
-
-        @Override
-        public String toString() {
-            return "ElseInfoBean{" +
-                    "money='" + money + '\'' +
-                    ", session_id='" + session_id + '\'' +
-                    ", user_id='" + user_id + '\'' +
-                    '}';
-        }
     }
 }

@@ -1,5 +1,6 @@
 package com.accelerator.metro.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,7 +30,6 @@ import com.accelerator.metro.ui.activity.LoginActivity;
 import com.accelerator.metro.ui.activity.ModifyUserActivity;
 import com.accelerator.metro.ui.activity.RechargeActivity;
 import com.accelerator.metro.ui.activity.SettingsActivity;
-import com.accelerator.metro.utils.RxBus;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -37,7 +37,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import rx.functions.Action1;
 
 /**
  * Created by zoom on 2016/5/4.
@@ -45,6 +44,8 @@ import rx.functions.Action1;
 public class MineFragment extends Fragment implements MineContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MineFragment.class.getName();
+    private static final int REQUEST_CODE_EDIT=0;
+    private static final int REQUEST_CODE_RECHARGE=1;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -99,15 +100,6 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
             }
         });
 
-        RxBus.getDefault().toObserverable(String.class).subscribe(new Action1<String>() {
-            @Override
-            public void call(String s) {
-                if (s.equals(ModifyUserActivity.REFRESH)) {
-                    onRefresh();
-                }
-                //setViews(getUserFromSP());
-            }
-        });
     }
 
     private void initViews() {
@@ -124,8 +116,22 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @OnClick(R.id.mine_fab)
     public void onFabClick(View view) {
-        Intent intent = new Intent(getActivity(), ModifyUserActivity.class);
-        startActivity(intent);
+        startActivityForResult(new Intent(getActivity(), ModifyUserActivity.class),REQUEST_CODE_EDIT);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+            case REQUEST_CODE_EDIT:
+            case REQUEST_CODE_RECHARGE:
+                if (resultCode == Activity.RESULT_OK) {
+                    onRefresh();
+                }
+                break;
+        }
+
     }
 
     @OnClick(R.id.mine_user_money_info)
@@ -136,7 +142,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @OnClick(R.id.mine_user_wallet)
     public void onWalletClick(View view) {
-        startActivity(new Intent(getActivity(), RechargeActivity.class));
+        startActivityForResult(new Intent(getActivity(), RechargeActivity.class),REQUEST_CODE_RECHARGE);
     }
 
     @OnClick(R.id.mine_user_expense_calendar)
@@ -195,6 +201,8 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
                 .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = spf.edit();
 
+        editor.putString(Config.USER_ID, mineInfo.getUser_id());
+        editor.putString(Config.USER_SESSION, mineInfo.getSession_id());
         editor.putString(Config.USER_AVATAR, info.getUser_headpic());
         editor.putString(Config.USER_MONEY, info.getUser_money());
         editor.putString(Config.USER_NICKNAME, info.getNickname());
