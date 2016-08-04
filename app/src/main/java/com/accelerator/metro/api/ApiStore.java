@@ -170,4 +170,21 @@ public interface ApiStore {
             , @Part("user_id") RequestBody userId
             , @Part("session_id") RequestBody sessionId
             , @Part("order_sn") RequestBody orderNum);
+
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> refundOrder(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("order_sn") RequestBody orderNum);
+
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> deleteOrder(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId
+            , @Part("order_sn") RequestBody orderNum);
+
 }

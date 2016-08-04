@@ -45,6 +45,12 @@ public class Config {
     public static final String ORDER_CANCEL_M="UserOrder";
     public static final String ORDER_CANCEL_ACTION="cancel_order";
 
+    public static final String ORDER_REFUND_M="UserOrder";
+    public static final String ORDER_REFUND_ACTION="recede_order";
+
+    public static final String ORDER_DELETE_M="UserOrder";
+    public static final String ORDER_DELETE_ACTION="delete_order";
+
     //SP
     public static final String FIRST="FIRST";
     public static final String FIRST_TIME="first_time";

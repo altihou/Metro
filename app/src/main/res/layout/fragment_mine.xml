@@ -67,7 +67,6 @@
                     android:layout_width="wrap_content"
                     android:textColor="@color/colorIconText"
                     android:textSize="@dimen/text_mini"
-                    android:text="15935130076"
                     tools:text="backkomyoung"/>
 
                 </LinearLayout>

@@ -51,7 +51,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/pay_order_date"
                             android:textColor="@color/colorPrimaryText"
-                            android:textSize="@dimen/text_small_title" />
+                            android:textSize="@dimen/text_button" />
 
                         <TextView
                             android:id="@+id/un_finish_order_date"
@@ -63,7 +63,7 @@
                             android:layout_toEndOf="@+id/tv1"
                             android:layout_toRightOf="@+id/tv1"
                             android:textColor="@color/googleColorBlue"
-                            android:textSize="@dimen/text_small_title"
+                            android:textSize="@dimen/text_button"
                             tools:text="2016-7-23" />
 
                         <TextView
@@ -74,7 +74,7 @@
                             android:layout_toStartOf="@+id/tv3"
                             android:text="@string/un_finish_order_state"
                             android:textColor="@color/colorPrimaryText"
-                            android:textSize="@dimen/text_small_title" />
+                            android:textSize="@dimen/text_button" />
 
                         <TextView
                             android:id="@+id/tv3"
@@ -86,7 +86,7 @@
                             android:layout_marginStart="@dimen/activity_vertical_mini_margin"
                             android:text="@string/un_finish_order_state_not_pay"
                             android:textColor="@color/googleColorRed"
-                            android:textSize="@dimen/text_small_title" />
+                            android:textSize="@dimen/text_button" />
 
                     </RelativeLayout>
 
@@ -145,7 +145,7 @@
                             android:layout_centerVertical="true"
                             android:text="@string/pay_order_price"
                             android:textColor="@color/colorPrimaryText"
-                            android:textSize="@dimen/text_small_title" />
+                            android:textSize="@dimen/text_button" />
 
                         <TextView
                             android:id="@+id/un_finish_order_price"
@@ -157,7 +157,7 @@
                             android:layout_toEndOf="@+id/tv4"
                             android:layout_toRightOf="@+id/tv4"
                             android:textColor="@color/googleColorRed"
-                            android:textSize="@dimen/text_small_title"
+                            android:textSize="@dimen/text_button"
                             tools:text="2元" />
 
                         <Button
@@ -166,7 +166,8 @@
                             android:layout_height="wrap_content"
                             android:layout_toLeftOf="@+id/un_finish_order_btn_pay"
                             android:layout_toStartOf="@+id/un_finish_order_btn_pay"
-                            android:text="@string/un_finish_order_cancel" />
+                            android:text="@string/un_finish_order_cancel"
+                            android:textSize="@dimen/text_button" />
 
                         <Button
                             android:id="@+id/un_finish_order_btn_pay"
@@ -174,7 +175,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
-                            android:text="@string/un_finish_order_now_pay" />
+                            android:text="@string/un_finish_order_now_pay"
+                            android:textSize="@dimen/text_button" />
 
                     </RelativeLayout>
                 </LinearLayout>

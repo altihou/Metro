@@ -30,6 +30,7 @@ import com.accelerator.metro.ui.activity.LoginActivity;
 import com.accelerator.metro.ui.activity.ModifyUserActivity;
 import com.accelerator.metro.ui.activity.RechargeActivity;
 import com.accelerator.metro.ui.activity.SettingsActivity;
+import com.accelerator.metro.utils.ToastUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -239,6 +240,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @Override
     public void reLogin() {
+        ToastUtil.Short(R.string.login_relogin);
         getActivity().startActivity(new Intent(getActivity(), LoginActivity.class));
     }
 

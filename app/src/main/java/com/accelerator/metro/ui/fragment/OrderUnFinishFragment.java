@@ -1,11 +1,11 @@
 package com.accelerator.metro.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -26,6 +26,7 @@ import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.contract.OrderContract;
 import com.accelerator.metro.presenter.OrderPresenter;
 import com.accelerator.metro.ui.activity.MainActivity;
+import com.accelerator.metro.ui.activity.Password2PayActivity;
 import com.accelerator.metro.ui.activity.PayOrderActivity;
 import com.accelerator.metro.utils.DateUtil;
 import com.accelerator.metro.utils.ToastUtil;
@@ -41,6 +42,7 @@ public class OrderUnFinishFragment extends Fragment
         implements OrderContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = OrderUnFinishFragment.class.getName();
+    private static final int REQUEST_CODE = 0;
 
     @Bind(R.id.un_finish_order_date)
     TextView tvDate;
@@ -94,9 +96,8 @@ public class OrderUnFinishFragment extends Fragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -108,16 +109,22 @@ public class OrderUnFinishFragment extends Fragment
 
     @OnClick(R.id.un_finish_order_btn_pay)
     public void onPayClick(View view) {
+        Intent intent = new Intent(getActivity(), Password2PayActivity.class);
+        intent.putExtra(PayOrderActivity.PAY_ORDER_NUM, orderNum);
+        startActivityForResult(intent,REQUEST_CODE);
+    }
 
-        Intent intent = new Intent(getActivity(), PayOrderActivity.class);
-
-        intent.putExtra(StationFragment.ORDER_PRICE, price);
-        intent.putExtra(StationFragment.ORDER_NUM, orderNum);
-        intent.putExtra(StationFragment.ORDER_TIME, date);
-        intent.putExtra(StationFragment.ORDER_START, startStation);
-        intent.putExtra(StationFragment.ORDER_END, endStation);
-
-        startActivity(intent);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case REQUEST_CODE:
+                if (resultCode== Activity.RESULT_OK){
+                    swipeRefreshLayout.setRefreshing(true);
+                    onRefresh();
+                }
+                break;
+        }
     }
 
     private boolean isVisibility(View view) {
@@ -127,7 +134,6 @@ public class OrderUnFinishFragment extends Fragment
 
     @OnClick(R.id.un_finish_order_btn_cancel)
     public void onCancelClick(View view) {
-
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
         dialog.setTitle(R.string.un_finish_order_cancel_order);
         dialog.setMessage(R.string.un_finish_order_cancel_order_ok);
@@ -137,7 +143,6 @@ public class OrderUnFinishFragment extends Fragment
 
                 Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
                 getActivity().sendBroadcast(intent);
-
                 presenter.cancelOrder(orderNum);
             }
         });

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/selectableItemBackground"
+    android:padding="@dimen/activity_vertical_margin">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_vertical_mini_margin"
+        android:paddingRight="@dimen/activity_vertical_mini_margin">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/finish_order_num"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_button" />
+
+        <TextView
+            android:id="@+id/finish_order_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv1"
+            android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+            android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+            android:layout_toEndOf="@+id/tv1"
+            android:layout_toRightOf="@+id/tv1"
+            android:textColor="@color/googleColorBlue"
+            android:textSize="@dimen/text_button"
+            tools:text="TS12345678" />
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/finish_order_type"
+            android:layout_toStartOf="@+id/finish_order_type"
+            android:text="@string/finish_order_type"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_button" />
+
+        <TextView
+            android:id="@+id/finish_order_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+            android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+            android:text="@string/un_finish_order_state_not_pay"
+            android:textColor="@color/googleColorBlue"
+            android:textSize="@dimen/text_button" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_mini_margin"
+        android:layout_marginTop="@dimen/activity_vertical_mini_margin"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/finish_order_station_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_middle_title"
+            tools:text="后卫寨" />
+
+        <View
+            android:id="@+id/color_view"
+            android:layout_width="@dimen/img_small"
+            android:layout_height="2dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_toEndOf="@id/finish_order_station_start"
+            android:layout_toRightOf="@+id/finish_order_station_start"
+            android:background="@color/colorDividerText" />
+
+        <TextView
+            android:id="@+id/finish_order_station_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_toEndOf="@+id/color_view"
+            android:layout_toRightOf="@+id/color_view"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_middle_title"
+            tools:text="皂河" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:paddingLeft="@dimen/activity_vertical_mini_margin"
+        android:paddingRight="@dimen/activity_vertical_mini_margin">
+
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/pay_order_price"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_button" />
+
+        <TextView
+            android:id="@+id/finish_order_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+            android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+            android:layout_toEndOf="@+id/tv4"
+            android:layout_toRightOf="@+id/tv4"
+            android:textColor="@color/googleColorRed"
+            android:textSize="@dimen/text_button"
+            tools:text="2元" />
+
+        <TextView
+            android:id="@+id/finish_order_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_toEndOf="@+id/finish_order_price"
+            android:layout_toRightOf="@+id/finish_order_price"
+            android:textColor="@color/googleColorBlue"
+            android:textSize="@dimen/text_button"
+            tools:text="2016-7-23" />
+
+        <Button
+            android:id="@+id/finish_order_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:focusable="false"
+            android:textSize="@dimen/text_button"
+            tools:text="删除" />
+
+    </RelativeLayout>
+
+</LinearLayout>

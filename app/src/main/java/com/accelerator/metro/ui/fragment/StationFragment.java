@@ -28,20 +28,9 @@ import com.accelerator.metro.ui.activity.MainActivity;
 import com.accelerator.metro.ui.activity.PayOrderActivity;
 import com.accelerator.metro.utils.ToastUtil;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by zoom on 2016/5/4.
@@ -66,9 +55,13 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     private boolean end = false;
 
     private String startStation;
-    private String startId;
     private String endStation;
+    private String startId;
     private String endId;
+
+    private String startPriceId;
+    private String endPriceId;
+
     private String price;
 
     private CommitOrderPresenter presenter;
@@ -105,12 +98,13 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
         webView.addJavascriptInterface(object, "android");
         object.setPointClickListener(new JavaScriptListener.onPointClickListener() {
             @Override
-            public void onClick(String name, String id, int type) {
+            public void onClick(String name, String id, String priceId, int type) {
                 switch (type) {
                     case JavaScriptListener.TYPE_CODE_START:
                         start = true;
                         startStation = name;
                         startId = id;
+                        startPriceId=priceId;
                         if (end && !endStation.equals(startStation)) {
                             Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
                             commitOrder(startStation, endStation, startId, endId);
@@ -124,6 +118,7 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
                         end = true;
                         endStation = name;
                         endId = id;
+                        endPriceId=priceId;
                         if (start && !startStation.equals(endStation)) {
                             Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
                             commitOrder(startStation, endStation, startId, endId);
@@ -139,30 +134,18 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     }
 
     private void commitOrder(String start, String end, final String sId, final String eId) {
-
         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.station_commit_order)
-                .setMessage("当前选择的站点为 " + start + " —— " + end + " 你确定要提交订单吗?")
+                .setMessage("当前选择的站点为 " + start + " - " + end + " 你确定要提交订单吗?")
                 .setCancelable(false)
                 .setNegativeButton(R.string.CANCEL, null)
                 .setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                         Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
                         getActivity().sendBroadcast(intent);
-
-                        getPrice(startId, endId)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Action1<String>() {
-                                    @Override
-                                    public void call(String s) {
-                                        Log.e(TAG, "价格 :" + s);
-                                        price = s;
-                                        presenter.commitOrder(sId, eId, s);
-                                    }
-                                });
+                        price=String.valueOf(XiAnTicket(Integer.parseInt(startPriceId),Integer.parseInt(endPriceId)));
+                        presenter.commitOrder(sId,eId,price);
                     }
                 });
         dialog.show();
@@ -231,25 +214,59 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
         getActivity().sendBroadcast(intent);
     }
 
-    private Observable<String> getPrice(String start, String end) {
 
-        final String Url = "http://www.xametro.gov.cn//ManagementSystem/index.do?action=seePriceAction&startpriceid=" + start + "&endpriceid=" + end;
+    /**
+     * 计算价格
+     * @param startId 起点站id
+     * @param endId 终点站id
+     * @return 价格
+     */
+    private int XiAnTicket(int startId, int endId) {
 
-        return Observable.create(new Observable.OnSubscribe<String>() {
+        int stationCount = XiAnSection(startId, endId);
 
-            @Override
-            public void call(Subscriber<? super String> subscriber) {
-                try {
-                    Document document = Jsoup.connect(Url).get();
-                    Elements elements = document != null ? document.getElementsByClass("articlebox") : null;
-                    String price = elements != null ? elements.get(0).select("span.red").text() : null;
-                    subscriber.onNext(price);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (stationCount <= 6) {
+            return 2;
+        } else if (stationCount <= 10 && stationCount > 6) {
+            return 3;
+        } else if (stationCount <= 16 && stationCount > 10) {
+            return 4;
+        } else if (stationCount > 17) {
+            return 5;
+        }
 
+        return -1;
+
+    }
+
+    /**
+     * 计算站点
+     * @param startId 起点站id
+     * @param endId 终点站id
+     * @return 经过的站点数
+     */
+    private int XiAnSection(int startId, int endId) {
+
+        if (startId < 20 && endId < 20) {
+            return Math.abs(startId - endId);
+        }
+
+        if (startId >= 20 && endId >= 20 && startId <= 40 && endId <= 40) {
+            return Math.abs(startId - endId);
+        } else {
+
+            if (startId <= 19) {
+                int a = Math.abs(startId - 10);
+                int b = Math.abs(endId - 29);
+                return a + b;
+            } else {
+                int a = Math.abs(startId - 29);
+                int b = Math.abs(endId - 10);
+                return a + b;
             }
-        });
+
+        }
+
     }
 
 }

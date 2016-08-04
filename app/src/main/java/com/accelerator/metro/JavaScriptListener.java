@@ -10,8 +10,8 @@ import android.webkit.JavascriptInterface;
  */
 public class JavaScriptListener {
 
-    public static final int TYPE_CODE_START=0;
-    public static final int TYPE_CODE_END=1;
+    public static final int TYPE_CODE_START = 0;
+    public static final int TYPE_CODE_END = 1;
 
     private Context context;
     private AlertDialog.Builder dialog;
@@ -19,7 +19,7 @@ public class JavaScriptListener {
     private onPointClickListener listener;
 
     public interface onPointClickListener {
-        void onClick(String name, String id, int type);
+        void onClick(String name, String id, String priceId, int type);
     }
 
     public void setPointClickListener(onPointClickListener lintener) {
@@ -32,7 +32,7 @@ public class JavaScriptListener {
     }
 
     @JavascriptInterface
-    public void getPointData(final String content, final String id) {
+    public void getPointData(final String content, final String id, final String priceId) {
 
         dialog.setTitle(content);
         dialog.setMessage(R.string.station_star_or_end);
@@ -43,7 +43,7 @@ public class JavaScriptListener {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (listener != null) {
-                    listener.onClick(content, id, TYPE_CODE_START);
+                    listener.onClick(content, id, priceId, TYPE_CODE_START);
                 }
             }
         });
@@ -53,7 +53,7 @@ public class JavaScriptListener {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (listener != null) {
-                    listener.onClick(content, id, TYPE_CODE_END);
+                    listener.onClick(content, id, priceId, TYPE_CODE_END);
                 }
             }
         });
