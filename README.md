@@ -36,7 +36,8 @@
 * [DateTimePicker](https://github.com/flavienlaurent/datetimepicker)
 * [Crop](https://github.com/Skykai521/android-crop-master)
 
-# LICENSE
+### LICENSE
+```
 The MIT License (MIT)
 
 Copyright (c) 2016 Backkom 
@@ -50,5 +51,5 @@ furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
+```
 
