@@ -9,10 +9,9 @@ Metro
 你也可下载apk试试 [传送门](https://github.com/backkomyoung/Metro/blob/master/app/app-release.apk)
 
 ### 主要界面截图：
-<a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-station.png" width="40%"/></a> 
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-ticket.png" width="40%"/></a>  
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png" width="40%"/></a>  
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png" width="40%"/></a>  
+
+<a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-ticket.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-ticket.png" width="40%"/></a>  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png" width="40%"/></a>  
+<br/>
+<a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png" width="40%"/></a>  
