@@ -1,5 +1,2 @@
-# Metro
-A app that can buy metro tickets.
-
-####关于
-这是一个 
+# 关于Metro
+这是一个用于
