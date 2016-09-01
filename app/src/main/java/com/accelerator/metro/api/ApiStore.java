@@ -23,8 +23,8 @@ import rx.Observable;
  */
 public interface ApiStore {
 
-    String BASE_URL = "http://www.aceclound.cn/TicketSys/mobile.php/";
-    String BASE_URL_IMG = "http://www.aceclound.cn/TicketSys/TicketSys/date/upload/images/user/";
+    String BASE_URL = "";
+    String BASE_URL_IMG = "";
 
     //Login
     @Multipart
