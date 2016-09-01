@@ -8,7 +8,7 @@ Metro
 
 你也可下载apk试试 [传送门](https://github.com/backkomyoung/Metro/blob/master/app/app-release.apk)
 
-### 主要界面截图：
+#### 主要界面截图：
 <p>
 <a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-station.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-station.png" width="32%"/></a>  
 &nbsp;&nbsp;&nbsp;&nbsp;
@@ -18,3 +18,22 @@ Metro
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png" width="32%"/></a>  
 </p>
+
+#### 主要用到的第三方库：
+
+* [RxJava](https://github.com/ReactiveX/RxJava)
+* [Retrofit](https://github.com/square/retrofit)
+* [Okhttp](https://github.com/square/okhttp)
+* [Rxpermissions](https://github.com/tbruyelle/RxPermissions)
+* [Zxing](https://github.com/zxing/zxing)
+* [Glide](https://github.com/bumptech/glide)
+* [Butterknife](https://github.com/JakeWharton/butterknife)
+* [Gson](https://github.com/google/gson)
+* [BottomBar](https://github.com/roughike/BottomBar)
+* [CircleImageview](https://github.com/hdodenhof/CircleImageView)
+* [DateTimePicker](https://github.com/flavienlaurent/datetimepicker)
+* [Crop](https://github.com/Skykai521/android-crop-master)
+
+
+
+
