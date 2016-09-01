@@ -10,8 +10,9 @@ Metro
 
 ### 主要界面截图：
 <p>
+<a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-station.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-station.png" width="32%"/></a>  
 <a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-ticket.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-ticket.png" width="32%"/></a>  
-<a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png" width="32%"/></a>  
 <br>
+<a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png" width="32%"/></a>  
 <a href="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png" width="32%"/></a>  
 </p>
