@@ -12,7 +12,7 @@ Metro
 <a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-station.png" width="40%"/></a> 
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-ticket.png" width="40%"/></a>  
-<br>
+&nbsp;&nbsp;&nbsp;&nbsp;
 <a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-order.png" width="40%"/></a>  
 &nbsp;&nbsp;&nbsp;&nbsp;
 <a href="art/Screenshot_20160214-173027.png"><img src="https://github.com/backkomyoung/Metro/blob/master/screenshots/device-sony-mine.png" width="40%"/></a>  
