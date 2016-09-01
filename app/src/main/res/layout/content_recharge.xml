@@ -35,7 +35,7 @@
     <Button
         android:id="@+id/recharge_btn_ok"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:layout_below="@+id/recharge_edit_money"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"

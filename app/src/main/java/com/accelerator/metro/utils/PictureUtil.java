@@ -1,5 +1,7 @@
 package com.accelerator.metro.utils;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -8,6 +10,9 @@ import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.accelerator.metro.MetroApp;
 
@@ -20,9 +25,9 @@ import java.io.IOException;
  */
 public class PictureUtil {
 
-    private PictureUtil() {
+     PictureUtil() {
                 /* cannot be instantiated */
-        throw new UnsupportedOperationException("Do not need instantiate!");
+        throw new RuntimeException("Stub!");
     }
 
     /**
@@ -166,6 +171,68 @@ public class PictureUtil {
             e.printStackTrace();
         }
         return degree;
+    }
+
+    /**
+     * 获取当前屏幕截图，不包含状态栏
+     * <p>需要用到上面获取状态栏高度getStatusBarHeight的方法</p>
+     *
+     * @param activity activity
+     * @return Bitmap
+     */
+    public static Bitmap captureWithoutStatusBar(Activity activity) {
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap bmp = view.getDrawingCache();
+        int statusBarHeight = getStatusBarHeight(activity);
+        int width = getScreenWidth(activity);
+        int height = getScreenHeight(activity);
+        Bitmap bp = Bitmap.createBitmap(bmp, 0, statusBarHeight, width, height - statusBarHeight);
+        view.destroyDrawingCache();
+        return bp;
+    }
+
+    /**
+     * 获取状态栏高度
+     *
+     * @param context 上下文
+     * @return 状态栏高度
+     */
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources()
+                .getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    /**
+     * 获取屏幕的宽度px
+     *
+     * @param context 上下文
+     * @return 屏幕宽px
+     */
+    public static int getScreenWidth(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();// 创建了一张白纸
+        windowManager.getDefaultDisplay().getMetrics(outMetrics);// 给白纸设置宽高
+        return outMetrics.widthPixels;
+    }
+
+    /**
+     * 获取屏幕的高度px
+     *
+     * @param context 上下文
+     * @return 屏幕高px
+     */
+    public static int getScreenHeight(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();// 创建了一张白纸
+        windowManager.getDefaultDisplay().getMetrics(outMetrics);// 给白纸设置宽高
+        return outMetrics.heightPixels;
     }
 
 

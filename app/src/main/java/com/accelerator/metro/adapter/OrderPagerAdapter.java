@@ -18,7 +18,8 @@ public class OrderPagerAdapter extends FragmentPagerAdapter {
 
     String[] titles = new String[]{
             MetroApp.getContext().getResources().getString(R.string.order_tab_finish),
-            MetroApp.getContext().getResources().getString(R.string.order_tab_unfinish)
+            MetroApp.getContext().getResources().getString(R.string.order_tab_unfinish),
+            MetroApp.getContext().getResources().getString(R.string.order_tab_ticket_plan)
     };
 
     public OrderPagerAdapter(FragmentManager fm) {

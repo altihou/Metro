@@ -55,6 +55,9 @@ public class Order {
         private String start_point;
         private String end_point;
         private String user_id;
+        private String start_id;
+        private String end_id;
+        private String count;
 
         public String getOrder_sn() {
             return order_sn;
@@ -120,6 +123,30 @@ public class Order {
             this.user_id = user_id;
         }
 
+        public String getStart_id() {
+            return start_id;
+        }
+
+        public void setStart_id(String start_id) {
+            this.start_id = start_id;
+        }
+
+        public String getEnd_id() {
+            return end_id;
+        }
+
+        public void setEnd_id(String end_id) {
+            this.end_id = end_id;
+        }
+
+        public String getCount() {
+            return count;
+        }
+
+        public void setCount(String count) {
+            this.count = count;
+        }
+
         @Override
         public String toString() {
             return "ElseInfoBean{" +
@@ -131,6 +158,9 @@ public class Order {
                     ", start_point='" + start_point + '\'' +
                     ", end_point='" + end_point + '\'' +
                     ", user_id='" + user_id + '\'' +
+                    ", start_id='" + start_id + '\'' +
+                    ", end_id='" + end_id + '\'' +
+                    ", count='" + count + '\'' +
                     '}';
         }
     }

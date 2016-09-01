@@ -26,9 +26,9 @@ public class CommitOrderPresenter extends RxManager implements CommitOrderContra
     }
 
     @Override
-    public void commitOrder(String start, String end,String money) {
+    public void commitOrder(String start, String end,String money,String count) {
 
-        Subscription s = model.commitOrder(start, end,money)
+        Subscription s = model.commitOrder(start, end,money,count)
                 .subscribe(new Observer<CommitOrder>() {
                     @Override
                     public void onCompleted() {
@@ -42,6 +42,12 @@ public class CommitOrderPresenter extends RxManager implements CommitOrderContra
 
                     @Override
                     public void onNext(CommitOrder commitOrder) {
+
+                        if (commitOrder.getUser_id().equals("-1")){
+                            view.reLogin();
+                            return;
+                        }
+
                         int code = commitOrder.getIs_ok();
                         switch (code) {
                             case 1:

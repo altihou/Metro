@@ -19,6 +19,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by Nicholas on 2016/8/2.
+ *
  */
 public class FinishOrderModel implements FinishOrderContract.Model {
 
@@ -45,7 +46,7 @@ public class FinishOrderModel implements FinishOrderContract.Model {
         RequestBody page = RequestBody.create(MediaType.parse("text/plain"), PAGE);
         RequestBody t = RequestBody.create(MediaType.parse("text/plain"), TYPE_FINISH);
 
-        return api.getOrder(m,action,userId,userSession,page,t)
+        return api.getOrder(m, action, userId, userSession, page, t)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -67,7 +68,7 @@ public class FinishOrderModel implements FinishOrderContract.Model {
         RequestBody page = RequestBody.create(MediaType.parse("text/plain"), PAGE);
         RequestBody t = RequestBody.create(MediaType.parse("text/plain"), TYPE_BACK);
 
-        return api.getOrder(m,action,userId,userSession,page,t)
+        return api.getOrder(m, action, userId, userSession, page, t)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -87,7 +88,7 @@ public class FinishOrderModel implements FinishOrderContract.Model {
         RequestBody userSession = RequestBody.create(MediaType.parse("text/plain"), session);
         RequestBody orderNum = RequestBody.create(MediaType.parse("text/plain"), orderSn);
 
-        return api.refundOrder(m,action,userId,userSession,orderNum)
+        return api.refundOrder(m, action, userId, userSession, orderNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -107,7 +108,7 @@ public class FinishOrderModel implements FinishOrderContract.Model {
         RequestBody userSession = RequestBody.create(MediaType.parse("text/plain"), session);
         RequestBody orderNum = RequestBody.create(MediaType.parse("text/plain"), orderSn);
 
-        return api.deleteOrder(m,action,userId,userSession,orderNum)
+        return api.deleteOrder(m, action, userId, userSession, orderNum)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 

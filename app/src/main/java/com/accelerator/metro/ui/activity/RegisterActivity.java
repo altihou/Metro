@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -21,7 +22,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.accelerator.metro.Config;
 import com.accelerator.metro.MetroApp;
@@ -35,7 +35,11 @@ import com.accelerator.metro.utils.CipherUtil;
 import com.accelerator.metro.utils.FileUtil;
 import com.accelerator.metro.utils.PictureUtil;
 import com.accelerator.metro.utils.ToastUtil;
+import com.soundcloud.android.crop.Crop;
 import com.tbruyelle.rxpermissions.RxPermissions;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -52,13 +56,6 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
 
     private static final int TAKE_PHOTO = 0;
     private static final int TAKE_ALBUM = 1;
-    private static final int PHOTO_REQUEST_CUT = 2;
-    private static final int ALBUM_REQUEST_CUT = 3;
-    public static final int FRONT_CAMERA_FACE1 = 4;
-    public static final int FRONT_CAMERA_FACE2 = 5;
-    public static final int FRONT_CAMERA_FACE3 = 6;
-
-    public static final String FACE_TYPE = "type";
 
     @Bind(R.id.register_img_avatar)
     CircleImageView ImgAvatar;
@@ -68,12 +65,6 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     TextInputLayout EdtPwd1;
     @Bind(R.id.register_edt_pwd2)
     TextInputLayout EdtPwd2;
-    @Bind(R.id.register_img_face1)
-    ImageView ImgFace1;
-    @Bind(R.id.register_img_face2)
-    ImageView ImgFace2;
-    @Bind(R.id.register_img_face3)
-    ImageView ImgFace3;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
     @Bind(R.id.coordinatorLayout)
@@ -109,6 +100,11 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_register, menu);
         return true;
@@ -133,6 +129,14 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                     Snackbar.make(coordinatorLayout, R.string.login_not_empty_account,
                             Snackbar.LENGTH_SHORT)
                             .show();
+                    break;
+                }
+
+                Pattern p = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
+                Matcher m = p.matcher(account);
+
+                if (!m.find()) {
+                    ToastUtil.Short(R.string.login_not_phone);
                     break;
                 }
 
@@ -260,6 +264,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     private void doCamera() {
 
         outputFileUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
         Intent camera = new Intent();
         camera.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         camera.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
@@ -285,7 +290,13 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                         Bitmap newBitmap = PictureUtil.rotaingImageView(degree, oldBitmap);
                         Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
                                 newBitmap, null, null));
-                        setPhotoZoom(uri, PHOTO_REQUEST_CUT);
+
+                        outputFileUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
+                        Crop.of(uri, outputFileUri)
+                                .withAspect(1,1)
+                                .asSquare()
+                                .start(this);
                     }
                 }
                 break;
@@ -293,141 +304,42 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
             case TAKE_ALBUM:
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null) {
-                        setPhotoZoom(data.getData(), ALBUM_REQUEST_CUT);
+                        outputFileUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
+                        Crop.of(data.getData(), outputFileUri)
+                                .withAspect(1,1)
+                                .asSquare()
+                                .start(this);
                     } else {
                         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                         Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
                                 bitmap, null, null));
-                        setPhotoZoom(uri, ALBUM_REQUEST_CUT);
+
+                        outputFileUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
+                        Crop.of(uri, outputFileUri)
+                                .withAspect(1,1)
+                                .asSquare()
+                                .start(this);
                     }
                 }
                 break;
 
-            case PHOTO_REQUEST_CUT:
-                if (resultCode == RESULT_OK && data.getExtras() != null) {
-                    Bitmap c = data.getParcelableExtra("data");
-                    Uri uri = PictureUtil.saveImg2SDCard(c, FileUtil.ImageUriFilePath());
-                    avatarPath = uri.getPath();
-                    ImgAvatar.setImageBitmap(c);
+            case Crop.REQUEST_CROP:
+                if (resultCode == RESULT_OK) {
+                    Bitmap bitmap = PictureUtil.getSmallBitmap(PictureUtil.getRealPathFromURI(outputFileUri), 300, 300);
+                    ImgAvatar.setImageBitmap(bitmap);
+                    avatarPath=outputFileUri.getPath();
                 }
                 break;
 
-            case ALBUM_REQUEST_CUT:
-                if (resultCode == RESULT_OK && data.getExtras() != null) {
-                    Bitmap a = data.getParcelableExtra("data");
-                    Uri uri = PictureUtil.saveImg2SDCard(a, FileUtil.ImageUriFilePath());
-                    Log.e(TAG, "Uri:" + uri.getPath());
-                    avatarPath = uri.getPath();
-                    ImgAvatar.setImageBitmap(a);
-                }
-                break;
-            case FRONT_CAMERA_FACE1:
-                if (resultCode == RESULT_OK) {
-                    Log.e(TAG, "FACE1 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
-                }
-                break;
-            case FRONT_CAMERA_FACE2:
-                if (resultCode == RESULT_OK) {
-                    Log.e(TAG, "FACE2 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
-                }
-                break;
-            case FRONT_CAMERA_FACE3:
-                if (resultCode == RESULT_OK) {
-                    Log.e(TAG, "FACE3 :" + data.getStringExtra(FrontCameraActivity.IMG_URI));
-                }
-                break;
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void setPhotoZoom(Uri uri, int type) {
-
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
-
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX,outputY 是输出图片的宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("return-data", true);
-        intent.putExtra("noFaceDetection", true);
-
-        switch (type) {
-            case PHOTO_REQUEST_CUT:
-                startActivityForResult(intent, PHOTO_REQUEST_CUT);
-                break;
-            case ALBUM_REQUEST_CUT:
-                startActivityForResult(intent, ALBUM_REQUEST_CUT);
-                break;
-        }
-
     }
 
     @OnClick(R.id.register_img_avatar)
     public void onAvatarClick(View view) {
         ImgAvatar.showContextMenu();
-    }
-
-    @OnClick(R.id.register_img_face1)
-    public void onFace1Click(View view) {
-        fromFrontCamera(FRONT_CAMERA_FACE1);
-    }
-
-    @OnClick(R.id.register_img_face2)
-    public void onFace2Click(View view) {
-        fromFrontCamera(FRONT_CAMERA_FACE2);
-    }
-
-    @OnClick(R.id.register_img_face3)
-    public void onFace3Click(View view) {
-        fromFrontCamera(FRONT_CAMERA_FACE3);
-    }
-
-    public void fromFrontCamera(final int face) {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            rxPermissions.request(Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean aBoolean) {
-                            if (aBoolean) {
-                                doFrontCamera(face);
-                            } else {
-                                ToastUtil.Short(R.string.register_toast_fail);
-                            }
-                        }
-                    });
-        } else {
-            doFrontCamera(face);
-        }
-    }
-
-    private void doFrontCamera(int face) {
-
-        Intent intent = new Intent(this, FrontCameraActivity.class);
-
-        switch (face) {
-            case FRONT_CAMERA_FACE1:
-                intent.putExtra(FACE_TYPE, FRONT_CAMERA_FACE1);
-                startActivityForResult(intent, FRONT_CAMERA_FACE1);
-                break;
-            case FRONT_CAMERA_FACE2:
-                intent.putExtra(FACE_TYPE, FRONT_CAMERA_FACE2);
-                startActivityForResult(intent, FRONT_CAMERA_FACE2);
-                break;
-            case FRONT_CAMERA_FACE3:
-                intent.putExtra(FACE_TYPE, FRONT_CAMERA_FACE3);
-                startActivityForResult(intent, FRONT_CAMERA_FACE3);
-                break;
-        }
-
     }
 
     @Override
@@ -441,13 +353,15 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
         editor.putString(Config.USER_PHONE, account);
         editor.putString(Config.USER_ID, values.getUser_id());
         editor.putString(Config.USER_SESSION, values.getSession_id());
-        editor.putBoolean(Config.USER_REFRESH, true);
 
         editor.apply();
 
-        Intent intent = new Intent();
-        intent.putExtra(LoginActivity.REGISTER_RESULT, LoginActivity.REGISTER_RESULT_CODE);
-        setResult(RESULT_OK, intent);
+        SharedPreferences sp= MetroApp.getContext().getSharedPreferences(Config.FIRST, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorFirst=sp.edit();
+        editorFirst.putBoolean(Config.FIRST_TIME,false);
+        editorFirst.apply();
+
+        setResult(RESULT_OK);
 
         ToastUtil.Short(R.string.register_succeed);
 
@@ -458,6 +372,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     @Override
     public void onFailure(String err) {
         Log.d(TAG, err);
+        ToastUtil.Short(R.string.register_failure);
         setDialogDismiss();
     }
 
@@ -474,5 +389,11 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     @Override
     public void pwdNotEquals() {
         ToastUtil.Short(R.string.register_pwd_not_equals);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.unSubscription();
     }
 }

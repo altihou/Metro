@@ -26,9 +26,9 @@ public class PayOrderPresenter extends RxManager implements PayOrderContract.Pre
     }
 
     @Override
-    public void payOrder(String orderNum, String userPayPwd) {
+    public void payOrder(String orderNum, String userPayPwd,String money) {
 
-        Subscription s = model.payOrder(orderNum, userPayPwd)
+        Subscription s = model.payOrder(orderNum, userPayPwd,money)
                 .subscribe(new Observer<ResultCode>() {
                     @Override
                     public void onCompleted() {
@@ -42,6 +42,12 @@ public class PayOrderPresenter extends RxManager implements PayOrderContract.Pre
 
                     @Override
                     public void onNext(ResultCode resultCode) {
+
+                        if (resultCode.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code = resultCode.getIs_ok();
                         switch (code) {
                             case 1:

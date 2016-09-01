@@ -1,11 +1,14 @@
 package com.accelerator.metro.ui.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -26,7 +29,9 @@ import com.accelerator.metro.contract.FinishOrderContract;
 import com.accelerator.metro.presenter.FinishOrderPresenter;
 import com.accelerator.metro.ui.activity.LoginActivity;
 import com.accelerator.metro.ui.activity.MainActivity;
+import com.accelerator.metro.ui.activity.QRCodeActivity;
 import com.accelerator.metro.utils.ToastUtil;
+import com.accelerator.metro.widget.OrderExpandableListView;
 
 import java.util.List;
 
@@ -40,16 +45,25 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
         SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = OrderFinishFragment.class.getName();
+    public static final String ORDER_NUM = "order_num";
+    public static final String START_ID = "start_id";
+    public static final String END_ID = "end_id";
+    public static final String ORDER_PRICE = "order_price";
 
-    @Bind(R.id.include_order_empty_view)
-    LinearLayout emptyView;
+    public static final String ACTION_NAME_REFRESH = "finish_refresh";
+
     @Bind(R.id.order_finish_expandableListView)
-    ExpandableListView expandableListView;
+    OrderExpandableListView expandableListView;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.ll_empty)
+    LinearLayout llEmpty;
+    @Bind(R.id.divider)
+    View dividerView;
 
     private FinishOrderPresenter presenter;
     private FinishOrderAdapter adapter;
+    private LocalBroadcastManager localBroadcastManager;
 
     public static OrderFinishFragment newInstance() {
         return new OrderFinishFragment();
@@ -134,17 +148,27 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
-
-                if (groupPosition==0){
-
-                    Log.e(TAG,adapter.getDatas().get(groupPosition).get(childPosition).toString());
-
-
+                if (groupPosition == 0) {
+                    Log.e(TAG, adapter.getDatas().get(groupPosition).get(childPosition).toString());
+                    Order.ElseInfoBean info = adapter.getDatas().get(groupPosition).get(childPosition);
+                    Intent intent = new Intent(getActivity(), QRCodeActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString(ORDER_NUM, info.getOrder_sn());
+                    bundle.putString(START_ID, info.getStart_id());
+                    bundle.putString(END_ID, info.getEnd_id());
+                    bundle.putString(ORDER_PRICE, info.getOrder_money());
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
-
                 return true;
             }
         });
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         swipeRefreshLayout.post(new Runnable() {
             @Override
@@ -154,40 +178,69 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
             }
         });
 
+        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_NAME_REFRESH);
+        localBroadcastManager.registerReceiver(broadcastReceiver, intentFilter);
+
     }
 
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "onReceive");
+            String action = intent.getAction();
+            switch (action) {
+                case ACTION_NAME_REFRESH:
+                    swipeRefreshLayout.setRefreshing(true);
+                    onRefresh();
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        localBroadcastManager.unregisterReceiver(broadcastReceiver);
         presenter.unSubscription();
     }
 
     @Override
     public void onSucceed(List<List<Order.ElseInfoBean>> values) {
 
-        Log.e(TAG,values.toString());
-        Log.e(TAG,"SIZE1:"+values.size());
-        Log.e(TAG,"SIZE2:"+values.get(0).size()+"  "+values.get(1).size());
+        Log.e(TAG, values.toString());
 
         if (values.get(0).size() == 0 && values.get(1).size() == 0) {
-            if (!isVisibility(emptyView)) {
-                emptyView.setVisibility(View.VISIBLE);
+
+            if (!isVisibility(llEmpty)) {
+                llEmpty.setVisibility(View.VISIBLE);
             }
+
+            if (isVisibility(dividerView)) {
+                dividerView.setVisibility(View.GONE);
+            }
+
             if (isVisibility(expandableListView)) {
                 expandableListView.setVisibility(View.GONE);
             }
             return;
         }
 
-        if (isVisibility(emptyView)) {
-            emptyView.setVisibility(View.GONE);
+        if (isVisibility(llEmpty)) {
+            llEmpty.setVisibility(View.GONE);
         }
 
         if (!isVisibility(expandableListView)) {
             expandableListView.setVisibility(View.VISIBLE);
         }
+
+        if (!isVisibility(dividerView)) {
+            dividerView.setVisibility(View.VISIBLE);
+        }
+
         adapter.onRefresh(values);
     }
 
@@ -225,18 +278,22 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
 
     @Override
     public void onRefundSucceed(ResultCode resultCode) {
-        SharedPreferences sp= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sp.edit();
-        editor.putString(Config.USER_ID,resultCode.getUser_id());
-        editor.putString(Config.USER_SESSION,resultCode.getSession_id());
+        SharedPreferences sp = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Config.USER_ID, resultCode.getUser_id());
+        editor.putString(Config.USER_SESSION, resultCode.getSession_id());
         editor.apply();
         swipeRefreshLayout.setRefreshing(true);
         onRefresh();
+
+        Intent sendRefresh=new Intent(MineFragment.ACTION_NAME_REFRESH);
+        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(sendRefresh);
+
     }
 
     @Override
     public void onRefundFailure(String err) {
-        Log.e(TAG,err);
+        Log.e(TAG, err);
         Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
         getActivity().sendBroadcast(intent);
         ToastUtil.Short(R.string.finish_order_refund_failure);
@@ -251,10 +308,10 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
 
     @Override
     public void onDeleteSucceed(ResultCode resultCode) {
-        SharedPreferences sp= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sp.edit();
-        editor.putString(Config.USER_ID,resultCode.getUser_id());
-        editor.putString(Config.USER_SESSION,resultCode.getSession_id());
+        SharedPreferences sp = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Config.USER_ID, resultCode.getUser_id());
+        editor.putString(Config.USER_SESSION, resultCode.getSession_id());
         editor.apply();
         swipeRefreshLayout.setRefreshing(true);
         onRefresh();
@@ -262,7 +319,7 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
 
     @Override
     public void onDeleteFailure(String err) {
-        Log.e(TAG,err);
+        Log.e(TAG, err);
         Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
         getActivity().sendBroadcast(intent);
         ToastUtil.Short(R.string.finish_order_delete_failure);

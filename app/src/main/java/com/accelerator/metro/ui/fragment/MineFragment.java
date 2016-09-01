@@ -1,12 +1,15 @@
 package com.accelerator.metro.ui.fragment;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -25,11 +28,15 @@ import com.accelerator.metro.bean.MineInfo;
 import com.accelerator.metro.contract.MineContract;
 import com.accelerator.metro.presenter.MinePresenter;
 import com.accelerator.metro.ui.activity.AboutActivity;
+import com.accelerator.metro.ui.activity.ExpenseCalendarActivity;
 import com.accelerator.metro.ui.activity.FeedbackActivity;
 import com.accelerator.metro.ui.activity.LoginActivity;
 import com.accelerator.metro.ui.activity.ModifyUserActivity;
+import com.accelerator.metro.ui.activity.NFCActivity;
 import com.accelerator.metro.ui.activity.RechargeActivity;
 import com.accelerator.metro.ui.activity.SettingsActivity;
+import com.accelerator.metro.ui.activity.StationNavigationActivity;
+import com.accelerator.metro.utils.NFCUtil;
 import com.accelerator.metro.utils.ToastUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -45,8 +52,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MineFragment extends Fragment implements MineContract.View, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MineFragment.class.getName();
-    private static final int REQUEST_CODE_EDIT=0;
-    private static final int REQUEST_CODE_RECHARGE=1;
+    private static final int REQUEST_CODE_EDIT = 0;
+    private static final int REQUEST_CODE_RECHARGE = 1;
+
+    public static final String ACTION_NAME_REFRESH = "mine_refresh";
+    public static final String ACTION_NAME_SHOW_NFC = "mine_show_nfc";
+    public static final String ACTION_NAME_HIDE_NFC = "mine_hide_nfc";
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -74,8 +85,13 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     FloatingActionButton fabEditUser;
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @Bind(R.id.mine_nfc)
+    RelativeLayout mineNfc;
+    @Bind(R.id.mine_station_navigation)
+    RelativeLayout stationNavigation;
 
     private MinePresenter presenter;
+    private LocalBroadcastManager localBroadcastManager;
 
     public static MineFragment newInstance() {
         return new MineFragment();
@@ -101,7 +117,37 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
             }
         });
 
+        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_NAME_REFRESH);
+        intentFilter.addAction(ACTION_NAME_SHOW_NFC);
+        intentFilter.addAction(ACTION_NAME_HIDE_NFC);
+        localBroadcastManager.registerReceiver(receiver, intentFilter);
+
     }
+
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            switch (action) {
+                case ACTION_NAME_REFRESH:
+                    swipeRefreshLayout.setRefreshing(true);
+                    onRefresh();
+                    break;
+                case ACTION_NAME_SHOW_NFC:
+                    if (!isVisibility(mineNfc)) {
+                        mineNfc.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case ACTION_NAME_HIDE_NFC:
+                    if (isVisibility(mineNfc)) {
+                        mineNfc.setVisibility(View.GONE);
+                    }
+                    break;
+            }
+        }
+    };
 
     private void initViews() {
 
@@ -113,12 +159,30 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
                 R.color.googleColorYellow,
                 R.color.googleColorBlue);
         swipeRefreshLayout.setOnRefreshListener(this);
+
+        SharedPreferences sp = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
+        boolean showNFC = sp.getBoolean(Config.NFC_STATE, false);
+
+        if (showNFC) {
+            if (!isVisibility(mineNfc)) {
+                mineNfc.setVisibility(View.VISIBLE);
+            }
+        } else {
+            if (isVisibility(mineNfc)) {
+                mineNfc.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    private boolean isVisibility(View view) {
+        return view.getVisibility() == View.VISIBLE;
     }
 
     @OnClick(R.id.mine_fab)
     public void onFabClick(View view) {
         startActivityForResult(new Intent(getActivity(),
-                ModifyUserActivity.class),REQUEST_CODE_EDIT);
+                ModifyUserActivity.class), REQUEST_CODE_EDIT);
     }
 
     @Override
@@ -136,24 +200,43 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @OnClick(R.id.mine_user_money_info)
     public void onMoneyInfoClick(View view) {
-        Log.e(TAG, "onMoneyInfoClick");
-        presenter.getMine();
     }
 
     @OnClick(R.id.mine_user_wallet)
     public void onWalletClick(View view) {
         startActivityForResult(new Intent(getActivity(),
-                RechargeActivity.class),REQUEST_CODE_RECHARGE);
+                RechargeActivity.class), REQUEST_CODE_RECHARGE);
     }
 
     @OnClick(R.id.mine_user_expense_calendar)
     public void onExpenseCalendarClick(View view) {
-        Log.e(TAG, "onExpenseCalendarClick");
+        startActivity(new Intent(getActivity(), ExpenseCalendarActivity.class));
+    }
+
+    @OnClick(R.id.mine_station_navigation)
+    public void onStationNavigationClick(View view){
+        startActivity(new Intent(getActivity(), StationNavigationActivity.class));
     }
 
     @OnClick(R.id.mine_settings)
     public void onSettingsClick(View view) {
         startActivity(new Intent(getActivity(), SettingsActivity.class));
+    }
+
+    @OnClick(R.id.mine_nfc)
+    public void onNFCClick(View view) {
+
+        if (!NFCUtil.hasNFC(getActivity())) {
+            ToastUtil.Short(R.string.qrcode_not_nfc);
+            return;
+        }
+
+        if (!NFCUtil.isOpen(getActivity())) {
+            ToastUtil.Short(R.string.qrcode_open_nfc);
+            return;
+        }
+
+        startActivity(new Intent(getActivity(), NFCActivity.class));
     }
 
     @OnClick(R.id.mine_feedback)
@@ -170,6 +253,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        localBroadcastManager.unregisterReceiver(receiver);
         presenter.unSubscription();
     }
 
@@ -208,8 +292,6 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
         editor.putString(Config.USER_MONEY, info.getUser_money());
         editor.putString(Config.USER_NICKNAME, info.getNickname());
 
-        editor.putBoolean(Config.USER_REFRESH, false);
-
         editor.apply();
     }
 
@@ -231,6 +313,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     public void onFailure(String err) {
         Log.e(TAG, err);
         swipeRefreshLayout.setRefreshing(false);
+        ToastUtil.Short(R.string.mine_failure);
     }
 
     @Override
@@ -246,17 +329,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
 
     @Override
     public void onRefresh() {
-
-        SharedPreferences spf = MetroApp.getContext()
-                .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-
-        if (spf.getBoolean(Config.USER_REFRESH, false)) {
-            swipeRefreshLayout.setRefreshing(true);
-            presenter.getMine();
-        } else {
-            setViews(getUserFromSP());
-            swipeRefreshLayout.setRefreshing(false);
-        }
-
+        swipeRefreshLayout.setRefreshing(true);
+        presenter.getMine();
     }
 }

@@ -132,6 +132,7 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
             viewHolder.tvStart = (TextView) convertView.findViewById(R.id.finish_order_station_start);
             viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.finish_order_price);
             viewHolder.tvType = (TextView) convertView.findViewById(R.id.finish_order_type);
+            viewHolder.tvCount = (TextView) convertView.findViewById(R.id.finish_order_count);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ChildViewHolder) convertView.getTag();
@@ -159,6 +160,7 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
                 break;
             case 3:
                 orderType = MetroApp.getContext().getResources().getString(R.string.finish_order_state3);
+                viewHolder.tvType.setTextColor(MetroApp.getContext().getResources().getColor(R.color.googleColorBlue));
                 viewHolder.btnDelete.setText(MetroApp.getContext().getResources().getString(R.string.finish_order_delete));
                 viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -168,6 +170,21 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
                         }
                     }
                 });
+                break;
+            case 7:
+                if (info.getIs_complete() == 3) {
+                    orderType = MetroApp.getContext().getResources().getString(R.string.finish_order_state3);
+                    viewHolder.tvType.setTextColor(MetroApp.getContext().getResources().getColor(R.color.googleColorBlue));
+                    viewHolder.btnDelete.setText(MetroApp.getContext().getResources().getString(R.string.finish_order_delete));
+                    viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            if (listener != null) {
+                                listener.deleteOrder(info.getOrder_sn());
+                            }
+                        }
+                    });
+                }
                 break;
             case 5:
                 orderType = MetroApp.getContext().getResources().getString(R.string.finish_order_state5);
@@ -184,12 +201,13 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
                 break;
         }
 
+        viewHolder.tvCount.setText("共" + info.getCount() + "张");
         viewHolder.tvOrderNum.setText(info.getOrder_sn());
         viewHolder.tvType.setText(orderType);
         viewHolder.tvDate.setText(DateUtil.getOrderDate(info.getTime()));
         viewHolder.tvStart.setText(info.getStart_point());
         viewHolder.tvEnd.setText(info.getEnd_point());
-        viewHolder.tvPrice.setText(info.getOrder_money());
+        viewHolder.tvPrice.setText(info.getOrder_money() + "元");
 
         return convertView;
     }
@@ -215,6 +233,7 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
     }
 
     class ChildViewHolder {
+        public TextView tvCount;
         public TextView tvOrderNum;
         public TextView tvDate;
         public TextView tvType;

@@ -1,41 +1,32 @@
 package com.accelerator.metro.ui.fragment;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.accelerator.metro.Config;
 import com.accelerator.metro.JavaScriptListener;
-import com.accelerator.metro.MetroApp;
 import com.accelerator.metro.R;
-import com.accelerator.metro.bean.CommitOrder;
-import com.accelerator.metro.contract.CommitOrderContract;
-import com.accelerator.metro.presenter.CommitOrderPresenter;
-import com.accelerator.metro.ui.activity.LoginActivity;
-import com.accelerator.metro.ui.activity.MainActivity;
-import com.accelerator.metro.ui.activity.PayOrderActivity;
+import com.accelerator.metro.ui.activity.SearchActivity;
 import com.accelerator.metro.utils.ToastUtil;
+import com.accelerator.metro.utils.XiAnTicketUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by zoom on 2016/5/4.
  */
-public class StationFragment extends Fragment implements CommitOrderContract.View {
+public class StationFragment extends Fragment {
 
     private static final String TAG = StationFragment.class.getName();
     public static final String ORDER_NUM = "order_num";
@@ -46,8 +37,6 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    @Bind(R.id.fab)
-    FloatingActionButton fab;
     @Bind(R.id.web_view)
     WebView webView;
 
@@ -62,9 +51,7 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     private String startPriceId;
     private String endPriceId;
 
-    private String price;
-
-    private CommitOrderPresenter presenter;
+    private int price;
 
     public static StationFragment newInstance() {
         return new StationFragment();
@@ -74,14 +61,24 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_station, container, false);
         ButterKnife.bind(this, view);
-        toolbar.setTitle(R.string.bottombar_tab1);
         initViews();
         return view;
     }
 
     private void initViews() {
 
-        presenter = new CommitOrderPresenter(this);
+        toolbar.setTitle(R.string.bottombar_tab1);
+        toolbar.inflateMenu(R.menu.menu_station);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.menu_station_search) {
+                    startActivity(new Intent(getActivity(), SearchActivity.class));
+                }
+                return true;
+            }
+        });
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -92,7 +89,19 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setLoadWithOverviewMode(true);
         settings.setDefaultTextEncodingName("UTF-8");
+        settings.setDomStorageEnabled(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
+        if (Build.VERSION.SDK_INT > 19) {
+            settings.setLoadsImagesAutomatically(true);
+        } else {
+            settings.setLoadsImagesAutomatically(false);
+        }
+
+        webView.setWebChromeClient(new MyWebChromeClient());
+
         webView.loadUrl("file:///android_asset/index.html");
+
 
         JavaScriptListener object = new JavaScriptListener(getActivity());
         webView.addJavascriptInterface(object, "android");
@@ -104,10 +113,10 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
                         start = true;
                         startStation = name;
                         startId = id;
-                        startPriceId=priceId;
+                        startPriceId = priceId;
                         if (end && !endStation.equals(startStation)) {
                             Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
-                            commitOrder(startStation, endStation, startId, endId);
+                            showDialog(startStation, endStation, startId, endId);
                             end = false;
                             start = false;
                         } else {
@@ -118,10 +127,10 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
                         end = true;
                         endStation = name;
                         endId = id;
-                        endPriceId=priceId;
+                        endPriceId = priceId;
                         if (start && !startStation.equals(endStation)) {
                             Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
-                            commitOrder(startStation, endStation, startId, endId);
+                            showDialog(startStation, endStation, startId, endId);
                             end = false;
                             start = false;
                         } else {
@@ -133,140 +142,32 @@ public class StationFragment extends Fragment implements CommitOrderContract.Vie
         });
     }
 
-    private void commitOrder(String start, String end, final String sId, final String eId) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.station_commit_order)
-                .setMessage("当前选择的站点为 " + start + " - " + end + " 你确定要提交订单吗?")
-                .setCancelable(false)
-                .setNegativeButton(R.string.CANCEL, null)
-                .setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
-                        getActivity().sendBroadcast(intent);
-                        price=String.valueOf(XiAnTicket(Integer.parseInt(startPriceId),Integer.parseInt(endPriceId)));
-                        presenter.commitOrder(sId,eId,price);
-                    }
-                });
-        dialog.show();
+
+    private class MyWebChromeClient extends WebChromeClient{
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            Log.e(TAG,"progress:"+newProgress);
+            super.onProgressChanged(view, newProgress);
+        }
     }
 
-    @OnClick(R.id.fab)
-    public void onFabClick(View view) {
-        startActivity(new Intent(getActivity(), LoginActivity.class));
+    private void showDialog(String start, String end, String sId, String eId) {
+
+        Log.e(TAG, "SSSSSSSSTATION:" + start + " " + sId + "," + end + " " + eId);
+
+        price = XiAnTicketUtil.XiAnTicket(Integer.parseInt(startPriceId), Integer.parseInt(endPriceId));
+        TicketPickerDialogFragment dialog = TicketPickerDialogFragment.newInstance(start, end, sId, eId, price,
+                TicketPickerDialogFragment.TYPE_STATION);
+        dialog.show(getChildFragmentManager(), "TicketPickerDialogFragment");
+        dialog.setCancelable(false);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-        presenter.unSubscription();
-    }
-
-    @Override
-    public void reLogin() {
-        ToastUtil.Short(R.string.login_relogin);
-        startActivity(new Intent(getActivity(), LoginActivity.class));
-    }
-
-    @Override
-    public void existNotPayOrder() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle(R.string.station_commit_failure);
-        dialog.setMessage(R.string.station_commit_attention);
-        dialog.setPositiveButton(R.string.SURE, null);
-        dialog.setCancelable(false);
-        dialog.show();
-    }
-
-    @Override
-    public void onSucceed(CommitOrder values) {
-
-        CommitOrder.ElseInfoBean info = values.getElse_info();
-
-        SharedPreferences spf = MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = spf.edit();
-
-        editor.putString(Config.USER_ID, values.getUser_id());
-        editor.putString(Config.USER_SESSION, values.getSession_id());
-
-        editor.apply();
-
-        Intent intent = new Intent(getActivity(), PayOrderActivity.class);
-        intent.putExtra(ORDER_PRICE, price);
-        intent.putExtra(ORDER_NUM, info.getOrder_sn());
-        intent.putExtra(ORDER_TIME, info.getTime());
-        intent.putExtra(ORDER_START, startStation);
-        intent.putExtra(ORDER_END, endStation);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onFailure(String err) {
-        Log.e(TAG, err);
-        Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
-        getActivity().sendBroadcast(intent);
-    }
-
-    @Override
-    public void onCompleted() {
-        Intent intent = new Intent(MainActivity.ACTION_NAME_HIDE);
-        getActivity().sendBroadcast(intent);
     }
 
 
-    /**
-     * 计算价格
-     * @param startId 起点站id
-     * @param endId 终点站id
-     * @return 价格
-     */
-    private int XiAnTicket(int startId, int endId) {
-
-        int stationCount = XiAnSection(startId, endId);
-
-        if (stationCount <= 6) {
-            return 2;
-        } else if (stationCount <= 10 && stationCount > 6) {
-            return 3;
-        } else if (stationCount <= 16 && stationCount > 10) {
-            return 4;
-        } else if (stationCount > 17) {
-            return 5;
-        }
-
-        return -1;
-
-    }
-
-    /**
-     * 计算站点
-     * @param startId 起点站id
-     * @param endId 终点站id
-     * @return 经过的站点数
-     */
-    private int XiAnSection(int startId, int endId) {
-
-        if (startId < 20 && endId < 20) {
-            return Math.abs(startId - endId);
-        }
-
-        if (startId >= 20 && endId >= 20 && startId <= 40 && endId <= 40) {
-            return Math.abs(startId - endId);
-        } else {
-
-            if (startId <= 19) {
-                int a = Math.abs(startId - 10);
-                int b = Math.abs(endId - 29);
-                return a + b;
-            } else {
-                int a = Math.abs(startId - 29);
-                int b = Math.abs(endId - 10);
-                return a + b;
-            }
-
-        }
-
-    }
 
 }

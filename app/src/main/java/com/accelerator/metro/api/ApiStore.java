@@ -1,11 +1,12 @@
 package com.accelerator.metro.api;
 
 import com.accelerator.metro.bean.CommitOrder;
-import com.accelerator.metro.bean.Order;
-import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.bean.MineInfo;
 import com.accelerator.metro.bean.ModifyUser;
+import com.accelerator.metro.bean.Order;
+import com.accelerator.metro.bean.PlanTicket;
 import com.accelerator.metro.bean.Recharge;
+import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.bean.User;
 
 import java.util.Map;
@@ -22,8 +23,8 @@ import rx.Observable;
  */
 public interface ApiStore {
 
-    String BASE_URL = "http://192.168.1.144:9096/TicketSys/mobile.php/";
-    String BASE_URL_IMG = "http://192.168.1.144:9096/TicketSys/TicketSys/data/upload/image/user/";
+    String BASE_URL = "";
+    String BASE_URL_IMG = "";
 
     //Login
     @Multipart
@@ -119,7 +120,8 @@ public interface ApiStore {
             , @Part("session_id") RequestBody sessionId
             , @Part("start_point") RequestBody start
             , @Part("end_point") RequestBody end
-            , @Part("money") RequestBody money);
+            , @Part("money") RequestBody money
+            , @Part("count") RequestBody count);
 
     //Modify Pay Pwd
     @Multipart
@@ -146,13 +148,6 @@ public interface ApiStore {
     Observable<ResultCode> payOrder(@PartMap Map<String, RequestBody> map);
 
     //Get Order
-    //2表示未出行订单
-    //3已出行订单与退票
-    //1未完成订单
-    //4已完成订单
-    //-1所有订单
-    //5退票
-    //6充值
     @Multipart
     @POST("Index")
     Observable<Order> getOrder(@Part("m") RequestBody m
@@ -186,5 +181,23 @@ public interface ApiStore {
             , @Part("user_id") RequestBody userId
             , @Part("session_id") RequestBody sessionId
             , @Part("order_sn") RequestBody orderNum);
+
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> signOut(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId);
+
+    @Multipart
+    @POST("Index")
+    Observable<ResultCode> autoBuy(@PartMap Map<String, RequestBody> map);
+
+    @Multipart
+    @POST("Index")
+    Observable<PlanTicket> getPlanTicket(@Part("m") RequestBody m
+            , @Part("action") RequestBody action
+            , @Part("user_id") RequestBody userId
+            , @Part("session_id") RequestBody sessionId);
 
 }

@@ -42,6 +42,12 @@ public class ModifyPresenter extends RxManager implements ModifyContract.Present
 
                     @Override
                     public void onNext(ModifyUser modifyUser) {
+
+                        if (modifyUser.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code = modifyUser.getIs_ok();
                         switch (code) {
                             case 1:

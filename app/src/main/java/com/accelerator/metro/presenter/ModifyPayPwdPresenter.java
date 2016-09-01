@@ -42,6 +42,12 @@ public class ModifyPayPwdPresenter extends RxManager implements ModifyPayPwdCont
 
                     @Override
                     public void onNext(ResultCode resultCode) {
+
+                        if (resultCode.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code = resultCode.getIs_ok();
                         switch (code) {
                             case 1:
@@ -80,6 +86,12 @@ public class ModifyPayPwdPresenter extends RxManager implements ModifyPayPwdCont
 
                     @Override
                     public void onNext(ResultCode resultCode) {
+
+                        if (resultCode.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code = resultCode.getIs_ok();
                         switch (code) {
                             case 411:

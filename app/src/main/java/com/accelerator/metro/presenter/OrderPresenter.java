@@ -43,13 +43,19 @@ public class OrderPresenter extends RxManager implements OrderContract.Presenter
 
                     @Override
                     public void onNext(Order order) {
+
+                        if (order.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code=order.getIs_ok();
                         switch (code){
                             case 1:
                                 view.onSucceed(order);
                                 break;
                             case 0:
-                                view.noOrder();
+                                view.noOrder(order);
                                 break;
                             default:
                                 Log.e(TAG,"获取订单错误，错误码："+code);
@@ -77,6 +83,12 @@ public class OrderPresenter extends RxManager implements OrderContract.Presenter
 
                     @Override
                     public void onNext(ResultCode resultCode) {
+
+                        if (resultCode.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code=resultCode.getIs_ok();
                         switch (code){
                             case 1:

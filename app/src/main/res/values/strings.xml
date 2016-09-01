@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">Metro</string>
+    <string name="app_name">简票</string>
 
     <string name="EXIT">再按一次退出程序</string>
+    <string name="EXIT_LOGON">退出当前账号</string>
     <string name="OK">好的</string>
     <string name="YES">是</string>
     <string name="NO">否</string>
@@ -9,6 +10,9 @@
     <string name="CANCEL">取消</string>
     <string name="WAIT">请稍后…</string>
     <string name="FAILURE">失败</string>
+
+    <string name="service_name">NFC_Service</string>
+    <string name="card_title">NFC_CARD</string>
 
     <string name="login">登录</string>
     <string name="login_relogin">登录状态已经过期,请重新登录</string>
@@ -23,17 +27,18 @@
     <string name="login_not_empty_password">密码不能为空</string>
     <string name="login_not_phone">请输入手机号</string>
 
+
     <string name="bottombar_tab1">选站</string>
     <string name="bottombar_tab2">订单</string>
     <string name="bottombar_tab4">我的</string>
 
     <string name="order_tab_finish">已完成订单</string>
     <string name="order_tab_unfinish">未完成订单</string>
-
-    <string name="menu_forgot_password">忘记密码？</string>
+    <string name="order_tab_ticket_plan">计划购票</string>
 
     <string name="register">注册</string>
     <string name="register_succeed">注册成功</string>
+    <string name="register_failure">注册失败</string>
     <string name="register_start">正在注册,请稍等…</string>
     <string name="register_click_avatar">添加头像</string>
     <string name="register_account">账号</string>
@@ -46,8 +51,10 @@
     <string name="register_camera_null">当前设备没有相机</string>
     <string name="register_pwd_not_equals">两次密码不一致</string>
 
+    <string name="menu_forgot_password">忘记密码？</string>
     <string name="menu_register_context_album">从相册中选取</string>
     <string name="menu_register_context_camera">拍照</string>
+    <string name="menu_order_plan_buy_ticket">计划购票</string>
 
     <string name="front_camera_open_fail">相机打开失败</string>
 
@@ -57,8 +64,11 @@
     <string name="mine_user_wallet">充值</string>
     <string name="mine_user_expense_calendar">消费记录</string>
     <string name="mine_settings">设置</string>
+    <string name="mine_nfc">NFC进出站</string>
+    <string name="mine_station_navigation">站内导航</string>
     <string name="mine_feedback">反馈</string>
     <string name="mine_about">关于</string>
+    <string name="mine_failure">信息获取失败</string>
 
     <string name="modify">修改</string>
     <string name="modify_sex_sex">性别:</string>
@@ -77,6 +87,12 @@
     <string name="recharge_failure">充值失败,请重试</string>
 
     <string name="expense_calendar">消费记录</string>
+    <string name="expense_calendar_empty">没有更多消费记录了</string>
+    <string name="expense_calendar_date">日期：</string>
+    <string name="expense_calendar_money">金额：</string>
+    <string name="expense_calendar_recharge">充值</string>
+    <string name="expense_calendar_refund">退票</string>
+    <string name="expense_calendar_buy">购票</string>
 
     <string name="feedback">反馈</string>
     <string name="feedback_title">请输入内容(建议、Bug等):</string>
@@ -88,6 +104,7 @@
     <string name="settings">设置</string>
     <string name="settings_modify_login_pwd">修改登录密码</string>
     <string name="settings_modify_pay_pwd">修改支付密码</string>
+    <string name="settings_nfc">NFC设置</string>
 
     <string name="station_commit_order">提交订单</string>
     <string name="station_commit_failure">提交失败</string>
@@ -97,6 +114,8 @@
     <string name="station_get_start">起点</string>
     <string name="station_get_end">终点</string>
     <string name="station_star_or_end">将此站设置为起点站还是终点站?</string>
+
+    <string name="station_input">手动输入站点</string>
 
     <string name="about">关于</string>
 
@@ -210,7 +229,6 @@
     <string name="modify_pay_not_empty">请填写完整</string>
     <string name="modify_pay_not_equals">两次密码不一致</string>
 
-
     <string name="pay_order">支付订单</string>
     <string name="pay_order_date">日期:</string>
     <string name="pay_order_price">票价:</string>
@@ -230,6 +248,7 @@
     <string name="un_finish_order_state_not_pay">未支付</string>
     <string name="un_finish_order_now_pay">支付</string>
     <string name="un_finish_order_cancel">取消</string>
+    <string name="un_finish_order_un_normal">逃票</string>
     <string name="un_finish_order_cancel_succeed">订单取消成功</string>
     <string name="un_finish_order_cancel_failure">订单取消失败</string>
     <string name="un_finish_order_cancel_order">取消订单</string>
@@ -252,5 +271,187 @@
     <string name="finish_order_state5">退票</string>
     <string name="finish_order_state2">未出行</string>
     <string name="finish_order_state3">已出行</string>
+
+    <string name="activity_nfc">NFC设置</string>
+    <string name="nfc_not_had">当前设备不支持NFC功能</string>
+    <string name="nfc_close">关闭</string>
+    <string name="nfc_open">开启</string>
+    <string name="nfc_tips">如果你不需要使用NFC功能，你可以在此关闭它。</string>
+    <string name="nfc_open_succeed">NFC现在已经开启成功，请用手机背面与进站闸机感应器进行数据读取。</string>
+
+    <string name="title_activity_qrcode">车票</string>
+    <string name="qrcode_nfc">使用NFC功能进站</string>
+    <string name="qrcode_nfc_close">取票成功</string>
+    <string name="qrcode_tips">现在您可以凭此二维码取票进站，或者点击下方的按钮使用NFC功能进站。</string>
+    <string name="qrcode_tips_no_nfc">现在您可以凭此二维码取票进站。</string>
+    <string name="qrcode_share">分享车票</string>
+
+    <string name="qrcode_not_nfc">当前设备没有NFC功能</string>
+    <string name="qrcode_open_nfc">请打开NFC功能</string>
+
+    <string name="title_activity_nfc">NFC进站</string>
+    <string name="nfc_read_succeed">关闭</string>
+
+    <string name="ticket_picker_dialog_count1">购买数量</string>
+    <string name="ticket_picker_dialog_count2">张</string>
+    <string name="ticket_picker_dialog_price">价钱：</string>
+    <string name="ticket_picker_dialog_station">当前选择的站点：</string>
+    <string name="ticket_picker_dialog_commit_fail">订单提交失败</string>
+
+    <string name="guide_welcome">地铁购票拥挤麻烦，为何不试试用手中的手机呢？地铁便捷购票，从此开始…</string>
+
+    <string name="title_activity_search">输入站点</string>
+    <string name="search_start_station">起始站：</string>
+    <string name="search_end_station">终点站：</string>
+    <string name="search_start_station_not_exist">起始站不存在</string>
+    <string name="search_start_station_not_empty">起始站不能为空</string>
+    <string name="search_end_station_not_exist">终点站不存在</string>
+    <string name="search_end_station_not_empty">终点站不能为空</string>
+
+    <string name="title_activity_plan_ticket">计划购票</string>
+    <string name="plan_ticket_type">类型：</string>
+    <string name="plan_ticket_days">天数：</string>
+    <string name="plan_ticket_start_days">起效时间：</string>
+    <string name="plan_ticket_setting_days">设置时间：</string>
+    <string name="plan_ticket_week_tickets">周票</string>
+    <string name="plan_ticket_month_tickets">月票</string>
+    <string name="plan_ticket_others_tickets">其它</string>
+    <string name="plan_ticket_day_not_empty">天数不能为空</string>
+    <string name="plan_ticket_map">地图选站</string>
+
+    <string name="plan_ticket_succeed">购票成功</string>
+    <string name="plan_ticket_failure">购票失败</string>
+    <string name="plan_ticket_exist_failure">购票失败，已存在购票计划</string>
+
+    <string name="title_activity_map">地图选站</string>
+
+    <string-array name="search_station">
+        <item>北客站</item>
+        <item>北苑</item>
+        <item>运动公园</item>
+        <item>行政中心</item>
+        <item>凤城五路</item>
+        <item>市图书馆</item>
+        <item>大明宫西</item>
+        <item>龙首原</item>
+        <item>安远门</item>
+        <item>北大街</item>
+        <item>钟楼</item>
+        <item>南稍门</item>
+        <item>小寨</item>
+        <item>纬一街</item>
+        <item>会展中心</item>
+        <item>永宁门</item>
+        <item>体育场</item>
+        <item>后卫寨</item>
+        <item>三桥</item>
+        <item>皂河</item>
+        <item>枣园</item>
+        <item>汉城路</item>
+        <item>开远门</item>
+        <item>劳动路</item>
+        <item>玉祥路</item>
+        <item>洒金桥</item>
+        <item>五路口</item>
+        <item>朝阳门</item>
+        <item>康复路</item>
+        <item>通化门</item>
+        <item>万寿路</item>
+        <item>长乐坡</item>
+        <item>浐河</item>
+        <item>半坡</item>
+        <item>纺织城</item>
+        <item>三爻</item>
+        <item>凤栖原</item>
+        <item>航天城</item>
+        <item>韦曲南</item>
+    </string-array>
+
+    <string-array name="search_id">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+    </string-array>
+
+    <string-array name="price_id">
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>10</item>
+        <item>30</item>
+        <item>32</item>
+        <item>35</item>
+        <item>34</item>
+        <item>36</item>
+        <item>31</item>
+        <item>33</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+    </string-array>
+
+    <string name="title_activity_station_navigation">站内导航</string>
+
 
 </resources>

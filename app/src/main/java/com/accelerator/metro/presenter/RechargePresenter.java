@@ -42,6 +42,12 @@ public class RechargePresenter extends RxManager implements RechargeContract.Pre
 
                     @Override
                     public void onNext(Recharge recharge) {
+
+                        if (recharge.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code = recharge.getIs_ok();
                         switch (code) {
                             case 1:

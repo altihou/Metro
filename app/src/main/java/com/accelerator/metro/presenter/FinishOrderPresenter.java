@@ -54,6 +54,11 @@ public class FinishOrderPresenter extends RxManager implements FinishOrderContra
                     @Override
                     public void onNext(Order order) {
 
+                        if (order.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         int code = order.getIs_ok();
                         switch (code) {
                             case 0:
@@ -130,6 +135,12 @@ public class FinishOrderPresenter extends RxManager implements FinishOrderContra
 
                     @Override
                     public void onNext(ResultCode resultCode) {
+
+                        if (resultCode.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
+
                         switch (resultCode.getIs_ok()){
                             case 1:
                                 view.onRefundSucceed(resultCode);
@@ -162,6 +173,11 @@ public class FinishOrderPresenter extends RxManager implements FinishOrderContra
 
                     @Override
                     public void onNext(ResultCode resultCode) {
+
+                        if (resultCode.getUser_id().equals("-1")) {
+                            view.reLogin();
+                            return;
+                        }
 
                         switch (resultCode.getIs_ok()){
                             case 1:

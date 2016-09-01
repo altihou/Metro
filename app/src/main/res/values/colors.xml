@@ -5,6 +5,8 @@
     <color name="colorAccent">#b2dfdb</color>
 
     <color name="colorFab">#FF4081</color>
+
+    <color name="highlight">#F3F3F3</color>
     
     <color name="colorLightPrimary">#C8E6C9</color>
     <color name="colorWhite">#FFFFFF</color>
@@ -24,5 +26,11 @@
     <color name="googleColorGreen">#21AC43</color>
 
     <color name="colorFrontCamera">#2B2B2B</color>
+
+
+    <color name="md_red_500">#F44336</color>
+    <color name="md_red_600">#E53935</color>
+    <color name="md_green_500">#4CAF50</color>
+    <color name="md_green_600">#43A047</color>
 
 </resources>

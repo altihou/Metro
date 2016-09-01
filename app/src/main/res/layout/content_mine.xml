@@ -175,6 +175,94 @@
                     android:orientation="vertical">
 
                     <RelativeLayout
+                        android:id="@+id/mine_nfc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:visibility="visible"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingBottom="@dimen/card_view_padding_top_bottom"
+                        android:paddingEnd="@dimen/card_view_padding_left_right"
+                        android:paddingLeft="@dimen/card_view_padding_left_right"
+                        android:paddingRight="@dimen/card_view_padding_left_right"
+                        android:paddingStart="@dimen/card_view_padding_left_right"
+                        android:paddingTop="@dimen/card_view_padding_top_bottom">
+
+                        <ImageView
+                            android:id="@+id/img_nfc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_tap_and_play_pink_500_18dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                            android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                            android:layout_toEndOf="@+id/img_nfc"
+                            android:layout_toRightOf="@+id/img_nfc"
+                            android:text="@string/mine_nfc"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="@dimen/text_normal" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right_blue_500_18dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/mine_station_navigation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingBottom="@dimen/card_view_padding_top_bottom"
+                        android:paddingEnd="@dimen/card_view_padding_left_right"
+                        android:paddingLeft="@dimen/card_view_padding_left_right"
+                        android:paddingRight="@dimen/card_view_padding_left_right"
+                        android:paddingStart="@dimen/card_view_padding_left_right"
+                        android:paddingTop="@dimen/card_view_padding_top_bottom">
+
+                        <ImageView
+                            android:id="@+id/img_station_navigation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_navigation_deep_orange_500_18dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                            android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                            android:layout_toEndOf="@+id/img_station_navigation"
+                            android:layout_toRightOf="@+id/img_station_navigation"
+                            android:text="@string/mine_station_navigation"
+                            android:textColor="@color/colorPrimaryText"
+                            android:textSize="@dimen/text_normal" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_chevron_right_blue_500_18dp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/mine_settings"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,6 +22,7 @@ import com.accelerator.metro.bean.Order;
 import com.accelerator.metro.bean.ResultCode;
 import com.accelerator.metro.contract.OrderContract;
 import com.accelerator.metro.presenter.OrderPresenter;
+import com.accelerator.metro.ui.fragment.OrderUnFinishFragment;
 import com.accelerator.metro.ui.fragment.StationFragment;
 import com.accelerator.metro.utils.ToastUtil;
 
@@ -64,6 +66,8 @@ public class PayOrderActivity extends BaseDialogActivity implements OrderContrac
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent sendRefresh=new Intent(OrderUnFinishFragment.ACTION_NAME_REFRESH);
+                LocalBroadcastManager.getInstance(PayOrderActivity.this).sendBroadcast(sendRefresh);
                 finish();
             }
         });
@@ -91,6 +95,7 @@ public class PayOrderActivity extends BaseDialogActivity implements OrderContrac
     public void onPayNowClick(View view) {
         Intent intent = new Intent(this, Password2PayActivity.class);
         intent.putExtra(PAY_ORDER_NUM, orderNum);
+        intent.putExtra(OrderUnFinishFragment.PAY_TYPE,OrderUnFinishFragment.NORMAL);
         startActivityForResult(intent, PAY_REQUEST_CODE);
     }
 
@@ -122,9 +127,22 @@ public class PayOrderActivity extends BaseDialogActivity implements OrderContrac
         dialog.show();
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent sendRefresh=new Intent(OrderUnFinishFragment.ACTION_NAME_REFRESH);
+        LocalBroadcastManager.getInstance(PayOrderActivity.this).sendBroadcast(sendRefresh);
+        super.onBackPressed();
+    }
 
     @Override
-    public void noOrder() {}
+    public void reLogin() {
+        ToastUtil.Short(R.string.login_relogin);
+        startActivity(new Intent(this, LoginActivity.class));
+        setDialogDismiss();
+    }
+
+    @Override
+    public void noOrder(Order order) {}
 
     @Override
     public void cancelCompleted() {

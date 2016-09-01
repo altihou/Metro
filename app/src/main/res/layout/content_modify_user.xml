@@ -18,7 +18,7 @@
         android:id="@+id/modify_user_avatar"
         android:layout_width="@dimen/img_large"
         android:layout_height="@dimen/img_large"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/launcher"
         app:civ_border_color="#FFF"
         app:civ_border_width="1dp" />
 
@@ -108,7 +108,7 @@
     <Button
         android:id="@+id/modify_user_save"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:layout_gravity="end"
         android:layout_marginTop="@dimen/activity_vertical_mini_margin"
         android:background="@drawable/button_shape"

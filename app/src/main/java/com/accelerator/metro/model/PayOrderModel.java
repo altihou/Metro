@@ -2,6 +2,7 @@ package com.accelerator.metro.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import com.accelerator.metro.Config;
 import com.accelerator.metro.MetroApp;
@@ -21,12 +22,11 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by Nicholas on 2016/7/23.
- *
  */
 public class PayOrderModel implements PayOrderContract.Model {
 
     @Override
-    public Observable<ResultCode> payOrder(String orderNum, String userPayPwd) {
+    public Observable<ResultCode> payOrder(String orderNum, String userPayPwd, String money) {
 
         Map<String, RequestBody> maps = new HashMap<>();
 
@@ -42,6 +42,10 @@ public class PayOrderModel implements PayOrderContract.Model {
         maps.put("session_id", RequestBody.create(MediaType.parse("text/plain"), session));
         maps.put("order_sn", RequestBody.create(MediaType.parse("text/plain"), orderNum));
         maps.put("user_pay_key", RequestBody.create(MediaType.parse("text/plain"), userPayPwd));
+
+        if (!TextUtils.isEmpty(money)) {
+            maps.put("money", RequestBody.create(MediaType.parse("text/plain"), money));
+        }
 
         return api.payOrder(maps)
                 .subscribeOn(Schedulers.io())

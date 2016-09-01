@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.accelerator.metro.ui.activity.PlanTicketActivity"
+    tools:showIn="@layout/activity_plan_ticket">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_marginX2">
+
+        <TextView
+            android:id="@+id/tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/search_start_station"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_middle_title" />
+
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/plan_ticket_auto_tv_start_station"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/tv1"
+            android:layout_toRightOf="@+id/tv1"
+            android:background="@drawable/edit_shape"
+            android:completionThreshold="1" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/search_end_station"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_middle_title" />
+
+        <android.support.v7.widget.AppCompatAutoCompleteTextView
+            android:id="@+id/plan_ticket_auto_tv_end_station"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/tv2"
+            android:layout_toRightOf="@+id/tv2"
+            android:background="@drawable/edit_shape"
+            android:completionThreshold="1" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/plan_ticket_tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/plan_ticket_type"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_middle_title" />
+
+        <RadioGroup
+            android:id="@+id/plan_ticket_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/plan_ticket_rb_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                android:text="@string/plan_ticket_week_tickets"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/text_button" />
+
+            <RadioButton
+                android:id="@+id/plan_ticket_rb_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                android:text="@string/plan_ticket_month_tickets"
+                android:textSize="@dimen/text_button" />
+
+            <RadioButton
+                android:id="@+id/plan_ticket_rb_others"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_vertical_mini_margin"
+                android:layout_marginStart="@dimen/activity_vertical_mini_margin"
+                android:text="@string/plan_ticket_others_tickets"
+                android:textSize="@dimen/text_button" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/plan_ticket_days_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/plan_ticket_days"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_middle_title" />
+
+        <EditText
+            android:id="@+id/plan_ticket_edt_days"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@id/tv3"
+            android:layout_toRightOf="@+id/tv3"
+            android:background="@drawable/edit_shape"
+            android:inputType="number" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/plan_ticket_pick_date_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:id="@+id/tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@string/plan_ticket_start_days"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_middle_title" />
+
+        <TextView
+            android:id="@+id/plan_ticket_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@+id/tv4"
+            android:layout_toRightOf="@+id/tv4"
+            android:textColor="@color/googleColorBlue"
+            android:textSize="@dimen/text_middle_title"
+            tools:text="2016-8-8" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_chevron_right_blue_500_18dp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/plan_ticket_btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/button_height"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:background="@drawable/button_shape"
+        android:text="@string/SURE" />
+
+</LinearLayout>

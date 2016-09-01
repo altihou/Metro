@@ -14,7 +14,7 @@ import rx.Observable;
 public interface PayOrderContract {
 
     interface Model extends BaseModel {
-        Observable<ResultCode> payOrder(String orderNum,String userPayPwd);
+        Observable<ResultCode> payOrder(String orderNum,String userPayPwd,String money);
     }
 
     interface View extends BaseView<ResultCode> {
@@ -26,7 +26,7 @@ public interface PayOrderContract {
     }
 
     interface Presenter extends BasePresenter {
-        void payOrder(String orderNum,String userPayPwd);
+        void payOrder(String orderNum,String userPayPwd,String money);
     }
 
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -36,6 +37,7 @@ import com.accelerator.metro.utils.PictureUtil;
 import com.accelerator.metro.utils.ToastUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.soundcloud.android.crop.Crop;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
 import butterknife.Bind;
@@ -55,7 +57,6 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
 
     private static final int TAKE_PHOTO = 0;
     private static final int TAKE_ALBUM = 1;
-    private static final int REQUEST_CUT = 2;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -249,6 +250,11 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         switch (requestCode) {
@@ -259,53 +265,49 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
                     Bitmap newBitmap = PictureUtil.rotaingImageView(degree, oldBitmap);
                     Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
                             newBitmap, null, null));
-                    Log.e(TAG, "TAKE_PHOTO:" + uri.getPath());
-                    setPhotoZoom(uri);
+
+                    imageUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
+                    Crop.of(uri, imageUri)
+                            .withAspect(1,1)
+                            .asSquare()
+                            .start(this);
+
                 }
                 break;
             case TAKE_ALBUM:
                 if (resultCode == RESULT_OK) {
                     if (data.getData() != null) {
-                        setPhotoZoom(data.getData());
+
+                        imageUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
+                        Crop.of(data.getData(), imageUri)
+                                .asSquare()
+                                .start(this);
                     } else {
                         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
                         Uri uri = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
                                 bitmap, null, null));
-                        setPhotoZoom(uri);
+
+                        imageUri = Uri.fromFile(FileUtil.ImageUriFilePath());
+
+                        Crop.of(uri, imageUri)
+                                .withAspect(1,1)
+                                .asSquare()
+                                .start(this);
                     }
                 }
                 break;
-            case REQUEST_CUT:
-                if (resultCode == RESULT_OK && data.getExtras() != null) {
-                    Bitmap c = data.getParcelableExtra("data");
-                    Uri uri = PictureUtil.saveImg2SDCard(c, FileUtil.ImageUriFilePath());
-                    avatarPath = uri.getPath();
-                    modifyUserAvatar.setImageBitmap(c);
+            case Crop.REQUEST_CROP:
+                if (resultCode == RESULT_OK) {
+                    Bitmap bitmap = PictureUtil.getSmallBitmap(PictureUtil.getRealPathFromURI(imageUri), 300, 300);
+                    modifyUserAvatar.setImageBitmap(bitmap);
+                    avatarPath=imageUri.getPath();
                 }
                 break;
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void setPhotoZoom(Uri uri) {
-
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
-
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX,outputY 是输出图片的宽高
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("return-data", true);
-        intent.putExtra("noFaceDetection", true);
-
-        startActivityForResult(intent, REQUEST_CUT);
     }
 
     @OnClick(R.id.modify_user_avatar)

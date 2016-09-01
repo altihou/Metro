@@ -10,8 +10,8 @@ import java.io.IOException;
  */
 public class FileUtil {
 
-    private FileUtil() {
-        throw new UnsupportedOperationException("Do not need instantiate!");
+     FileUtil() {
+        throw new RuntimeException("Stub!");
     }
 
     public static File ImageUriFilePath(){

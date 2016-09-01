@@ -1,7 +1,6 @@
 package com.accelerator.metro.ui.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -14,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.accelerator.metro.Config;
@@ -40,9 +38,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class LoginActivity extends BaseDialogActivity implements LoginContract.View {
 
     private static final String TAG = "LoginActivity";
-    public static final String REGISTER_RESULT = "result";
-    public static final int REGISTER_RESULT_CODE = 1;
-    public static final int REQUEST_CODE = 0;
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -52,8 +47,6 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
     TextInputLayout passwordLayout;
     @Bind(R.id.login_btn)
     Button btnLogin;
-    @Bind(R.id.login_tv_register)
-    TextView tvRegister;
     @Bind(R.id.login_avatar)
     CircleImageView loginAvatar;
 
@@ -97,26 +90,6 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
                     .into(loginAvatar);
         }
 
-    }
-
-    @OnClick(R.id.login_tv_register)
-    public void tvRegister(View view) {
-        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    if (data.getIntExtra(REGISTER_RESULT, 0) == REGISTER_RESULT_CODE) {
-                        finish();
-                    }
-                }
-                break;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @OnClick(R.id.login_btn)
@@ -194,9 +167,15 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
         editor.putString(Config.USER_PHONE, userName);
         editor.putString(Config.USER_ID, info.getUser_id());
         editor.putString(Config.USER_SESSION, info.getSession_id());
-        editor.putBoolean(Config.USER_REFRESH, true);
 
         editor.apply();
+
+        SharedPreferences sp= MetroApp.getContext().getSharedPreferences(Config.FIRST, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editorFirst=sp.edit();
+        editorFirst.putBoolean(Config.FIRST_TIME,false);
+        editorFirst.apply();
+
+        setResult(RESULT_OK);
 
         finish();
 

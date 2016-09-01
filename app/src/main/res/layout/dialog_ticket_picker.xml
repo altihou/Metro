@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:text="@string/ticket_picker_dialog_station"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/text_small_title" />
+
+        <ImageView
+            android:id="@+id/dialog_img_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:src="@drawable/ic_highlight_off_cyan_500_18dp" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/dialog_station_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_large_title"
+            tools:text="后卫寨" />
+
+        <View
+            android:id="@+id/color_view"
+            android:layout_width="@dimen/mid_margin"
+            android:layout_height="2dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_toEndOf="@id/dialog_station_start"
+            android:layout_toRightOf="@+id/dialog_station_start"
+            android:background="@color/colorDividerText" />
+
+        <TextView
+            android:id="@+id/dialog_station_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:layout_toEndOf="@+id/color_view"
+            android:layout_toRightOf="@+id/color_view"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_large_title"
+            tools:text="皂河" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_mini_margin"
+        android:layout_marginTop="@dimen/activity_vertical_mini_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/dialog_tv_price"
+            android:layout_toStartOf="@+id/dialog_tv_price"
+            android:text="@string/ticket_picker_dialog_price"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/text_button" />
+
+        <TextView
+            android:id="@+id/dialog_tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_vertical_margin"
+            android:text="2元"
+            android:textColor="@color/googleColorRed"
+            android:textSize="@dimen/text_button" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorDividerText" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/mid_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
+            android:layout_marginStart="@dimen/activity_vertical_margin"
+            android:text="@string/ticket_picker_dialog_count1"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/text_small_title" />
+
+        <me.himanshusoni.quantityview.QuantityView
+            android:id="@+id/dialog_count_picker_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/activity_vertical_mini_margin"
+            android:layout_marginRight="@dimen/activity_vertical_mini_margin"
+            app:qv_addButtonBackground="@drawable/add_selector"
+            app:qv_addButtonTextColor="@color/colorWhite"
+            app:qv_maxQuantity="50"
+            app:qv_minQuantity="1"
+            app:qv_quantity="1"
+            app:qv_removeButtonBackground="@drawable/remove_selector"
+            app:qv_removeButtonTextColor="@color/colorWhite" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/dialog_btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/SURE"
+        android:textColor="@color/colorWhite" />
+
+</LinearLayout>

@@ -4,14 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
-import com.accelerator.metro.Config;
 import com.accelerator.metro.R;
 import com.accelerator.metro.base.BaseDialogActivity;
 import com.accelerator.metro.ui.fragment.MineFragment;
@@ -24,13 +22,16 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseDialogActivity {
 
-    private static final String TAG=MainActivity.class.getName();
+    private static final String TAG = MainActivity.class.getName();
 
     private static final int STATION = 0;
     private static final int ORDER = 1;
     private static final int MINE = 2;
-    public static final String ACTION_NAME_SHOW ="action_show";
-    public static final String ACTION_NAME_HIDE ="action_hide";
+    public static final String ACTION_NAME_SHOW = "action_show";
+    public static final String ACTION_NAME_HIDE = "action_hide";
+    public static final String ACTION_NAME_FINIFSH = "action_finish";
+    public static final String POSITION = "position";
+
 
     private long exitTime = 0;
 
@@ -41,6 +42,7 @@ public class MainActivity extends BaseDialogActivity {
     private MineFragment mineFragment;
 
     private FragmentManager manager;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +81,19 @@ public class MainActivity extends BaseDialogActivity {
             }
         });
 
-        IntentFilter dialogFilter = new IntentFilter();
-        dialogFilter.addAction(ACTION_NAME_SHOW);
-        dialogFilter.addAction(ACTION_NAME_HIDE);
-        registerReceiver(broadcastReceiver, dialogFilter);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_NAME_SHOW);
+        intentFilter.addAction(ACTION_NAME_HIDE);
+        intentFilter.addAction(ACTION_NAME_FINIFSH);
+        registerReceiver(broadcastReceiver, intentFilter);
 
     }
 
-    private BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action=intent.getAction();
-            switch (action){
+            String action = intent.getAction();
+            switch (action) {
                 case ACTION_NAME_SHOW:
                     setDialogMsg(R.string.WAIT);
                     setDialogCancelable(false);
@@ -99,22 +102,12 @@ public class MainActivity extends BaseDialogActivity {
                 case ACTION_NAME_HIDE:
                     setDialogDismiss();
                     break;
+                case ACTION_NAME_FINIFSH:
+                    finish();
+                    break;
             }
         }
     };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences spf = getSharedPreferences(Config.FIRST, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = spf.edit();
-        boolean isFirst = spf.getBoolean(Config.FIRST_TIME, true);
-        if (isFirst) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-            editor.putBoolean(Config.FIRST_TIME, false);
-            editor.apply();
-        }
-    }
 
     @Override
     protected void onDestroy() {
@@ -124,8 +117,14 @@ public class MainActivity extends BaseDialogActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         bottomBar.onSaveInstanceState(outState);
+        outState.putInt(POSITION, position);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        showFragment(savedInstanceState.getInt(POSITION));
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -141,15 +140,12 @@ public class MainActivity extends BaseDialogActivity {
         finish();
     }
 
-    /**
-     * 显示Fragment
-     *
-     * @param index 序号
-     */
     private void showFragment(int index) {
 
         FragmentTransaction ft = manager.beginTransaction();
         hideFragments(ft);
+
+        position = index;
 
         switch (index) {
 
@@ -182,11 +178,6 @@ public class MainActivity extends BaseDialogActivity {
         ft.commit();
     }
 
-    /**
-     * 隐藏Fragment
-     *
-     * @param ft FragmentTransaction
-     */
     private void hideFragments(FragmentTransaction ft) {
 
         if (stationFragment != null) {

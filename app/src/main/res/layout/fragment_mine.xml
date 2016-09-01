@@ -38,7 +38,7 @@
                     android:id="@+id/mine_user_avatar"
                     android:layout_width="@dimen/img_mine"
                     android:layout_height="@dimen/img_mine"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@mipmap/launcher"
                     app:civ_border_color="#FFFFFF"
                     app:civ_border_width="2dp" />
 

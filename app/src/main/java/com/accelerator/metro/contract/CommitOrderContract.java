@@ -13,7 +13,7 @@ import rx.Observable;
 public interface CommitOrderContract {
 
     interface Model extends BaseModel {
-        Observable<CommitOrder> commitOrder(String start,String end,String money);
+        Observable<CommitOrder> commitOrder(String start,String end,String money,String count);
     }
 
     interface View extends BaseView<CommitOrder> {
@@ -22,7 +22,7 @@ public interface CommitOrderContract {
     }
 
     interface Presenter extends BasePresenter {
-        void commitOrder(String start,String end,String money);
+        void commitOrder(String start,String end,String money,String count);
     }
 
 }

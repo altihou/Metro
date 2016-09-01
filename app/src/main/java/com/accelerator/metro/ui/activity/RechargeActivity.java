@@ -92,7 +92,6 @@ public class RechargeActivity extends BaseDialogActivity implements RechargeCont
         editor.putString(Config.USER_ID, values.getUser_id());
         editor.putString(Config.USER_SESSION, values.getSession_id());
         editor.putString(Config.USER_MONEY, values.getElse_info().getMoney());
-        editor.putBoolean(Config.USER_REFRESH, true);
 
         editor.apply();
 

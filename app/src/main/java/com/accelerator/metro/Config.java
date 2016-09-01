@@ -51,9 +51,20 @@ public class Config {
     public static final String ORDER_DELETE_M="UserOrder";
     public static final String ORDER_DELETE_ACTION="delete_order";
 
+    public static final String SIGNOUT_M="User";
+    public static final String SIGNOUT_ACTION="UserLoginOut";
+
+    public static final String AUTO_BUY_M="Auto";
+    public static final String AUTO_BUY_ACTION="AutoFindTicket";
+
+    public static final String GET_AUTO_BUY_M="Auto";
+    public static final String GET_AUTO_BUY_ACTION="QueryAutoTicket";
+
     //SP
     public static final String FIRST="FIRST";
     public static final String FIRST_TIME="first_time";
+
+    public static final String NFC_STATE="nfc_state";
 
     public static final String USER="USER";
     public static final String USER_REFRESH="refresh";

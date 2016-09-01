@@ -5,7 +5,7 @@ package com.accelerator.metro.utils;
  */
 public class SPUtil {
 
-    private SPUtil() {
+     SPUtil() {
         throw new RuntimeException("Stub!");
     }
 }

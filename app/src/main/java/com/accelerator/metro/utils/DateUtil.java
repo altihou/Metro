@@ -1,5 +1,6 @@
 package com.accelerator.metro.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -9,9 +10,9 @@ import java.util.Locale;
  */
 public class DateUtil {
 
-    private DateUtil() {
+    DateUtil() {
                 /* cannot be instantiated */
-        throw new UnsupportedOperationException("Do not need instantiate!");
+        throw new RuntimeException("Stub!");
     }
 
     public static String getNowTime2Save() {
@@ -20,13 +21,32 @@ public class DateUtil {
     }
 
     public static String getNowTime2Show() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         return sdf.format(new Date());
     }
 
-    public static String getOrderDate(int time){
+    public static String getOrderDate(int time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        return sdf.format(new Date(time*1000L));
+        return sdf.format(new Date(time * 1000L));
+    }
+
+    public static String getExpenseOrderDate(int time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        return sdf.format(new Date(time * 1000L));
+    }
+
+    public static long toLongTimes(String time) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+        Date date = null;
+
+        try {
+            date = sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return (date != null ? date.getTime() : 0) / 1000L;
     }
 
 }

@@ -42,6 +42,11 @@ public class MinePresenter extends RxManager implements MineContract.Presenter {
             @Override
             public void onNext(MineInfo mineInfo) {
 
+                if (mineInfo.getUser_id().equals("-1")) {
+                    view.reLogin();
+                    return;
+                }
+
                 int code=mineInfo.getIs_ok();
                 switch (code){
                     case 1:

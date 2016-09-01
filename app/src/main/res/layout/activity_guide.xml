@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.accelerator.metro.ui.activity.GuideActivity">
+
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="@dimen/img_big"
+        android:layout_height="@dimen/img_big"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/login_width"
+        android:src="@mipmap/launcher" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/img1"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:gravity="center"
+        android:text="@string/guide_welcome"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/text_small_title" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/large_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/logon"
+            android:layout_width="@dimen/login_width"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape"
+            android:text="@string/login"
+            android:textColor="@color/colorWhite" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="@dimen/login_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_vertical_marginX2"
+            android:layout_marginStart="@dimen/activity_vertical_marginX2"
+            android:background="@drawable/button_shape_gray"
+            android:text="@string/register" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -10,8 +10,8 @@ import com.accelerator.metro.MetroApp;
  */
 public class ToastUtil {
 
-    private ToastUtil() {
-        throw new UnsupportedOperationException("Do not need instantiate!");
+     ToastUtil() {
+        throw new RuntimeException("Stub!");
     }
 
     public static void Short(String msg) {

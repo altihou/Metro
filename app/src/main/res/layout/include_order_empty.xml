@@ -12,6 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="@dimen/activity_vertical_marginX2"
         android:text="@string/un_finish_order_empty"
         android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/text_small_title" />

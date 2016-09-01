@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
 public class CommitOrderModel implements CommitOrderContract.Model {
 
     @Override
-    public Observable<CommitOrder> commitOrder(String start, String end,String money) {
+    public Observable<CommitOrder> commitOrder(String start, String end,String money,String count) {
 
         ApiStore api= ApiEngine.getInstance().apiStore;
 
@@ -37,8 +37,9 @@ public class CommitOrderModel implements CommitOrderContract.Model {
         RequestBody startStation = RequestBody.create(MediaType.parse("text/plain"), start);
         RequestBody endStation = RequestBody.create(MediaType.parse("text/plain"), end);
         RequestBody price = RequestBody.create(MediaType.parse("text/plain"), money);
+        RequestBody c = RequestBody.create(MediaType.parse("text/plain"), count);
 
-        return api.commitOrder(m,action,userId,sessionId,startStation,endStation,price)
+        return api.commitOrder(m,action,userId,sessionId,startStation,endStation,price,c)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

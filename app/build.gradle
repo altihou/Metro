@@ -27,6 +27,10 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.1.1'
     compile 'com.android.support:design:24.1.1'
     //ui
+    compile 'com.github.onlylemi:mapview:v1.0'
+    compile 'com.soundcloud.android:android-crop:1.0.0@aar'
+    compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+    compile 'me.himanshusoni.quantityview:quantity-view:1.1.5'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.roughike:bottom-bar:1.3.3'
     compile 'com.google.code.gson:gson:2.6.2'
@@ -45,4 +49,5 @@ dependencies {
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     //Zxing
     compile 'com.google.zxing:core:3.2.1'
+
 }

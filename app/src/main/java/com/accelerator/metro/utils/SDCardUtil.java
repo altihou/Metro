@@ -9,9 +9,9 @@ import java.io.File;
  */
 public class SDCardUtil {
 
-    private SDCardUtil() {
+     SDCardUtil() {
         /* cannot be instantiated */
-        throw new UnsupportedOperationException("Do not need instantiate!");
+        throw new RuntimeException("Stub!");
     }
 
     /**
