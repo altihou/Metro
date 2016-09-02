@@ -48,6 +48,8 @@
                 android:drawableLeft="@drawable/ic_person_blue_500_24dp"
                 android:drawableStart="@drawable/ic_person_blue_500_24dp"
                 android:hint="@string/register_account"
+                android:singleLine="true"
+                android:inputType="number"
                 android:textSize="@dimen/text_button" />
 
         </android.support.design.widget.TextInputLayout>
@@ -66,7 +68,8 @@
                 android:drawableLeft="@drawable/ic_lock_outline_blue_500_24dp"
                 android:drawableStart="@drawable/ic_lock_outline_blue_500_24dp"
                 android:hint="@string/register_pwd1"
-                android:inputType="textPassword"
+                android:singleLine="true"
+                android:inputType="numberPassword"
                 android:textSize="@dimen/text_button" />
 
         </android.support.design.widget.TextInputLayout>
@@ -85,7 +88,8 @@
                 android:drawableLeft="@drawable/ic_lock_outline_blue_500_24dp"
                 android:drawableStart="@drawable/ic_lock_outline_blue_500_24dp"
                 android:hint="@string/register_pwd2"
-                android:inputType="textPassword"
+                android:singleLine="true"
+                android:inputType="numberPassword"
                 android:textSize="@dimen/text_button" />
 
         </android.support.design.widget.TextInputLayout>
