@@ -28,7 +28,6 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.functions.Action1;
 
 public class QRCodeActivity extends AppCompatActivity {
 
@@ -54,12 +53,7 @@ public class QRCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_qrcode);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -92,14 +86,11 @@ public class QRCodeActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE
                         , Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .subscribe(new Action1<Boolean>() {
-                            @Override
-                            public void call(Boolean aBoolean) {
-                                if (aBoolean) {
-                                    shareQRCode();
-                                } else {
-                                    ToastUtil.Short(R.string.register_toast_fail);
-                                }
+                        .subscribe(aBoolean -> {
+                            if (aBoolean) {
+                                shareQRCode();
+                            } else {
+                                ToastUtil.Short(R.string.register_toast_fail);
                             }
                         });
             } else {

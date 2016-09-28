@@ -149,12 +149,9 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
                 orderType = MetroApp.getContext().getResources().getString(R.string.finish_order_state2);
                 viewHolder.tvType.setTextColor(MetroApp.getContext().getResources().getColor(R.color.googleColorGreen));
                 viewHolder.btnDelete.setText(MetroApp.getContext().getResources().getString(R.string.finish_order_refund));
-                viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (listener != null) {
-                            listener.refundOrder(info.getOrder_sn());
-                        }
+                viewHolder.btnDelete.setOnClickListener(view -> {
+                    if (listener != null) {
+                        listener.refundOrder(info.getOrder_sn());
                     }
                 });
                 break;
@@ -162,12 +159,9 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
                 orderType = MetroApp.getContext().getResources().getString(R.string.finish_order_state3);
                 viewHolder.tvType.setTextColor(MetroApp.getContext().getResources().getColor(R.color.googleColorBlue));
                 viewHolder.btnDelete.setText(MetroApp.getContext().getResources().getString(R.string.finish_order_delete));
-                viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (listener != null) {
-                            listener.deleteOrder(info.getOrder_sn());
-                        }
+                viewHolder.btnDelete.setOnClickListener(view -> {
+                    if (listener != null) {
+                        listener.deleteOrder(info.getOrder_sn());
                     }
                 });
                 break;
@@ -176,12 +170,9 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
                     orderType = MetroApp.getContext().getResources().getString(R.string.finish_order_state3);
                     viewHolder.tvType.setTextColor(MetroApp.getContext().getResources().getColor(R.color.googleColorBlue));
                     viewHolder.btnDelete.setText(MetroApp.getContext().getResources().getString(R.string.finish_order_delete));
-                    viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            if (listener != null) {
-                                listener.deleteOrder(info.getOrder_sn());
-                            }
+                    viewHolder.btnDelete.setOnClickListener(view -> {
+                        if (listener != null) {
+                            listener.deleteOrder(info.getOrder_sn());
                         }
                     });
                 }
@@ -190,12 +181,9 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
                 orderType = MetroApp.getContext().getResources().getString(R.string.finish_order_state5);
                 viewHolder.tvType.setTextColor(MetroApp.getContext().getResources().getColor(R.color.googleColorRed));
                 viewHolder.btnDelete.setText(MetroApp.getContext().getResources().getString(R.string.finish_order_delete));
-                viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (listener != null) {
-                            listener.deleteOrder(info.getOrder_sn());
-                        }
+                viewHolder.btnDelete.setOnClickListener(view -> {
+                    if (listener != null) {
+                        listener.deleteOrder(info.getOrder_sn());
                     }
                 });
                 break;
@@ -228,18 +216,18 @@ public class FinishOrderAdapter extends BaseExpandableListAdapter {
     }
 
     class GroupViewHolder {
-        public TextView groupTitle;
-        public ImageView groupIndicator;
+         TextView groupTitle;
+         ImageView groupIndicator;
     }
 
     class ChildViewHolder {
-        public TextView tvCount;
-        public TextView tvOrderNum;
-        public TextView tvDate;
-        public TextView tvType;
-        public TextView tvStart;
-        public TextView tvEnd;
-        public TextView tvPrice;
-        public Button btnDelete;
+         TextView tvCount;
+         TextView tvOrderNum;
+         TextView tvDate;
+         TextView tvType;
+         TextView tvStart;
+         TextView tvEnd;
+         TextView tvPrice;
+         Button btnDelete;
     }
 }

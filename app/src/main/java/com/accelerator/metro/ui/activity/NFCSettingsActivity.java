@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -35,12 +34,7 @@ public class NFCSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings_nfc);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         SharedPreferences sp= MetroApp.getContext().getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
 

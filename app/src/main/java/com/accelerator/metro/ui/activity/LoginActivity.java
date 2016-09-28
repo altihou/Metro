@@ -61,12 +61,7 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
         toolbar.setTitle(R.string.login);
         setSupportActionBar(toolbar);
         presenter = new LoginPresenter(this);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     @Override

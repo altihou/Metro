@@ -2,7 +2,6 @@ package com.accelerator.metro.ui.fragment;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 
 import com.accelerator.metro.Config;
@@ -95,13 +93,10 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.finish_order_delete);
                 dialog.setMessage(R.string.finish_order_delete_check);
-                dialog.setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
-                        getActivity().sendBroadcast(intent);
-                        presenter.deletedOrder(orderSn);
-                    }
+                dialog.setPositiveButton(R.string.SURE, (dialogInterface, i) -> {
+                    Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
+                    getActivity().sendBroadcast(intent);
+                    presenter.deletedOrder(orderSn);
                 });
                 dialog.setNegativeButton(R.string.CANCEL, null);
                 dialog.show();
@@ -112,13 +107,10 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.finish_order_refund);
                 dialog.setMessage(R.string.finish_order_refund_check);
-                dialog.setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
-                        getActivity().sendBroadcast(intent);
-                        presenter.refundOrder(orderSn);
-                    }
+                dialog.setPositiveButton(R.string.SURE, (dialogInterface, i) -> {
+                    Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
+                    getActivity().sendBroadcast(intent);
+                    presenter.refundOrder(orderSn);
                 });
                 dialog.setNegativeButton(R.string.CANCEL, null);
                 dialog.show();
@@ -145,23 +137,20 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
             }
         });
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View view, int groupPosition, int childPosition, long id) {
-                if (groupPosition == 0) {
-                    Log.e(TAG, adapter.getDatas().get(groupPosition).get(childPosition).toString());
-                    Order.ElseInfoBean info = adapter.getDatas().get(groupPosition).get(childPosition);
-                    Intent intent = new Intent(getActivity(), QRCodeActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(ORDER_NUM, info.getOrder_sn());
-                    bundle.putString(START_ID, info.getStart_id());
-                    bundle.putString(END_ID, info.getEnd_id());
-                    bundle.putString(ORDER_PRICE, info.getOrder_money());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-                return true;
+        expandableListView.setOnChildClickListener((parent, view, groupPosition, childPosition, id) -> {
+            if (groupPosition == 0) {
+                Log.e(TAG, adapter.getDatas().get(groupPosition).get(childPosition).toString());
+                Order.ElseInfoBean info = adapter.getDatas().get(groupPosition).get(childPosition);
+                Intent intent = new Intent(getActivity(), QRCodeActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(ORDER_NUM, info.getOrder_sn());
+                bundle.putString(START_ID, info.getStart_id());
+                bundle.putString(END_ID, info.getEnd_id());
+                bundle.putString(ORDER_PRICE, info.getOrder_money());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
+            return true;
         });
 
     }
@@ -170,12 +159,9 @@ public class OrderFinishFragment extends Fragment implements FinishOrderContract
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                onRefresh();
-            }
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            onRefresh();
         });
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());

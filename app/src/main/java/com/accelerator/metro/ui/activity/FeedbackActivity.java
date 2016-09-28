@@ -47,12 +47,7 @@ public class FeedbackActivity extends BaseDialogActivity implements FeedbackCont
         setContentView(R.layout.activity_feedback);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         presenter=new FeedbackPresenter(this);
 

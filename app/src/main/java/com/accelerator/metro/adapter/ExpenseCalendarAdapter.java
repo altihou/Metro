@@ -110,7 +110,7 @@ public class ExpenseCalendarAdapter extends RecyclerView.Adapter<ExpenseCalendar
         @Bind(R.id.item_view)
         RelativeLayout relativeLayout;
 
-        public ViewHolder(View itemView) {
+         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

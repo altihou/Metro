@@ -37,12 +37,7 @@ public class NFCActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nfc);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
 //        Intent intent = getIntent();
 //

@@ -45,7 +45,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import rx.functions.Action1;
 
 /**
  * Created by Nicholas on 2016/7/13.
@@ -83,12 +82,7 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
         ButterKnife.bind(this);
         toolbar.setTitle(R.string.register);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
         presenter = new RegisterPresenter(this);
     }
 
@@ -216,14 +210,11 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
     private void formAlbum() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean aBoolean) {
-                            if (aBoolean) {
-                                doAlbum();
-                            } else {
-                                ToastUtil.Short(R.string.register_toast_fail);
-                            }
+                    .subscribe(aBoolean -> {
+                        if (aBoolean) {
+                            doAlbum();
+                        } else {
+                            ToastUtil.Short(R.string.register_toast_fail);
                         }
                     });
         } else {
@@ -235,14 +226,11 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             rxPermissions.request(Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean aBoolean) {
-                            if (aBoolean) {
-                                doCamera();
-                            } else {
-                                ToastUtil.Short(R.string.register_toast_fail);
-                            }
+                    .subscribe(aBoolean -> {
+                        if (aBoolean) {
+                            doCamera();
+                        } else {
+                            ToastUtil.Short(R.string.register_toast_fail);
                         }
                     });
         } else {

@@ -48,12 +48,7 @@ public class RechargeActivity extends BaseDialogActivity implements RechargeCont
         ButterKnife.bind(this);
         toolbar.setTitle(R.string.recharge);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
         presenter = new RechargePresenter(this);
     }
 

@@ -92,12 +92,7 @@ public class PlanTicketActivity extends BaseDialogActivity
         setContentView(R.layout.activity_plan_ticket);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
         initViews();
     }
 
@@ -121,32 +116,29 @@ public class PlanTicketActivity extends BaseDialogActivity
                 true);
 
         rbWeek.setChecked(true);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                int checkId = radioGroup.getCheckedRadioButtonId();
-                RadioButton rb = (RadioButton) findViewById(checkId);
-                String t = rb.getText().toString();
-                switch (t) {
-                    case "周票":
-                        if (isVisibility(daysView)) {
-                            daysView.setVisibility(View.GONE);
-                        }
-                        type = TYPE_WEEK;
-                        break;
-                    case "月票":
-                        if (isVisibility(daysView)) {
-                            daysView.setVisibility(View.GONE);
-                        }
-                        type = TYPE_MONTH;
-                        break;
-                    case "其它":
-                        if (!isVisibility(daysView)) {
-                            daysView.setVisibility(View.VISIBLE);
-                        }
-                        type = TYPE_OTHERS;
-                        break;
-                }
+        radioGroup.setOnCheckedChangeListener((radioGroup1, i) -> {
+            int checkId = radioGroup1.getCheckedRadioButtonId();
+            RadioButton rb = (RadioButton) findViewById(checkId);
+            String t = rb.getText().toString();
+            switch (t) {
+                case "周票":
+                    if (isVisibility(daysView)) {
+                        daysView.setVisibility(View.GONE);
+                    }
+                    type = TYPE_WEEK;
+                    break;
+                case "月票":
+                    if (isVisibility(daysView)) {
+                        daysView.setVisibility(View.GONE);
+                    }
+                    type = TYPE_MONTH;
+                    break;
+                case "其它":
+                    if (!isVisibility(daysView)) {
+                        daysView.setVisibility(View.VISIBLE);
+                    }
+                    type = TYPE_OTHERS;
+                    break;
             }
         });
 

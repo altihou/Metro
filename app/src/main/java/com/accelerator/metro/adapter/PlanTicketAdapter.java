@@ -88,7 +88,7 @@ public class PlanTicketAdapter extends RecyclerView.Adapter<PlanTicketAdapter.Vi
         @Bind(R.id.plan_ticker_days)
         TextView tvDays;
 
-        public ViewHolder(View itemView) {
+         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

@@ -109,12 +109,9 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                onRefresh();
-            }
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            onRefresh();
         });
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());

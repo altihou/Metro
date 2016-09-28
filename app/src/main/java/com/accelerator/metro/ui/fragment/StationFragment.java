@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
@@ -70,14 +69,11 @@ public class StationFragment extends Fragment {
         toolbar.setTitle(R.string.bottombar_tab1);
         toolbar.inflateMenu(R.menu.menu_station);
 
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.menu_station_search) {
-                    startActivity(new Intent(getActivity(), SearchActivity.class));
-                }
-                return true;
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_station_search) {
+                startActivity(new Intent(getActivity(), SearchActivity.class));
             }
+            return true;
         });
 
         WebSettings settings = webView.getSettings();
@@ -105,39 +101,36 @@ public class StationFragment extends Fragment {
 
         JavaScriptListener object = new JavaScriptListener(getActivity());
         webView.addJavascriptInterface(object, "android");
-        object.setPointClickListener(new JavaScriptListener.onPointClickListener() {
-            @Override
-            public void onClick(String name, String id, String priceId, int type) {
-                switch (type) {
-                    case JavaScriptListener.TYPE_CODE_START:
-                        start = true;
-                        startStation = name;
-                        startId = id;
-                        startPriceId = priceId;
-                        if (end && !endStation.equals(startStation)) {
-                            Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
-                            showDialog(startStation, endStation, startId, endId);
-                            end = false;
-                            start = false;
-                        } else {
-                            ToastUtil.Short(R.string.station_end);
-                        }
-                        break;
-                    case JavaScriptListener.TYPE_CODE_END:
-                        end = true;
-                        endStation = name;
-                        endId = id;
-                        endPriceId = priceId;
-                        if (start && !startStation.equals(endStation)) {
-                            Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
-                            showDialog(startStation, endStation, startId, endId);
-                            end = false;
-                            start = false;
-                        } else {
-                            ToastUtil.Short(R.string.station_start);
-                        }
-                        break;
-                }
+        object.setPointClickListener((name, id, priceId, type) -> {
+            switch (type) {
+                case JavaScriptListener.TYPE_CODE_START:
+                    start = true;
+                    startStation = name;
+                    startId = id;
+                    startPriceId = priceId;
+                    if (end && !endStation.equals(startStation)) {
+                        Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
+                        showDialog(startStation, endStation, startId, endId);
+                        end = false;
+                        start = false;
+                    } else {
+                        ToastUtil.Short(R.string.station_end);
+                    }
+                    break;
+                case JavaScriptListener.TYPE_CODE_END:
+                    end = true;
+                    endStation = name;
+                    endId = id;
+                    endPriceId = priceId;
+                    if (start && !startStation.equals(endStation)) {
+                        Log.e(TAG, "起点 终点:" + startStation + "-" + endStation);
+                        showDialog(startStation, endStation, startId, endId);
+                        end = false;
+                        start = false;
+                    } else {
+                        ToastUtil.Short(R.string.station_start);
+                    }
+                    break;
             }
         });
     }

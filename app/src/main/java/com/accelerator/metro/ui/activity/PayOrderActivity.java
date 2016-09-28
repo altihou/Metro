@@ -1,7 +1,6 @@
 package com.accelerator.metro.ui.activity;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -63,13 +62,10 @@ public class PayOrderActivity extends BaseDialogActivity implements OrderContrac
         setContentView(R.layout.activity_pay_order);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent sendRefresh=new Intent(OrderUnFinishFragment.ACTION_NAME_REFRESH);
-                LocalBroadcastManager.getInstance(PayOrderActivity.this).sendBroadcast(sendRefresh);
-                finish();
-            }
+        toolbar.setNavigationOnClickListener(view -> {
+            Intent sendRefresh=new Intent(OrderUnFinishFragment.ACTION_NAME_REFRESH);
+            LocalBroadcastManager.getInstance(PayOrderActivity.this).sendBroadcast(sendRefresh);
+            finish();
         });
 
         Intent intent = getIntent();
@@ -114,14 +110,11 @@ public class PayOrderActivity extends BaseDialogActivity implements OrderContrac
         AlertDialog.Builder dialog=new AlertDialog.Builder(this);
         dialog.setTitle(R.string.un_finish_order_cancel_order);
         dialog.setMessage(R.string.un_finish_order_cancel_order_ok);
-        dialog.setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                setDialogCancelable(false);
-                setDialogMsg(R.string.WAIT);
-                setDialogShow();
-                presenter.cancelOrder(orderNum);
-            }
+        dialog.setPositiveButton(R.string.SURE, (dialogInterface, i) -> {
+            setDialogCancelable(false);
+            setDialogMsg(R.string.WAIT);
+            setDialogShow();
+            presenter.cancelOrder(orderNum);
         });
         dialog.setNegativeButton(R.string.CANCEL,null);
         dialog.show();

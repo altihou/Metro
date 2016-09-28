@@ -66,12 +66,7 @@ public class ModifyPayPwdActivity extends BaseDialogActivity implements ModifyPa
         setContentView(R.layout.activity_modify_pay_pwd);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         payPwdPresenter = new ModifyPayPwdPresenter(this);
         payPwdPresenter.checkPayPwd();

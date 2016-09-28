@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -49,14 +48,11 @@ public class OrderFragment extends Fragment {
 
         toolbar.setTitle(R.string.bottombar_tab2);
         toolbar.inflateMenu(R.menu.menu_order);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.menu_order_plan_ticket) {
-                    startActivity(new Intent(getActivity(), PlanTicketActivity.class));
-                }
-                return true;
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.menu_order_plan_ticket) {
+                startActivity(new Intent(getActivity(), PlanTicketActivity.class));
             }
+            return true;
         });
 
         OrderPagerAdapter adapter = new OrderPagerAdapter(getChildFragmentManager());

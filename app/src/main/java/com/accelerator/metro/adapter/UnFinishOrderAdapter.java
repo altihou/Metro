@@ -108,7 +108,7 @@ public class UnFinishOrderAdapter extends RecyclerView.Adapter<UnFinishOrderAdap
         @Bind(R.id.un_finish_order_btn_pay)
         Button btnPay;
 
-        public ViewHolder(View itemView) {
+         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

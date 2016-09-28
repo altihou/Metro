@@ -115,12 +115,7 @@ public class TicketPickerDialogFragment extends DialogFragment implements Commit
         pickerView = (QuantityView) view.findViewById(R.id.dialog_count_picker_view);
         btnOk = (Button) view.findViewById(R.id.dialog_btn_ok);
 
-        imgClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+        imgClose.setOnClickListener(view1 -> dismiss());
 
         tvStart.setText(startStation);
         tvEnd.setText(endStation);
@@ -144,22 +139,19 @@ public class TicketPickerDialogFragment extends DialogFragment implements Commit
             }
         });
 
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (type) {
-                    case TYPE_SEARCH:
-                        Intent search = new Intent(SearchActivity.ACTION_SHOW_DIALOG);
-                        getActivity().sendBroadcast(search);
-                        break;
-                    case TYPE_STATION:
-                        Intent main = new Intent(MainActivity.ACTION_NAME_SHOW);
-                        getActivity().sendBroadcast(main);
-                        break;
-                }
-
-                presenter.commitOrder(startId, endId, String.valueOf(totalPrice), String.valueOf(count));
+        btnOk.setOnClickListener(view12 -> {
+            switch (type) {
+                case TYPE_SEARCH:
+                    Intent search = new Intent(SearchActivity.ACTION_SHOW_DIALOG);
+                    getActivity().sendBroadcast(search);
+                    break;
+                case TYPE_STATION:
+                    Intent main = new Intent(MainActivity.ACTION_NAME_SHOW);
+                    getActivity().sendBroadcast(main);
+                    break;
             }
+
+            presenter.commitOrder(startId, endId, String.valueOf(totalPrice), String.valueOf(count));
         });
 
     }

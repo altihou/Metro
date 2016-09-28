@@ -44,7 +44,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
-import rx.functions.Action1;
 
 /**
  * Created by Nicholas on 2016/7/21.
@@ -98,32 +97,24 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
         rxPermissions = RxPermissions.getInstance(this);
         presenter = new ModifyPresenter(this);
 
-        modifyUserRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                int checkId = radioGroup.getCheckedRadioButtonId();
-                RadioButton rb = (RadioButton) findViewById(checkId);
-                String sex = rb.getText().toString();
-                switch (sex) {
-                    case "男":
-                        sexValue = "1";
-                        break;
-                    case "女":
-                        sexValue = "2";
-                        break;
-                    case "保密":
-                        sexValue = "0";
-                        break;
-                }
+        modifyUserRg.setOnCheckedChangeListener((radioGroup, i) -> {
+            int checkId = radioGroup.getCheckedRadioButtonId();
+            RadioButton rb = (RadioButton) findViewById(checkId);
+            String sex = rb.getText().toString();
+            switch (sex) {
+                case "男":
+                    sexValue = "1";
+                    break;
+                case "女":
+                    sexValue = "2";
+                    break;
+                case "保密":
+                    sexValue = "0";
+                    break;
             }
         });
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         SharedPreferences spf = MetroApp.getContext()
                 .getSharedPreferences(Config.USER, Context.MODE_PRIVATE);
@@ -187,14 +178,11 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
     private void formAlbum() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean aBoolean) {
-                            if (aBoolean) {
-                                doAlbum();
-                            } else {
-                                ToastUtil.Short(R.string.register_toast_fail);
-                            }
+                    .subscribe(aBoolean -> {
+                        if (aBoolean) {
+                            doAlbum();
+                        } else {
+                            ToastUtil.Short(R.string.register_toast_fail);
                         }
                     });
         } else {
@@ -219,14 +207,11 @@ public class ModifyUserActivity extends BaseDialogActivity implements ModifyCont
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             rxPermissions.request(Manifest.permission.CAMERA,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .subscribe(new Action1<Boolean>() {
-                        @Override
-                        public void call(Boolean aBoolean) {
-                            if (aBoolean) {
-                                doCamera();
-                            } else {
-                                ToastUtil.Short(R.string.register_toast_fail);
-                            }
+                    .subscribe(aBoolean -> {
+                        if (aBoolean) {
+                            doCamera();
+                        } else {
+                            ToastUtil.Short(R.string.register_toast_fail);
                         }
                     });
         } else {

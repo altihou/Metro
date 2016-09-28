@@ -16,12 +16,12 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //应用秒开
+//        try {
+//            Thread.sleep(500);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         SharedPreferences spf = getSharedPreferences(Config.FIRST, Context.MODE_PRIVATE);
         boolean isFirst = spf.getBoolean(Config.FIRST_TIME, true);

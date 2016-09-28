@@ -13,7 +13,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 
 import com.accelerator.metro.Config;
 import com.accelerator.metro.MetroApp;
@@ -53,12 +52,7 @@ public class ExpenseCalendarActivity extends AppCompatActivity
         setContentView(R.layout.activity_expense_calendar);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         presenter = new ExpenseCalendarPresenter(this);
         initViews();
@@ -82,12 +76,9 @@ public class ExpenseCalendarActivity extends AppCompatActivity
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
         recyclerView.setAdapter(adapter);
 
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                onRefresh();
-            }
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            onRefresh();
         });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

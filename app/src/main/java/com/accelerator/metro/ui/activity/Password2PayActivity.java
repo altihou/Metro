@@ -53,12 +53,7 @@ public class Password2PayActivity extends BaseDialogActivity implements PayOrder
         setContentView(R.layout.activity_password2_pay);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         Intent intent = getIntent();
 

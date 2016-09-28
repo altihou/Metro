@@ -6,7 +6,6 @@ import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.accelerator.metro.R;
 import com.accelerator.metro.bean.MapData;
@@ -44,12 +43,7 @@ public class StationNavigationActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         nodes = MapData.getNodesList();
         nodesContract = MapData.getNodesContactList();
@@ -72,16 +66,13 @@ public class StationNavigationActivity extends AppCompatActivity {
 
                 markLayer = new MarkLayer(mapView, marks, marksName);
                 mapView.addLayer(markLayer);
-                markLayer.setMarkIsClickListener(new MarkLayer.MarkIsClickListener() {
-                    @Override
-                    public void markIsClick(int num) {
-                        PointF target = new PointF(marks.get(num).x, marks.get(num).y);
-                        List<Integer> routeList = MapUtils.getShortestDistanceBetweenTwoPoints
-                                (marks.get(39), target, nodes, nodesContract);
-                        routeLayer.setNodeList(nodes);
-                        routeLayer.setRouteList(routeList);
-                        mapView.refresh();
-                    }
+                markLayer.setMarkIsClickListener(num -> {
+                    PointF target = new PointF(marks.get(num).x, marks.get(num).y);
+                    List<Integer> routeList = MapUtils.getShortestDistanceBetweenTwoPoints
+                            (marks.get(39), target, nodes, nodesContract);
+                    routeLayer.setNodeList(nodes);
+                    routeLayer.setRouteList(routeList);
+                    mapView.refresh();
                 });
                 mapView.refresh();
             }

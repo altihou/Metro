@@ -3,7 +3,6 @@ package com.accelerator.metro.ui.fragment;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -99,14 +98,11 @@ public class OrderUnFinishFragment extends Fragment
                 AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                 dialog.setTitle(R.string.un_finish_order_cancel_order);
                 dialog.setMessage(R.string.un_finish_order_cancel_order_ok);
-                dialog.setPositiveButton(R.string.SURE, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                dialog.setPositiveButton(R.string.SURE, (dialogInterface, i) -> {
 
-                        Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
-                        getActivity().sendBroadcast(intent);
-                        presenter.cancelOrder(info.getOrder_sn());
-                    }
+                    Intent intent = new Intent(MainActivity.ACTION_NAME_SHOW);
+                    getActivity().sendBroadcast(intent);
+                    presenter.cancelOrder(info.getOrder_sn());
                 });
                 dialog.setNegativeButton(R.string.CANCEL, null);
                 dialog.show();
@@ -130,12 +126,9 @@ public class OrderUnFinishFragment extends Fragment
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                onRefresh();
-            }
+        swipeRefreshLayout.post(() -> {
+            swipeRefreshLayout.setRefreshing(true);
+            onRefresh();
         });
 
         localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
