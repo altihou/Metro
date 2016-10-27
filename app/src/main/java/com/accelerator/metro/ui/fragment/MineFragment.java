@@ -90,6 +90,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     @Bind(R.id.mine_station_navigation)
     RelativeLayout stationNavigation;
 
+
     private MinePresenter presenter;
     private LocalBroadcastManager localBroadcastManager;
 
@@ -209,6 +210,7 @@ public class MineFragment extends Fragment implements MineContract.View, SwipeRe
     public void onExpenseCalendarClick(View view) {
         startActivity(new Intent(getActivity(), ExpenseCalendarActivity.class));
     }
+
 
     @OnClick(R.id.mine_station_navigation)
     public void onStationNavigationClick(View view){

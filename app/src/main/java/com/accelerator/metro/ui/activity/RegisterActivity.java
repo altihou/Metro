@@ -38,9 +38,6 @@ import com.accelerator.metro.utils.ToastUtil;
 import com.soundcloud.android.crop.Crop;
 import com.tbruyelle.rxpermissions.RxPermissions;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -126,13 +123,13 @@ public class RegisterActivity extends BaseDialogActivity implements RegisterCont
                     break;
                 }
 
-                Pattern p = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
-                Matcher m = p.matcher(account);
-
-                if (!m.find()) {
-                    ToastUtil.Short(R.string.login_not_phone);
-                    break;
-                }
+//                Pattern p = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
+//                Matcher m = p.matcher(account);
+//
+//                if (!m.find()) {
+//                    ToastUtil.Short(R.string.login_not_phone);
+//                    break;
+//                }
 
                 if (!checkNotNull(pwd1)) {
                     Snackbar.make(coordinatorLayout, R.string.login_not_empty_password,

@@ -27,9 +27,6 @@ import com.accelerator.metro.utils.CipherUtil;
 import com.accelerator.metro.utils.ToastUtil;
 import com.bumptech.glide.Glide;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -103,14 +100,14 @@ public class LoginActivity extends BaseDialogActivity implements LoginContract.V
             return;
         }
 
-        Pattern p = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
-        Matcher m = p.matcher(userName);
-
-        if (!m.find()) {
-            Snackbar.make(view, R.string.login_not_phone, Snackbar.LENGTH_SHORT)
-                    .show();
-            return;
-        }
+//        Pattern p = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
+//        Matcher m = p.matcher(userName);
+//
+//        if (!m.find()) {
+//            Snackbar.make(view, R.string.login_not_phone, Snackbar.LENGTH_SHORT)
+//                    .show();
+//            return;
+//        }
 
         if (!checkNotNull(userPassword)) {
             Snackbar.make(view, R.string.login_not_empty_password, Snackbar.LENGTH_SHORT)
